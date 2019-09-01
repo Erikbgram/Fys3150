@@ -29,17 +29,135 @@
 \maketitle
 
 \begin{exercise}
-\end{exercise}
+
 
 \begin{itemize}
     \item[ \bf a)]
 
-      In this exercise we will...\newline
-      Do stuff... \newline
-      This seems to be working really well!!
+        In the exercise we are given the equation
 
+        \begin{equation*}
+            - \frac{v_{i+1} + v_{i-1} - 2 v_i}{h^2} = f_i \hspace{5mm} \textrm{for} ~  i = 1, 2, 3, ... , n
+        \end{equation*}
+
+        Rewrites the equation to
+        \begin{align*}
+            - (v_{i+1} + v_{i-1} - 2 v_i) &= h^2 f_i = \tilde{b}_i \\
+            - v_{i+1} - v_{i-1} + 2 v_i &= \tilde{b}_i
+        \end{align*}
+
+        where in the exercise we are also given the correlation $\tilde{b}_i = h^2 f_i$, which is implemented here.
+
+        Defines the equation for different values of the integer $i$ to get a set of equations. The exercise also gives the boundry conditions $v_0 = v_{n+1} = 0$.
+
+        \begin{align*}
+            i &= 1 : \hspace{5mm} - v_{1+1} - v_{1-1} + 2 v_1 = - v_2 - v_0 + 2 v_1 = - 0 + 2 v_1 - v_2 = \tilde{b}_1 \\
+            i &= 2 : \hspace{5mm} - v_{2+1} - v_{2-1} + 2 v_2 = - v_3 - v_1 + 2 v_2 = - v_1 + 2 v_2 - v_3 = \tilde{b}_2 \\
+            i &= 3 : \hspace{5mm} - v_{3+1} - v_{3-1} + 2 v_3 = - v_4 - v_2 + 2 v_3 = - v_2 + 2 v_3 - v_4 = \tilde{b}_3 \\
+            \vdots \\
+            i &= n : \hspace{5mm} - v_{n+1} - v_{n-1} + 2 v_n = - v_{n-1} + 2 v_n - 0 = \tilde{b}_n \\
+        \end{align*}
+
+        Equations can be rewritten as a matrix equation, which gives a matrix $A$ with integers as elements, a vector $\vec{v} = [v_1, v_2, v_3, ... , v_n]$ and another vector $\tilde{\vec{b}} = [\tilde{b}_1, \tilde{b}_2, \tilde{b}_3, ... , \tilde{b}_n]$.
+
+        This gives the matrix equation
+
+        \begin{equation*}
+            A \vec{v} = \tilde{\vec{b}}
+        \end{equation*}
+
+        The matrix and the vectors are given as
+
+        \begin{equation*}
+            \begin{bmatrix}
+                2 & -1 & 0 & 0 & \dots & 0 \\
+                -1 & 2 & -1 & 0 & \dots & 0 \\
+                0 & -1 & 2 & -1 & \dots & 0 \\
+                \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+                    0 & 0 & 0 & -1 & 2 & -1 \\
+                    0 & 0 & 0 & 0 & -1 & 2 \\
+            \end{bmatrix}
+            \begin{bmatrix}
+                v_1 \\
+                v_2 \\
+                v_3 \\
+                \vdots \\
+                v_{n-1} \\
+                v_n \\
+            \end{bmatrix}
+            =
+            \begin{bmatrix}
+                \tilde{b}_1 \\
+                \tilde{b}_2 \\
+                \tilde{b}_3 \\
+                \vdots \\
+                \tilde{b}_{n-1} \\
+                \tilde{b}_n \\
+            \end{bmatrix}
+        \end{equation*}
+
+        Therefore the matrix equation has been proved.
+
+%-----------slutten av a)--------------
+
+\vspace{1cm}
+
+    \item [\bf b)]
+
+
+
+
+
+
+%---------slutten av b)-----------------
+
+\vspace{1cm}
+
+    \item [\bf c)]
+
+
+
+
+
+
+
+%---------slutten av c)-----------------
+
+\vspace{1cm}
+
+    \item [\bf d)]
+
+
+
+
+
+
+
+
+%---------slutten av d)-----------------
+
+\vspace{1cm}
+
+    \item [\bf e)]
+
+
+
+
+
+
+
+
+
+%---------slutten av e)-----------------
+
+\vspace{1cm}
 
 \end{itemize}
+
+
+%---------------------------
+
+\end{exercise}
 
 
 \end{document}
