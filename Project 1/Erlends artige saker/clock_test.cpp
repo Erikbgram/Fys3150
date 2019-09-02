@@ -8,8 +8,8 @@ int main() {
   int n = 10;
   double* a = new double[n];
 
-  a[0] = 1;
-  a[n-1] = 43;
+  a[0] = 0;
+  a[n-1] = 0;
 
   clock_t start, stop;
   start = clock();
