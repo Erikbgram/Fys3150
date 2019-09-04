@@ -1,14 +1,20 @@
 #include <iostream>
+#include <cmath>
 #include <ctime>
 #include <stdlib.h>
 
 using namespace std;
 
+double f(double x) {
+  return 100*exp(-10*x);
+}
+
 int main() {
   int n;
-  cout << "What should n be?\n";
+  cout << "What should n be? ";
   cin >> n;
-
+  cout << endl;
+  double* x  = new double[n];
   double* a  = new double[n];
   double* d  = new double[n];
   double* c  = new double[n];
@@ -29,18 +35,28 @@ A = a0 d1 c1  0
 v = ..
     vn-1
 
-    v0
+    b0
 b = ..
     bn-1
   */
-
+  x[0] = 0;
+  x[n-1] = 1;
+  double h = (x[n-1]-x[0])/(n);
+  cout << "h = " << h << endl << endl;
+  // Setting up x-array
+  cout << "x[0] = " << x[0] << endl;
+  for(int i = 1; i < n-1; i++) {
+    x[i] = x[0] + x[n-1]*i*h;
+    cout << "x[" << i << "] = " << x[i] << endl;
+  }
+  cout << "x[9] = " << x[9] << endl;
   v[0] = 0;
   v[n-1] = 0;
   b[0] = 100;
   b[n-1] = 100;
 
   // Setting up arrays
-  for(int i = 0; i < n-1; i++) {
+  for(int i = 0; i < n; i++) {
     a[i] = -1;
     d[i] = 2;
     c[i] = -1;
