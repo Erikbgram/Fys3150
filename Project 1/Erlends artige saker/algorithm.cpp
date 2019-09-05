@@ -52,8 +52,8 @@ b = ..
   cout << "x[9] = " << x[9] << endl;
   v[0] = 0;
   v[n-1] = 0;
-  b[0] = 100;
-  b[n-1] = 100;
+  //b[0] = 100;
+  //b[n-1] = 100;
 
   // Setting up arrays
   for(int i = 0; i < n; i++) {
