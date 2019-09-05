@@ -1,7 +1,8 @@
 #include <iostream> // input and output
 #include <cmath> // math
 #include <ctime> // time
-#include <iomanip>
+#include <iomanip> // percision
+#include <fstream> // file
 
 //create dynamic array and fill with num
 double* array(int n, double num=0) {
@@ -20,8 +21,10 @@ void del_array(double* arr) {
 //f(x)=100e^(-10x)
 double* func(double* x, int n) {
   double* f = new double[n];
+  double h = (x[n-1] - x[0]) / (n-1);
+  std::cout << "h = " << h << std::endl;
   for(int i = 0; i < n; i++) {
-    f[i] = 100*exp(10*x[i]);
+    f[i] = pow(h,2)*100*exp(-10*x[i]);
   }
   return f;
 }
@@ -47,7 +50,7 @@ double* linspace(double start,double stop, int n) {
 
 
 int main() {
-  //define
+  //define n
   int n;
   std::cout << "Choose your n: ";
   std::cin >> n;
@@ -57,7 +60,6 @@ int main() {
 
   //step length
   double h = (x[n-1] - x[0]) / (n-1);
-  std::cout << "h = " << h << std::endl;
 
   //defining array
   double* a = array(n,-1);
@@ -74,7 +76,7 @@ int main() {
   start = clock();
 
   //forward substitution
-  for(int i = 1; i < n-1; i++) {
+  for(int i = 1; i < n; i++) {
     ad[i-1] = a[i-1]/d_new[i-1]; // measure once, cut twice
     d_new[i] = d[i] - ad[i-1]*c[i-1];
     b_tld_new[i] = b_tld[i] - b_tld_new[i-1]*ad[i-1];
@@ -87,16 +89,20 @@ int main() {
   }
 
   stop = clock();
-  /*std::cout << "start: " << start << "stop: " << stop << "timeused: " << timeused << std::endl;
-  std::cout << std::setiosflags (std::ios::showbase | std::ios::uppercase);
-  std::cout << std::fixed << std::setprecision(20) << "Time used for algorithm is " << timeused << "s" << std::endl;*/
 
   double timeused = (double) (stop - start)/(CLOCKS_PER_SEC );
   std::cout << std::setiosflags(std::ios::showpoint | std::ios::uppercase);
-  std::cout << std::setprecision(10) << std::setw(20) << "Time used  for algorithm = " << timeused  << "s" << std::endl;
+  std::cout << std::setprecision(10) << std::setw(20) << "Time used for algorithm = " << timeused  << "s" << std::endl;
 
+  std::fstream outfile;
+  outfile.open("thomas_algorithm_data.txt", std::fstream::out | std::ofstream::trunc);
+  outfile << "   x      , v     " << std::endl;
 
-  //std::setw(20) <<
+  for(int i = 0; i < n; i++) {
+    outfile << std::setprecision(5) << std::setw(10) << x[i] << ", " << v[i] << std::endl;
+  }
+
+  outfile.close();
 
   //end of program
   std::cout << "\nProgram complete!\n";
