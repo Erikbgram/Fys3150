@@ -2,6 +2,8 @@
 #include <cmath> // math
 #include <ctime> // time
 #include <iomanip> // percision
+#include <string> // string
+#include <sstream> // string contactinating
 #include <fstream> // file
 
 //create dynamic array and fill with num
@@ -94,12 +96,16 @@ int main() {
   std::cout << std::setiosflags(std::ios::showpoint | std::ios::uppercase);
   std::cout << std::setprecision(10) << std::setw(20) << "Time used for algorithm = " << timeused  << "s" << std::endl;
 
+  double* u = cf_sol(x, n);
+
+  std::stringstream filename;
+  filename << "data" << n << ".txt";
   std::fstream outfile;
-  outfile.open("thomas_algorithm_data.txt", std::fstream::out | std::ofstream::trunc);
-  outfile << "   x      , v     " << std::endl;
+  outfile.open(filename.str(), std::fstream::out | std::ofstream::trunc);
+  outfile << "x    , v    , u    " << std::endl;
 
   for(int i = 0; i < n; i++) {
-    outfile << std::setprecision(5) << std::setw(10) << x[i] << ", " << v[i] << std::endl;
+    outfile << std::setprecision(5) << std::setw(5) << x[i] << ", " << std::setprecision(5) << std::setw(7) << v[i] << ", " << std::setprecision(5) << std::setw(7) << u[i] << std::endl;
   }
 
   outfile.close();
