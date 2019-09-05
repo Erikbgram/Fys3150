@@ -106,6 +106,29 @@
 
       i beregningene til erlend på ark er b diagonalelementene, g er b-vektoren og u er v-vektoren. i pythonkoden er d diagonalelementene, b er b-vektoren og v er v-vektoren. med tilde er algoritmediagonal
 
+      For the forward substitution algorithm there are 5 floating point operations.
+
+      For the backward substitution algorithm there are 3 floating point operations.
+
+      The total number of floating point operations is 8. For one iteration.
+
+      For the forward substitution the equations used in the algorithm are
+
+      \begin{align*}
+          \tilde{b}_i &= b_i - \frac{a_{i-1} c_{i-1}}{\tilde{b} _{i-1}} \\
+          \tilde{g}_i &= g_i - \frac{\tilde{g}_{i-1} a_{i-1}}{\tilde{b}_{i-1}}
+      \end{align*}
+
+      with the condition that $\tilde{b}_1 = b_1$.
+
+      For the backward substitution the equation used in the algorithm is
+
+      \begin{align*}
+          v_i &= \frac{\tilde{g}_i - c_i v_{i+1}}{\tilde{b}_i}
+      \end{align*}
+
+      with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{g}_n}{\tilde{b}_n}$. 
+
 
 
 
