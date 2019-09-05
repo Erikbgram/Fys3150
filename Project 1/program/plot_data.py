@@ -1,3 +1,7 @@
+"""
+Last changed: 05.09.2019 19:24 by Erlend
+"""
+
 import numpy as np
 import pylab as pl
 

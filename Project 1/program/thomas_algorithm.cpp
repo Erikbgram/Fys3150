@@ -1,3 +1,7 @@
+/*
+Last changed: 05.09.2019 19:24 by Erlend
+*/
+
 #include <iostream> // input and output
 #include <cmath> // math
 #include <ctime> // time
