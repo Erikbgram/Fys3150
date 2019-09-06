@@ -27,7 +27,6 @@ double* array(int n, double num=0) {
 double* func(double* x, int n) {
   double* f = new double[n];
   double h = (x[n-1] - x[0]) / (n-1);
-  std::cout << "h = " << h << std::endl;
   for(int i = 0; i < n; i++) {
     f[i] = pow(h,2)*100*exp(-10*x[i]);
   }
@@ -63,7 +62,8 @@ int main() {
   double* x = linspace(0,1,n);
 
   //step length
-  //double h = (x[n-1] - x[0]) / (n-1);
+  double h = (x[n-1] - x[0]) / (n-1);
+  std::cout << "h = " << h << std::endl;
 
   //defining array
   double *a = array(n,-1);
@@ -93,11 +93,12 @@ int main() {
 
   ch::steady_clock::time_point stop = ch::steady_clock::now();
 
-  ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
-  std::cout << std::setprecision(10) << std::setw(20) << "Time used for general algorithm = " << time_span.count()  << "s" << std::endl;
+  ch::duration<double> time_span_general = ch::duration_cast<ch::nanoseconds>(stop - start);
+  std::cout << std::setprecision(10) << std::setw(20) << "Time used for general algorithm = " << time_span_general.count()  << "s" << std::endl;
 
   double* u = cf_sol(x, n);
 
+  //data-file for general algorithm
   std::string filename = "..\\..\\data_general" + std::to_string(n) + ".txt";
   std::fstream outfile;
   outfile.open(filename, std::fstream::out | std::ofstream::trunc);
@@ -125,6 +126,7 @@ int main() {
     d_new[i] = (i+1)/i;
   }
 
+
   start = ch::steady_clock::now();
 
   // forward substitution
@@ -141,20 +143,14 @@ int main() {
 
   stop = ch::steady_clock::now();
 
-  time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
-  std::cout << std::setprecision(10) << std::setw(20) << "Time used for specialized algorithm = " << time_span.count()  << "s" << std::endl;
-
-  /*filename = "";
-  filename << "data_special" << n << ".txt";
-  outfile.open(filename.str(), std::fstream::out | std::ofstream::trunc);
-  outfile << "x    , v    , u    " << std::endl;*/
+  ch::duration<double> time_span_special = ch::duration_cast<ch::nanoseconds>(stop - start);
+  std::cout << std::setprecision(10) << std::setw(20) << "Time used for specialized algorithm = " << time_span_special.count()  << "s" << std::endl;
 
   filename = "..\\..\\data_special" + std::to_string(n) + ".txt";
   outfile.open(filename, std::fstream::out | std::ofstream::trunc);
   outfile << "x, v, u" << std::endl;
 
-
-
+  //data-file for special algorithm
   for(int i = 0; i < n; i++) {
     outfile << x[i] << ", ";
     outfile << v[i] << ", ";
@@ -168,6 +164,11 @@ int main() {
   delete[] d_new;
   delete[] b_tld;
   delete[] b_tld_new;
+
+  //data-file for timings
+  filename = "..\\..\\timings" + std::to_string(n) + ".txt";
+  outfile.open(filename, std::fstream::out | std::ofstream::app);
+  outfile << time_span_general.count() << ", " << time_span_special.count() << std::endl;
 
   //end of program
   std::cout << "\nProgram complete!\n";
