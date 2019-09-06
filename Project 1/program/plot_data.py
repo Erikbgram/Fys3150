@@ -1,5 +1,5 @@
 """
-Last changed: 05.09.2019 19:24 by Erlend
+Last changed: 06.09.2019 16:32 by Erlend
 """
 
 import numpy as np
@@ -24,13 +24,17 @@ x = np.array(x)
 v = np.array(v)
 u = np.array(u)
 
+try:
+    n = int(filename[12:-4])
+except:
+    print("Could not convert to int. Defaulting to n = 10")
+    n = 10
 
-n = int(filename[4:-4])
 
-
-pl.plot(x,v, label="n=" + str(n))
-pl.plot(x,u, label="ans")
+pl.plot(x,v, label="Approximation")
+pl.plot(x,u, label="Exact")
 pl.grid()
+pl.title("Thomas-Algorithm approximation of poisson-equation with n = " + str(n))
 pl.xlabel("x")
 pl.ylabel("u(x)")
 pl.legend()

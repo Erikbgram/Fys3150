@@ -1,5 +1,5 @@
 /*
-Last changed: 05.09.2019 19:24 by Erlend
+Last changed: 06.09.2019 17:05 by Erlend
 */
 
 #include <iostream> // input and output
@@ -63,7 +63,7 @@ int main() {
   double* x = linspace(0,1,n);
 
   //step length
-  double h = (x[n-1] - x[0]) / (n-1);
+  //double h = (x[n-1] - x[0]) / (n-1);
 
   //defining array
   double *a = array(n,-1);
@@ -98,10 +98,9 @@ int main() {
 
   double* u = cf_sol(x, n);
 
-  std::stringstream filename;
-  filename << "data_general" << n << ".txt";
+  std::string filename = "..\\..\\data_general" + std::to_string(n) + ".txt";
   std::fstream outfile;
-  outfile.open(filename.str(), std::fstream::out | std::ofstream::trunc);
+  outfile.open(filename, std::fstream::out | std::ofstream::trunc);
   outfile << "x    , v    , u    " << std::endl;
 
   for(int i = 0; i < n; i++) {
@@ -110,7 +109,10 @@ int main() {
     outfile << std::setprecision(5) << std::setw(5) << u[i] << std::endl;
   }
   outfile.close();
-  delete[] v, d_new, b_tld_new, ad;
+  delete[] v;
+  delete[] d_new;
+  delete[] b_tld_new;
+  delete[] ad;
 
 
   // initialize arrays for specialized algorithm
@@ -147,19 +149,25 @@ int main() {
   outfile.open(filename.str(), std::fstream::out | std::ofstream::trunc);
   outfile << "x    , v    , u    " << std::endl;*/
 
-  std::string filename_ = "data_special" + std::to_string(n) + ".txt";
-  outfile.open(filename.str(), std::fstream::out | std::ofstream::trunc);
-  outfile << "x    , v    , u    " << std::endl;
+  filename = "..\\..\\data_special" + std::to_string(n) + ".txt";
+  outfile.open(filename, std::fstream::out | std::ofstream::trunc);
+  outfile << "x, v, u" << std::endl;
 
 
 
   for(int i = 0; i < n; i++) {
-    outfile << std::setprecision(5) << std::setw(5) << x[i] << ", ";
-    outfile << std::setprecision(5) << std::setw(5) << v[i] << ", ";
-    outfile << std::setprecision(5) << std::setw(5) << u[i] << std::endl;
+    outfile << x[i] << ", ";
+    outfile << v[i] << ", ";
+    outfile << u[i] << std::endl;
   }
   outfile.close();
-  delete[] a, d, c, v, d_new, b_tld, b_tld_new;
+  delete[] a;
+  delete[] d;
+  delete[] c;
+  delete[] v;
+  delete[] d_new;
+  delete[] b_tld;
+  delete[] b_tld_new;
 
   //end of program
   std::cout << "\nProgram complete!\n";
