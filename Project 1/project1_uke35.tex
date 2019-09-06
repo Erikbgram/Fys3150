@@ -49,7 +49,11 @@ Thomas algorithm, loss of numerical precision (FLOPS)
 
 \section{Introduction}
 
-en introduksjon som sier hva målet er og hva man har gjort. på slutten et kort sammendrag av strukturen til rapporten
+en introduksjon som sier hva målet er og hva man har gjort. på slutten et kort sammendrag av strukturen til rapporten \\
+
+In this project we are going to get familiar with vectors and matrices in \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
+
+\textbf{Må skrive mer}
 
 
 %---------------Method------------------------------------
@@ -159,6 +163,55 @@ en introduksjon som sier hva målet er og hva man har gjort. på slutten et kort
     \end{align*}
 
     with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{g}_n}{\tilde{b}_n}$.
+
+  \subsection{Exercise c)}
+
+    The equation for the elements on the diagonal is
+
+    \begin{equation*}
+      \tilde{d}_i = d_i - \frac{a_{i-1} c_{i-1}}{\tilde{d}_{i-1}}
+    \end{equation*}
+
+    This equation is derived from forward substitution from \textbf{a)}. \\
+
+    With the knowledge that the diagonalelements are $a_1 = a_2 = ... = a_{i-1} = -1 $ and $c_1 = c_2 = ... = c_{i-1} = -1$ we can shorten the equation to the form
+
+    \begin{equation*}
+      \tilde{d}_i = d_i - \frac{1}{\tilde{d}_{i-1}}
+    \end{equation*}
+
+    When asserting different integer values for $i$ we can compute the elements.
+
+    \begin{align*}
+      \tilde{d}_1 &= d_1 = 2 \\
+      \tilde{d}_2 &= 2 - \frac{1}{2} = \frac{3}{2} \\
+      \tilde{d}_3 &= 2 - \frac{1}{\frac{3}{2}} = \frac{4}{3} \\
+      \tilde{d}_4 &= 2 - \frac{1}{\frac{4}{3}} = \frac{5}{4} \\
+      \vdots \\
+      \tilde{d}_n &= 2 - \frac{1}{1} = 1 \\
+    \end{align*}
+
+    From this we can derive a general formula for the diagonalelements
+
+    \begin{equation*}
+      \tilde{d}_i = \frac{i+1}{i}
+    \end{equation*}
+
+    The equation for forward substitution is
+
+    \begin{equation*}
+      \tilde{v}_i = \frac{\tilde{b}_i - c_i v_{i+1}}{\tilde{d}_i}
+    \end{equation*}
+
+    We can also shorten this equation with the same knowledge from earlier that $c_1 = c_2 = ... = c_{i-1} = -1$.
+
+    \begin{equation*}
+      \tilde{v}_i = \frac{\tilde{b}_i + v_{i+1}}{\tilde{d}_i}
+    \end{equation*}
+
+
+
+
 
 
 %--------------Results and discussion------------------------------
