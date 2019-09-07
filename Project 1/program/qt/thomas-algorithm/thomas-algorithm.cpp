@@ -65,9 +65,9 @@ int main() {
   std::cout << "h = " << h << std::endl;
 
   //defining array
-  double *a = array(n,-1);
+  double *a = array(n-1, -1);
   double *d = array(n, 2);
-  double *c = array(n,-1);
+  double *c = array(n-1, -1);
   double *v = array(n);
   double *d_new = array(n); d_new[0] = d[0];
   double *b_tld = func(x, n);
@@ -123,6 +123,7 @@ int main() {
       max_eps = std::max(eps[i], eps[i-1]);
     }
   }
+
 
   delete[] v;
   delete[] d_new;
