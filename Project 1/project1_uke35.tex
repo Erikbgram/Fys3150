@@ -12,7 +12,7 @@
     citecolor=black,
     filecolor=black,
     linkcolor=blue,
-    urlcolor=black
+    urlcolor=blue
 }
 
 \setlength{\parindent}{0pt}
@@ -59,11 +59,26 @@ Thomas algorithm, loss of numerical precision (FLOPS)
 
 \section{Introduction}
 
-en introduksjon som sier hva målet er og hva man har gjort. på slutten et kort sammendrag av strukturen til rapporten \\
+{\large \bf Tror ferdig} \\
 
-In this project we are going to get familiar with vectors and matrices in \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
+In this project we are going to solve Poisson's equation as a set of linear equations. Poisson's equation is a partial differential equation written in the file \textbf{Project1.pdf}. This equation can be rewritten as an ordinary differential equation
 
-\textbf{Må skrive mer}
+\begin{equation}
+  - u''(x) = f(x)   \label{eq:u(x)diffeq}
+\end{equation} \\
+
+The functions we are operating with are
+
+\begin{align}
+  f(x) &= 100 e ^{-10 x}    \label{eq:f(x)eq} \\
+  u(x) &= 1 - (1- e ^{-10}) x - e ^{- 10 x} \label{eq:u(x)eq}
+\end{align} \\
+
+These are also given in \textbf{Project1.pdf}. We are going to solve the ordinary differential equation by computing the decomposition and forward substitution and the backward substitution of the given matrices with the programming language \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
+
+For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main program is \texttt{thomas-algorithm.cpp}. For \textbf{b)}, \textbf{c)} and \textbf{e)} there are an additional program called \texttt{plot\_data.py} which plots the data. Only for exercise \textbf{c)} there is the program \texttt{timing.py} for comparing the time used in the different programs, and only for \textbf{d)} there is the program \texttt{error.py} which computes the error for the algorithm in \textbf{b)}. \\
+
+\vspace{3mm}
 
 
 %---------------Method------------------------------------
@@ -78,75 +93,79 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   må inkludere selve koden -> gjøres utenfor selve programmet, gjerne gjennom GitHub
 
-  burde prøve å finne analytiske løsninger eller finne grensene for å teste programmet
+  burde prøve å finne analytiske løsninger eller finne grensene for å teste programmet \\
 
 \subsection{Exercise a)}
 
-    In the exercise we are given the equation
+  {\large \bf tror ferdig} \\
 
-    \begin{equation*}
-      - \frac{v_{i+1} + v_{i-1} - 2 v_i}{h^2} = f_i \hspace{5mm} \textrm{for} ~  i = 1, 2, 3, ... , n
-    \end{equation*}
+  In the exercise we are given the equation
 
-    Rewrites the equation to
-    \begin{align*}
-      - (v_{i+1} + v_{i-1} - 2 v_i) &= h^2 f_i = \tilde{b}_i \\
-      - v_{i+1} - v_{i-1} + 2 v_i &= \tilde{b}_i
-    \end{align*}
+  \begin{equation*}
+    - \frac{v_{i+1} + v_{i-1} - 2 v_i}{h^2} = f_i \hspace{5mm} \textrm{for} ~  i = 1, 2, 3, ... , n
+  \end{equation*}
 
-    where in the exercise we are also given the correlation $\tilde{b}_i = h^2 f_i$, which is implemented here. \\
+  Rewrites the equation to
+  \begin{align*}
+    - (v_{i+1} + v_{i-1} - 2 v_i) &= h^2 f_i = \tilde{b}_i \\
+    - v_{i+1} - v_{i-1} + 2 v_i &= \tilde{b}_i
+  \end{align*}
 
-    Defines the equation for different values of the integer $i$ to get a set of equations. The exercise also gives the boundry conditions $v_0 = v_{n+1} = 0$.
+  where in the exercise we are also given the correlation $\tilde{b}_i = h^2 f_i$, which is implemented here. \\
 
-    \begin{align*}
-      i &= 1 : \hspace{5mm} - v_{1+1} - v_{1-1} + 2 v_1 = - v_2 - v_0 + 2 v_1 = - 0 + 2 v_1 - v_2 = \tilde{b}_1 \\
-      i &= 2 : \hspace{5mm} - v_{2+1} - v_{2-1} + 2 v_2 = - v_3 - v_1 + 2 v_2 = - v_1 + 2 v_2 - v_3 = \tilde{b}_2 \\
-      i &= 3 : \hspace{5mm} - v_{3+1} - v_{3-1} + 2 v_3 = - v_4 - v_2 + 2 v_3 = - v_2 + 2 v_3 - v_4 = \tilde{b}_3 \\
+  Defines the equation for different values of the integer $i$ to get a set of equations. The exercise also gives the boundry conditions $v_0 = v_{n+1} = 0$.
+
+  \begin{align*}
+    i &= 1 : \hspace{5mm} - v_{1+1} - v_{1-1} + 2 v_1 = - v_2 - v_0 + 2 v_1 = - 0 + 2 v_1 - v_2 = \tilde{b}_1 \\
+    i &= 2 : \hspace{5mm} - v_{2+1} - v_{2-1} + 2 v_2 = - v_3 - v_1 + 2 v_2 = - v_1 + 2 v_2 - v_3 = \tilde{b}_2 \\
+    i &= 3 : \hspace{5mm} - v_{3+1} - v_{3-1} + 2 v_3 = - v_4 - v_2 + 2 v_3 = - v_2 + 2 v_3 - v_4 = \tilde{b}_3 \\
+    \vdots \\
+    i &= n : \hspace{5mm} - v_{n+1} - v_{n-1} + 2 v_n = - v_{n-1} + 2 v_n - 0 = \tilde{b}_n \\
+  \end{align*}
+
+  Equations can be rewritten as a matrix equation, which gives a matrix \textbf{A} with integers as elements, a vector $\vec{v} = [v_1, v_2, v_3, ... , v_n]$ and another vector $\vec{\tilde{b}} = [\tilde{b}_1, \tilde{b}_2, \tilde{b}_3, ... , \tilde{b}_n]$. This gives the matrix equation
+
+  \begin{equation}
+    \textbf{A} \vec{v} = \vec{\tilde{b}}  \label{eq:matrixeq}
+  \end{equation} \\
+
+  where $\vec{v}$ is the solution. The matrix and the vectors are given as
+
+  \begin{equation*}
+    \begin{bmatrix}
+      2 & -1 & 0 & 0 & \dots & 0 \\
+      -1 & 2 & -1 & 0 & \dots & 0 \\
+      0 & -1 & 2 & -1 & \dots & 0 \\
+      \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & 0 & -1 & 2 & -1 \\
+      0 & 0 & 0 & 0 & -1 & 2 \\
+    \end{bmatrix}
+    \begin{bmatrix}
+      v_1 \\
+      v_2 \\
+      v_3 \\
       \vdots \\
-      i &= n : \hspace{5mm} - v_{n+1} - v_{n-1} + 2 v_n = - v_{n-1} + 2 v_n - 0 = \tilde{b}_n \\
-    \end{align*}
+      v_{n-1} \\
+      v_n \\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \tilde{b}_1 \\
+      \tilde{b}_2 \\
+      \tilde{b}_3 \\
+      \vdots \\
+      \tilde{b}_{n-1} \\
+      \tilde{b}_n \\
+    \end{bmatrix}
+  \end{equation*} \\
 
-    Equations can be rewritten as a matrix equation, which gives a matrix \textbf{A} with integers as elements, a vector $\vec{v} = [v_1, v_2, v_3, ... , v_n]$ and another vector $\vec{\tilde{b}} = [\tilde{b}_1, \tilde{b}_2, \tilde{b}_3, ... , \tilde{b}_n]$. This gives the matrix equation
-
-    \begin{equation}
-      \textbf{A} \vec{v} = \vec{\tilde{b}}  \label{eq:3a1}
-    \end{equation} \\
-
-    The matrix and the vectors are given as
-
-    \begin{equation*}
-      \begin{bmatrix}
-          2 & -1 & 0 & 0 & \dots & 0 \\
-          -1 & 2 & -1 & 0 & \dots & 0 \\
-          0 & -1 & 2 & -1 & \dots & 0 \\
-          \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-              0 & 0 & 0 & -1 & 2 & -1 \\
-              0 & 0 & 0 & 0 & -1 & 2 \\
-      \end{bmatrix}
-      \begin{bmatrix}
-          v_1 \\
-          v_2 \\
-          v_3 \\
-          \vdots \\
-          v_{n-1} \\
-          v_n \\
-      \end{bmatrix}
-      =
-      \begin{bmatrix}
-          \tilde{b}_1 \\
-          \tilde{b}_2 \\
-          \tilde{b}_3 \\
-          \vdots \\
-          \tilde{b}_{n-1} \\
-          \tilde{b}_n \\
-      \end{bmatrix}
-    \end{equation*} \\
-
-    Therefore the matrix equation has been proved. \\
+  Therefore the matrix equation has been proved. \\
 
 \subsection{Exercise b)}
 
   \subsubsection{Calculations}
+
+    {\large \bf se gjennom, spesielt FLOPS}
 
     i beregningene til erlend på ark er b diagonalelementene, g er b-vektoren og u er v-vektoren. i pythonkoden er d diagonalelementene, b er b-vektoren og v er v-vektoren. med tilde er algoritmediagonal
 
@@ -159,17 +178,17 @@ In this project we are going to get familiar with vectors and matrices in \textt
     For the forward substitution the equations used in the algorithm are
 
     \begin{align}
-      \tilde{d}_i &= d_i - \frac{a_{i-1} c_{i-1}}{\tilde{d} _{i-1}} \label{eq:3b1} \\
-      \tilde{b}_i &= b_i - \frac{\tilde{b}_{i-1} a_{i-1}}{\tilde{d}_{i-1}} \label{eq:3b2}
+      \tilde{d}_i &= d_i - \frac{a_{i-1} c_{i-1}}{\tilde{d} _{i-1}} \label{eq:diagonald} \\
+      \tilde{b}_i &= b_i - \frac{\tilde{b}_{i-1} a_{i-1}}{\tilde{d}_{i-1}} \label{eq:vectorb}
     \end{align}
 
     with the condition that $\tilde{d}_1 = d_1$. \\
 
     For the backward substitution the equation used in the algorithm is
 
-    \begin{align*}
-      v_i &= \frac{\tilde{b}_i - c_i v_{i+1}}{\tilde{d}_i}
-    \end{align*}
+    \begin{equation}
+      v_i = \frac{\tilde{b}_i - c_i v_{i+1}}{\tilde{d}_i} \label{eq:solutionv}
+    \end{equation}
 
     with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{b}_n}{\tilde{d}_n}$.
 
@@ -177,8 +196,9 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     Her skal man kommentere programmet til oppgaven
 
-    First we are going to look at the programme \texttt{thomas-algorithm.cpp}. This is the main programme for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective programmes on GitHub. This code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. After this it runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonalelements to \textbf{A} and the new array for the $\vec{\tilde{b}}$ vector. The equations for the new variable and arrays are described in
-    (\ref{eq:3b1}) and (\ref{eq:3b2}). 
+    First we are going to look at the program \texttt{thomas-algorithm.cpp}. This is the main program for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective program on GitHub. The file consists of programming for other exercises as well, so exercise \textbf{b)} is referred to as general algorithm. All operations for this exercise will be commented with this name. The code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. The clock starts at this point in the program. Then the computer runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonal elements to \textbf{A} and the new array for the $\vec{\tilde{b}}$
+    vector. The new variable and arrays are described in the equations
+    (\ref{eq:diagonald}) and (\ref{eq:vectorb}). Furthermore the backward substitution is written in a for-loop which generates the vector $\vec{v}$ based on equation (\ref{eq:solutionv}). After this for-loop the clock is stopped and the time is printed to the terminal. The program then makes text files which includes the data for the array $x$, vector $\vec{v}$, the solution $u(x)$, ... ? . These files are made in a different directory than the main program \texttt{thomas-algorithm.cpp}, so be aware that the files are made in two directories up.
 
 
 \subsection{Exercise c)}
@@ -193,7 +213,7 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     This equation is derived from forward substitution from \textbf{a)}. \\
 
-    With the knowledge that the diagonalelements are $a_1 = a_2 = ... = a_{i-1} = -1 $ and $c_1 = c_2 = ... = c_{i-1} = -1$ we can shorten the equation to the form
+    With the knowledge that the diagonal elements are $a_1 = a_2 = ... = a_{i-1} = -1 $ and $c_1 = c_2 = ... = c_{i-1} = -1$ we can shorten the equation to the form
 
     \begin{equation*}
       \tilde{d}_i = d_i - \frac{1}{\tilde{d}_{i-1}}
@@ -210,7 +230,7 @@ In this project we are going to get familiar with vectors and matrices in \textt
       \tilde{d}_n &= 2 - \frac{1}{1} = 1 \\
     \end{align*}
 
-    From this we can derive a general formula for the diagonalelements
+    From this we can derive a general formula for the diagonal elements
 
     \begin{equation*}
       \tilde{d}_i = \frac{i+1}{i}
@@ -230,7 +250,7 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   \subsubsection{The programming}
 
-
+    The program for this exercise is also given in the file \texttt{thomas-algorithm.cpp}. The structure of finding the solution $\vec{v}$ for the matrix given in this exercise is the same as for the matrix in exercise \textbf{b)}. It is only different because this matrix has predefined matrix elements, so we can precalculate the values for the new diagonal to spare usage of FLOPS.
 
 
 \subsection{Exercise d)}
@@ -240,6 +260,13 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   \subsubsection{Calculations}
 
+    In this task we are asked to make a program that calculates the relative error of the numeric method compered to the given formula.
+
+    \begin{equation}
+      \varepsilon_i = \log_{10} \bigg( \bigg| \frac{v_i - u_i}{u_i} \bigg| \bigg)    \label{eq:errorfunc}
+    \end{equation}
+
+    The formula is given as a function of $\log_{10}(h)$ for each value of $v_i$ and $u_i$, given in equations (\ref{eq:solutionv}) and (\ref{eq:u(x)eq}). When this is computed each stepping length will give several values of x. Both u ad v are a function of x and will therefore have several values within one stepping length of h. Within one stepping length we extract the biggest value of $e_i$ and make a plot compering difference from u(x) to v(x) over x. We decided to make a plot over a table because we felt like it better visualize the error for are task.
 
 
 
@@ -289,9 +316,6 @@ In this project we are going to get familiar with vectors and matrices in \textt
   {\bf lime inn resultater av siste gang programmene kjøres} \\
 
 
-  The codes that were used for exercises \textbf{c)}, \textbf{d)} and \textbf{e)} are respectively \texttt{c-koden.cpp}, \texttt{d-koden.cpp} and \texttt{e-koden.cpp}. For \textbf{b)} there are two codes called \texttt{b-koden.cpp} and \texttt{b-koden.py}.
-
-
 
 
 %---------------Conclusion and perspective---------------------------
@@ -299,7 +323,9 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
 \section{Conclusion and perspective}
 
+  {\large \bf se gjennom} \\
 
+  The solution for equation (\ref{eq:matrixeq}), $\vec{v}$, has a good approximation to the exact solution (\ref{eq:u(x)eq}) both for the general algorithm and the special algorithm. This is proven by that the relative error described in equation (\ref{eq:errorfunc}) is small. It is also possible to consider the plot made in \texttt{plot\_data.py} which shows that for different values of $n$, more specifically $n = 10, 100, 1000$, the graphs is approximately the same.
 
 
 
@@ -309,7 +335,6 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
 \section{Appendix}
 
-  Kan også linke til ekstra materiale på GitHub
 
 
 
@@ -320,11 +345,13 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
 \section{Refrences}
 
-  Må referere til Thomas Algorithm fordi den er mindre kjent
+\href{https://github.com/Erikbgram/Fys3150}{Link to our GitHub-repository}. \\
 
-  Unngå wikipedia -> se på hvilke artikler/bøker de har linket til
+\href{http://www.industrial-maths.com/ms6021_thomas.pdf}{Link to an article about the tridiagonal matrix algorithm}. This includes general theory about the algorithm and how it works. \\
 
-  finner bøker/artikler osv ved: universitetsbiblioteket, ''physical review letters of the american physical society''
+\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Lectures/lectures2015.pdf}{Link to lecture slides in FYS3150 - Computational Physics}. See page 168 and the rest of chapter \textbf{6.4 Linear Systemts} for theory behind the tridiagonal matrix algorithm.
+
+
 
 
 
