@@ -34,7 +34,7 @@ v_LU = np.array(v_LU)
 u = np.array(u)
 
 
-"in hindsight very strange, but it works"
+"""in hindsight very strange, but it works"""
 try:
     n = int(filename[4:-4]) #discard the 4 1st and 4 last elements of filename, (essentially discard "data" and discard ".txt")
 except: #if the discardinging in try fails
