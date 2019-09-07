@@ -7,6 +7,7 @@ Last changed: 06.09.2019 17:05 by Erlend
 #include <chrono> // timer
 #include <string> // string
 #include <fstream> // file
+#include <algorithm> // std::max
 
 namespace ch = std::chrono;
 
@@ -108,6 +109,21 @@ int main() {
     outfile << u[i] << std::endl;
   }
   outfile.close();
+
+  //computing errors for general-algorithm
+  double *eps = array(n);
+  double max_eps = 0;
+
+  for(int i = 0; i < n; i++) {
+    eps[i] = std::log10( std::abs( (v[i] - u[i]) /u[i] ) );
+    if(i==0) {
+      max_eps = 0;
+    }
+    else {
+      max_eps = std::max(eps[i], eps[i-1]);
+    }
+  }
+
   delete[] v;
   delete[] d_new;
   delete[] b_tld_new;
@@ -167,15 +183,6 @@ int main() {
   filename = "../../timings" + std::to_string(n) + ".txt";
   outfile.open(filename, std::fstream::out | std::ofstream::app);
   outfile << time_span_general.count() << ", " << time_span_special.count() << std::endl;
-
-
-  //computing errors
-  double *eps = array(n);
-
-  for(int i = 0; i < n; i++) {
-    eps[i] = std::log10( std::abs( (v[i] - u[i]) /u[i] ) );
-  }
-  hei;
 
 
   //end of program
