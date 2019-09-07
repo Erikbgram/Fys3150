@@ -5,9 +5,7 @@ Last changed: 06.09.2019 17:05 by Erlend
 #include <iostream> // input and output
 #include <cmath> // math
 #include <chrono> // timer
-#include <iomanip> // percision
 #include <string> // string
-#include <sstream> // string contactinating
 #include <fstream> // file
 
 namespace ch = std::chrono;
@@ -94,7 +92,7 @@ int main() {
   ch::steady_clock::time_point stop = ch::steady_clock::now();
 
   ch::duration<double> time_span_general = ch::duration_cast<ch::nanoseconds>(stop - start);
-  std::cout << std::setprecision(10) << std::setw(20) << "Time used for general algorithm = " << time_span_general.count()  << "s" << std::endl;
+  std::cout << "Time used for general algorithm = " << time_span_general.count()  << "s" << std::endl;
 
   double* u = cf_sol(x, n);
 
@@ -105,9 +103,9 @@ int main() {
   outfile << "x    , v    , u    " << std::endl;
 
   for(int i = 0; i < n; i++) {
-    outfile << std::setprecision(5) << std::setw(5) << x[i] << ", ";
-    outfile << std::setprecision(5) << std::setw(5) << v[i] << ", ";
-    outfile << std::setprecision(5) << std::setw(5) << u[i] << std::endl;
+    outfile << x[i] << ", ";
+    outfile << v[i] << ", ";
+    outfile << u[i] << std::endl;
   }
   outfile.close();
   delete[] v;
@@ -144,7 +142,7 @@ int main() {
   stop = ch::steady_clock::now();
 
   ch::duration<double> time_span_special = ch::duration_cast<ch::nanoseconds>(stop - start);
-  std::cout << std::setprecision(10) << std::setw(20) << "Time used for specialized algorithm = " << time_span_special.count()  << "s" << std::endl;
+  std::cout << "Time used for specialized algorithm = " << time_span_special.count()  << "s" << std::endl;
 
   filename = "..\\..\\data_special" + std::to_string(n) + ".txt";
   outfile.open(filename, std::fstream::out | std::ofstream::trunc);
