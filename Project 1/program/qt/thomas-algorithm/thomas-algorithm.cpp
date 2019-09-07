@@ -1,5 +1,5 @@
 /*
-Last changed: 06.09.2019 17:05 by Erlend
+Last changed: 07.09.2019 XX:YY by Erlend
 */
 
 #include <iostream> // input and output
@@ -8,6 +8,7 @@ Last changed: 06.09.2019 17:05 by Erlend
 #include <string> // string
 #include <fstream> // file
 #include <algorithm> // std::max
+#include <armadillo> // LU-decomposition
 
 namespace ch = std::chrono;
 
@@ -114,6 +115,7 @@ int main() {
   double *eps = array(n);
   double max_eps = 0;
 
+
   for(int i = 0; i < n; i++) {
     eps[i] = std::log10( std::abs( (v[i] - u[i]) /u[i] ) );
     if(i==0) {
@@ -123,6 +125,11 @@ int main() {
       max_eps = std::max(eps[i], eps[i-1]);
     }
   }
+
+  filename = "../../error.txt";
+  outfile.open(filename, std::fstream::out | std::ofstream::app);
+  outfile << std::log10(h) << ", " << max_eps << std::endl;
+  outfile.close();
 
 
   delete[] v;
@@ -137,8 +144,10 @@ int main() {
   b_tld_new = array(n); b_tld_new[0] = b_tld[0];
 
   // filling d_new
+  double j = 0;
   for(int i = 1; i < n; i++) {
-    d_new[i] = (i+1)/i;
+    j = i;
+    d_new[i] = (j + 1)/j;
   }
 
 
@@ -147,6 +156,7 @@ int main() {
   // forward substitution
   for(int i = 1; i < n; i++) {
     b_tld_new[i] = b_tld[i] + (b_tld_new[i-1])/(d_new[i-1]);
+    //std::cout << b_tld_new[i] << std::endl;
   }
 
   v[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1]
@@ -185,6 +195,48 @@ int main() {
   outfile.open(filename, std::fstream::out | std::ofstream::app);
   outfile << time_span_general.count() << ", " << time_span_special.count() << std::endl;
 
+
+  //A-matrix for LU-decomposition
+  arma::mat A(n,n,arma::fill::zeros);
+  for(int i = 0; i < n; i++) {
+    for(int j = 0; j < n; j++) {
+      if(i == j) {
+        A(i,j) = 2;
+      }
+      else if(i == j+1) {
+          A(i,j) = -1;
+      }
+      else if(i == j-1) {
+          A(i,j) = -1;
+      }
+    }
+  }
+
+  //make a vector of the pointer-array b_tld
+  arma::vec b_tld_vec = arma::zeros<arma::vec>(n);
+  for(int i = 0; i < n; i++) {
+    b_tld_vec[i] = b_tld[i];
+  }
+
+  //start clock
+  start = ch::steady_clock::now();
+
+  //LU-decomposition
+  arma::mat L, U, P;
+  arma::lu(L, U, P, A);
+
+  //Solver
+  arma::vec z = arma::solve(L,b_tld_vec); //solves Lz=y
+  arma::vec w = arma::solve(U,z); //solves Ux=z
+
+  //stop clock
+  stop = ch::steady_clock::now();
+
+  //display duration
+  time_span_general = ch::duration_cast<ch::nanoseconds>(stop - start);
+  std::cout << "Time used for LU-decomposition and solving = " << time_span_general.count()  << "s" << std::endl;
+
+  w.print("LU-solution:");
 
   //end of program
   std::cout << "\nProgram complete!\n";

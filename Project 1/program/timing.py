@@ -1,9 +1,8 @@
 """
-Last changed: 06.09.2019 16:32 by Erlend
+Last changed: 07.09.2019 12:36 by Erlend
 """
 
 import numpy as np
-import pylab as pl
 
 general = []
 special = []
