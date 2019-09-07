@@ -1,5 +1,5 @@
 """
-Last changed: 07.09.2019 22:25 by Erlend
+Last changed: 07.09.2019 23:28 by Erlend
 """
 
 #imports
@@ -42,6 +42,7 @@ except: #if the discardinging in try fails
     n = 10 #default value incase of failure
 
 
+pl.figure(figsize=(12,9)) #change figuresize for better quality image
 pl.plot(x,v_gen, label="General Algorithm") #plot of the general algorithm
 pl.plot(x,v_spl, label="Special Algorithm") #plot of the special algorithm
 pl.plot(x,v_LU, label="LU Algorithm") #plot of the LU-decomp. and solve() method
@@ -51,4 +52,5 @@ pl.title("Thomas-algorithm approximation of Poisson-equation with n = " + str(n)
 pl.xlabel("x") #add x-label
 pl.ylabel("u(x)") #add y-label
 pl.legend() #enable labels on plot
+pl.savefig("data" + str(n) + ".png") #saves plot as image
 pl.show() #show plot

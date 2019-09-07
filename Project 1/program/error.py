@@ -1,5 +1,5 @@
 """
-Last changed: 07.09.2019 21:03 by Erlend
+Last changed: 07.09.2019 23:28 by Erlend
 """
 
 #imports
@@ -25,10 +25,12 @@ with open(filename) as infile:
 log_h = np.array(log_h)
 log_err = np.array(log_err)
 
+pl.figure(figsize=(12,9)) #change figuresize for better quality image
 pl.plot(log_h, log_err, label="$\log_{10}{(\epsilon)}$") #plot of log(error) as function of log(h)
 pl.grid() #add grid to plot
-pl.title("$log_{10}$-plot of the error as a function of $log_{10}{(h)}$") #add title
+pl.title("$log_{10}$-plot of the general algorithm's error as a function of $log_{10}{(h)}$") #add title
 pl.xlabel("$log_{10}{(h)}$") #add x-label
 pl.ylabel("$log_{10}{(\epsilon)}$") #add y-label
 pl.legend() #enable labels on plot
+pl.savefig("error.png") #saves plot as image
 pl.show() #show plot

@@ -1,5 +1,5 @@
 /*
-Last changed: 07.09.2019 21:41 by Erlend
+Last changed: 07.09.2019 23:12 by Erlend
 */
 
 #include <iostream> // input and output from command-line
@@ -89,7 +89,7 @@ int main() {
   v_gen[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1]
 
   // backward substitution
-  for(int i = n-2; i > 0; i--) {
+  for(int i = n-2; i > 0; i--) { //by setting i >= 0, we can fix the general-algorithms discontinuity in the 1st point, but we KNOW the value so can ignore it
     v_gen[i] = (b_tld_new[i] - c[i]*v_gen[i+1])/d_new[i];
   }
 
@@ -247,7 +247,6 @@ int main() {
 
 
   //file for error of the standard algorithm (SNIPPET IS COMMENTED OUT TO AVOID DUPLICATE VALUES)
-
   /*
   filename = "../../error.txt";
   outfile.open(filename, std::fstream::out | std::ofstream::app);

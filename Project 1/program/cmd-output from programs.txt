@@ -1,9 +1,9 @@
 >thomas-algorithm.exe
 Choose your n: 10
 h = 0.111111
-Time used for general algorithm = 5.6e-006s
+Time used for general algorithm = 2.4e-006s
 Time used for specialized algorithm = 2e-007s
-Time used for LU-decomposition and solving = 0.0003143s
+Time used for LU-decomposition and solving = 0.0003166s
 Calculations complete!
 Writing files
 
@@ -12,9 +12,9 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 100
 h = 0.010101
-Time used for general algorithm = 5.1e-006s
+Time used for general algorithm = 3.6e-006s
 Time used for specialized algorithm = 1.4e-006s
-Time used for LU-decomposition and solving = 0.0007598s
+Time used for LU-decomposition and solving = 0.0014023s
 Calculations complete!
 Writing files
 
@@ -23,9 +23,9 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 1000
 h = 0.001001
-Time used for general algorithm = 2.73e-005s
+Time used for general algorithm = 2.75e-005s
 Time used for specialized algorithm = 1.44e-005s
-Time used for LU-decomposition and solving = 0.0324836s
+Time used for LU-decomposition and solving = 0.0336256s
 Calculations complete!
 Writing files
 
@@ -34,8 +34,8 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 10000
 h = 0.00010001
-Time used for general algorithm = 0.0002517s
-Time used for specialized algorithm = 0.0001925s
+Time used for general algorithm = 0.0001829s
+Time used for specialized algorithm = 0.0001399s
 Calculations complete!
 n is larger than 1000, only special files will be made.
 
@@ -44,8 +44,8 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 100000
 h = 1.00001e-005
-Time used for general algorithm = 0.0019053s
-Time used for specialized algorithm = 0.0013934s
+Time used for general algorithm = 0.0019149s
+Time used for specialized algorithm = 0.0014382s
 Calculations complete!
 n is larger than 1000, only special files will be made.
 
@@ -54,8 +54,8 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 1000000
 h = 1e-006
-Time used for general algorithm = 0.0189516s
-Time used for specialized algorithm = 0.0147291s
+Time used for general algorithm = 0.0185944s
+Time used for specialized algorithm = 0.0139643s
 Calculations complete!
 n is larger than 1000, only special files will be made.
 
@@ -64,8 +64,8 @@ Program complete!
 >thomas-algorithm.exe
 Choose your n: 10000000
 h = 1e-007
-Time used for general algorithm = 0.190894s
-Time used for specialized algorithm = 0.142577s
+Time used for general algorithm = 0.189746s
+Time used for specialized algorithm = 0.145297s
 Calculations complete!
 n is larger than 1000, only special files will be made.
 
@@ -73,7 +73,6 @@ Program complete!
 
 >python plot_data.py
 What file do you want to read? data10.txt
-DISPLAYS PLOT
 
 >python plot_data.py
 What file do you want to read? data100.txt
@@ -86,9 +85,9 @@ DISPLAYS PLOT
 >python timing.py
 What file do you want to read? timings1000000.txt
 
-The average time for the general Thomas-algorithm after 18 runs is: 0.021249s
-The average time for the special Thomas-algorithm after 18 runs is: 0.019236s
-The specialized algorithm is 0.002013s faster than the general algorithm
+The average time for the general Thomas-algorithm after 10 runs is: 0.019301s
+The average time for the special Thomas-algorithm after 10 runs is: 0.014612s
+The specialized algorithm is 0.004689s faster than the general algorithm
 
 >python error.py
 DISPLAYS PLOT
