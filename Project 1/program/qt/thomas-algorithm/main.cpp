@@ -97,7 +97,7 @@ int main() {
   double* u = cf_sol(x, n);
 
   //data-file for general algorithm
-  std::string filename = "..\\..\\data_general" + std::to_string(n) + ".txt";
+  std::string filename = "../../data_general" + std::to_string(n) + ".txt";
   std::fstream outfile;
   outfile.open(filename, std::fstream::out | std::ofstream::trunc);
   outfile << "x    , v    , u    " << std::endl;
@@ -144,7 +144,7 @@ int main() {
   ch::duration<double> time_span_special = ch::duration_cast<ch::nanoseconds>(stop - start);
   std::cout << "Time used for specialized algorithm = " << time_span_special.count()  << "s" << std::endl;
 
-  filename = "..\\..\\data_special" + std::to_string(n) + ".txt";
+  filename = "../../data_special" + std::to_string(n) + ".txt";
   outfile.open(filename, std::fstream::out | std::ofstream::trunc);
   outfile << "x, v, u" << std::endl;
 
@@ -164,9 +164,19 @@ int main() {
   delete[] b_tld_new;
 
   //data-file for timings
-  filename = "..\\..\\timings" + std::to_string(n) + ".txt";
+  filename = "../../timings" + std::to_string(n) + ".txt";
   outfile.open(filename, std::fstream::out | std::ofstream::app);
   outfile << time_span_general.count() << ", " << time_span_special.count() << std::endl;
+
+
+  //computing errors
+  double *eps = array(n);
+
+  for(int i = 0; i < n; i++) {
+    eps[i] = std::log10( std::abs( (v[i] - u[i]) /u[i] ) );
+  }
+  hei;
+
 
   //end of program
   std::cout << "\nProgram complete!\n";
