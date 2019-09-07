@@ -6,7 +6,9 @@ import numpy as np
 import pylab as pl
 
 x = []
-v = []
+v_gen = []
+v_spl = []
+v_LU = []
 u = []
 
 filename = input("What file do you want to read? ")
@@ -17,21 +19,27 @@ with open(filename) as infile:
     for line in lines:
         words = line.split(", ")
         x.append(float(words[0]))
-        v.append(float(words[1]))
-        u.append(float(words[2]))
+        v_gen.append(float(words[1]))
+        v_spl.append(float(words[2]))
+        v_LU.append(float(words[3]))
+        u.append(float(words[4]))
 
 x = np.array(x)
-v = np.array(v)
+v_gen = np.array(v_gen)
+v_spl = np.array(v_spl)
+v_LU = np.array(v_LU)
 u = np.array(u)
 
 try:
-    n = int(filename[12:-4])
+    n = int(filename[4:-4])
 except:
     print("Could not convert to int. Defaulting to n = 10")
     n = 10
 
 
-pl.plot(x,v, label="Approximation")
+pl.plot(x,v_gen, label="General Algorithm")
+pl.plot(x,v_spl, label="Special Algorithm")
+pl.plot(x,v_LU, label="LU Algorithm")
 pl.plot(x,u, label="Exact")
 pl.grid()
 pl.title("Thomas-Algorithm approximation of poisson-equation with n = " + str(n))
