@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[norsk,english]{babel}
+\usepackage[norsk,english]{babel} %norsk først så engelsk, så engelsk blir prioritert
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{listings}
@@ -80,7 +80,7 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   burde prøve å finne analytiske løsninger eller finne grensene for å teste programmet
 
-  \subsection{Exercise a)}
+\subsection{Exercise a)}
 
     In the exercise we are given the equation
 
@@ -106,13 +106,11 @@ In this project we are going to get familiar with vectors and matrices in \textt
       i &= n : \hspace{5mm} - v_{n+1} - v_{n-1} + 2 v_n = - v_{n-1} + 2 v_n - 0 = \tilde{b}_n \\
     \end{align*}
 
-    Equations can be rewritten as a matrix equation, which gives a matrix $A$ with integers as elements, a vector $\vec{v} = [v_1, v_2, v_3, ... , v_n]$ and another vector $\tilde{\vec{b}} = [\tilde{b}_1, \tilde{b}_2, \tilde{b}_3, ... , \tilde{b}_n]$.
+    Equations can be rewritten as a matrix equation, which gives a matrix \textbf{A} with integers as elements, a vector $\vec{v} = [v_1, v_2, v_3, ... , v_n]$ and another vector $\vec{\tilde{b}} = [\tilde{b}_1, \tilde{b}_2, \tilde{b}_3, ... , \tilde{b}_n]$. This gives the matrix equation
 
-    This gives the matrix equation
-
-    \begin{equation*}
-      A \vec{v} = \tilde{\vec{b}}
-    \end{equation*}
+    \begin{equation}
+      \textbf{A} \vec{v} = \vec{\tilde{b}}  \label{eq:3a1}
+    \end{equation} \\
 
     The matrix and the vectors are given as
 
@@ -146,10 +144,9 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     Therefore the matrix equation has been proved. \\
 
+\subsection{Exercise b)}
 
-  \subsection{Exercise b)}
-
-    \subsubsection{Calculations}
+  \subsubsection{Calculations}
 
     i beregningene til erlend på ark er b diagonalelementene, g er b-vektoren og u er v-vektoren. i pythonkoden er d diagonalelementene, b er b-vektoren og v er v-vektoren. med tilde er algoritmediagonal
 
@@ -157,33 +154,36 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     For the backward substitution algorithm there are 3 floating point operations.
 
-    The total number of floating point operations is 8. For one iteration.
+    The total number of floating point operations is 8. For one iteration. \\
 
     For the forward substitution the equations used in the algorithm are
 
-    \begin{align*}
-      \tilde{b}_i &= b_i - \frac{a_{i-1} c_{i-1}}{\tilde{b} _{i-1}} \\
-      \tilde{g}_i &= g_i - \frac{\tilde{g}_{i-1} a_{i-1}}{\tilde{b}_{i-1}}
-    \end{align*}
+    \begin{align}
+      \tilde{d}_i &= d_i - \frac{a_{i-1} c_{i-1}}{\tilde{d} _{i-1}} \label{eq:3b1} \\
+      \tilde{b}_i &= b_i - \frac{\tilde{b}_{i-1} a_{i-1}}{\tilde{d}_{i-1}} \label{eq:3b2}
+    \end{align}
 
-    with the condition that $\tilde{b}_1 = b_1$.
+    with the condition that $\tilde{d}_1 = d_1$. \\
 
     For the backward substitution the equation used in the algorithm is
 
     \begin{align*}
-      v_i &= \frac{\tilde{g}_i - c_i v_{i+1}}{\tilde{b}_i}
+      v_i &= \frac{\tilde{b}_i - c_i v_{i+1}}{\tilde{d}_i}
     \end{align*}
 
-    with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{g}_n}{\tilde{b}_n}$.
+    with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{b}_n}{\tilde{d}_n}$.
 
-    \subsubsection{The programming}
+  \subsubsection{The programming}
 
     Her skal man kommentere programmet til oppgaven
 
+    First we are going to look at the programme \texttt{thomas-algorithm.cpp}. This is the main programme for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective programmes on GitHub. This code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. After this it runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonalelements to \textbf{A} and the new array for the $\vec{\tilde{b}}$ vector. The equations for the new variable and arrays are described in
+    (\ref{eq:3b1}) and (\ref{eq:3b2}). 
 
-  \subsection{Exercise c)}
 
-    \subsubsection{Calculations}
+\subsection{Exercise c)}
+
+  \subsubsection{Calculations}
 
     The equation for the elements on the diagonal is
 
@@ -228,37 +228,37 @@ In this project we are going to get familiar with vectors and matrices in \textt
       \tilde{v}_i = \frac{\tilde{b}_i + v_{i+1}}{\tilde{d}_i}
     \end{equation*}
 
-    \subsubsection{The programming}
+  \subsubsection{The programming}
 
 
 
 
-  \subsection{Exercise d)}
+\subsection{Exercise d)}
 
 
 
 
-    \subsubsection{Calculations}
+  \subsubsection{Calculations}
 
 
 
 
-    \subsubsection{The programming}
+  \subsubsection{The programming}
 
 
 
 
-  \subsection{Exercise e)}
+\subsection{Exercise e)}
 
 
 
 
-    \subsubsection{Calculations}
+  \subsubsection{Calculations}
 
 
 
 
-    \subsubsection{The programming}
+  \subsubsection{The programming}
 
 
 
