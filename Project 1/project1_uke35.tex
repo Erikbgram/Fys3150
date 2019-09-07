@@ -31,7 +31,7 @@
       \large For the course FYS3150}
 \date{\today \\
     \vspace{1mm}
-    \large Week 35-37}
+    \large Week 35 - 37}
 
 \author{Erik Grammeltvedt, Erlend Tiberg North and Alexandra Jahr Kolstad}
 
@@ -47,11 +47,11 @@
 
 \section{Abstract}
 
-%\vspace{2mm}
-
 We have developed an algorithm that computes...
 
 Thomas algorithm, loss of numerical precision (FLOPS)
+
+{\large lime inn abstract fra overleaf.}
 
 
 %--------------Introduction------------------------------
@@ -77,8 +77,6 @@ The functions we are operating with are
 These are also given in \textbf{Project1.pdf}. We are going to solve the ordinary differential equation by computing the decomposition and forward substitution and the backward substitution of the given matrices with the programming language \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
 
 For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main program is \texttt{thomas-algorithm.cpp}. For \textbf{b)}, \textbf{c)} and \textbf{e)} there are an additional program called \texttt{plot\_data.py} which plots the data. Only for exercise \textbf{c)} there is the program \texttt{timing.py} for comparing the time used in the different programs, and only for \textbf{d)} there is the program \texttt{error.py} which computes the error for the algorithm in \textbf{b)}. \\
-
-\vspace{3mm}
 
 
 %---------------Method------------------------------------
@@ -241,7 +239,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
     In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}. \\
 
-    {\large  \bf TIMING.PY}
+    {\large  \bf lime inn for TIMING.PY}
 
 
 \subsection{Exercise d)}
@@ -318,6 +316,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   The solution for equation (\ref{eq:matrixeq}), $\vec{v}$, has a good approximation to the exact solution (\ref{eq:u(x)eq}) both for the general algorithm and the special algorithm. This is proven by that the relative error described in equation (\ref{eq:errorfunc}) is small. It is also possible to consider the plot made in \texttt{plot\_data.py} which shows that for different values of $n$, more specifically $n = 10, 100, 1000$, the graphs is approximately the same.
 
+  {\large skrive inn noe for perspective? }
 
 
 %--------------Appendix---------------------------------------------
@@ -325,6 +324,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Appendix}
 
+Below are the plots for the different exercises. Also see the repository for the text-files \texttt{data10.txt}, \texttt{data100.txt} and \texttt{data1000.txt}.
 
 \begin{figure}[ht]
 	\centering
@@ -347,6 +347,13 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 	\label{fig:data1000png}
 \end{figure}
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 11cm]{program/error.png}
+	\caption{The plot of the error from $n = 10, 100, 1000 ... , 10^7$. }
+	\label{fig:errorpng}
+\end{figure}
+
 
 
 \clearpage
@@ -356,7 +363,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Refrences}
 
-\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project1/pdf/Project1.pdf}{Link to the PDF of the project}
+\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project1/pdf/Project1.pdf}{Link to the PDF of the project}. \\
 
 \href{https://github.com/Erikbgram/Fys3150}{Link to our GitHub-repository}. \\
 
