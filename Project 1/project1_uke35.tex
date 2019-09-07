@@ -2,10 +2,18 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[english,norsk]{babel}
+\usepackage[norsk,english]{babel}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=blue,
+    urlcolor=black
+}
 
 \setlength{\parindent}{0pt}
 
@@ -31,6 +39,8 @@
 
 %------------her starter skrivingen-----------------------------------------
 \vspace{1cm}
+
+\tableofcontents
 
 %----------Abstract-------------------------------
 
@@ -70,7 +80,7 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   burde prøve å finne analytiske løsninger eller finne grensene for å teste programmet
 
-  \subsection{Calculations for exercise a)}
+  \subsection{Exercise a)}
 
     In the exercise we are given the equation
 
@@ -136,8 +146,10 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     Therefore the matrix equation has been proved. \\
 
-  \subsection{Calculations for exercise b)}
 
+  \subsection{Exercise b)}
+
+    \subsubsection{Calculations}
 
     i beregningene til erlend på ark er b diagonalelementene, g er b-vektoren og u er v-vektoren. i pythonkoden er d diagonalelementene, b er b-vektoren og v er v-vektoren. med tilde er algoritmediagonal
 
@@ -164,7 +176,14 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
     with the conditions that $v_0 = 0$ and $v_n = \frac{\tilde{g}_n}{\tilde{b}_n}$.
 
+    \subsubsection{The programming}
+
+    Her skal man kommentere programmet til oppgaven
+
+
   \subsection{Exercise c)}
+
+    \subsubsection{Calculations}
 
     The equation for the elements on the diagonal is
 
@@ -209,6 +228,40 @@ In this project we are going to get familiar with vectors and matrices in \textt
       \tilde{v}_i = \frac{\tilde{b}_i + v_{i+1}}{\tilde{d}_i}
     \end{equation*}
 
+    \subsubsection{The programming}
+
+
+
+
+  \subsection{Exercise d)}
+
+
+
+
+    \subsubsection{Calculations}
+
+
+
+
+    \subsubsection{The programming}
+
+
+
+
+  \subsection{Exercise e)}
+
+
+
+
+    \subsubsection{Calculations}
+
+
+
+
+    \subsubsection{The programming}
+
+
+
 
 
 
@@ -231,7 +284,14 @@ In this project we are going to get familiar with vectors and matrices in \textt
 
   prøve å tolke resultatene i svaret til problemene
 
-  faget ønsker at man skal kommentere oppgavene. hva som var bra, hva som kan være bedre, hva man kan gjøre annerledes
+  faget ønsker at man skal kommentere oppgavene. hva som var bra, hva som kan være bedre, hva man kan gjøre annerledes \\
+
+  {\bf lime inn resultater av siste gang programmene kjøres} \\
+
+
+  The codes that were used for exercises \textbf{c)}, \textbf{d)} and \textbf{e)} are respectively \texttt{c-koden.cpp}, \texttt{d-koden.cpp} and \texttt{e-koden.cpp}. For \textbf{b)} there are two codes called \texttt{b-koden.cpp} and \texttt{b-koden.py}.
+
+
 
 
 %---------------Conclusion and perspective---------------------------
