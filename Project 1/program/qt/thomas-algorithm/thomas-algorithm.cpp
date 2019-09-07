@@ -1,5 +1,5 @@
 /*
-Last changed: 07.09.2019 20:54 by Erlend
+Last changed: 07.09.2019 21:41 by Erlend
 */
 
 #include <iostream> // input and output from command-line
