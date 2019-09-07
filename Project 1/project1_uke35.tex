@@ -86,15 +86,6 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Method}
 
-  teoretiske modeller og teknikaliteter -> metode (noen beregninger/kodeeksempler underveis) \\
-  Her skal man vise at koden fungerer
-
-  må kommentere alt i hele koden -> hva de gjør, hva de betyr
-
-  må inkludere selve koden -> gjøres utenfor selve programmet, gjerne gjennom GitHub
-
-  burde prøve å finne analytiske løsninger eller finne grensene for å teste programmet \\
-
 \subsection{Exercise a)}
 
   {\large \bf tror ferdig} \\
@@ -165,15 +156,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   \subsubsection{Calculations}
 
-    {\large \bf se gjennom, spesielt FLOPS}
-
-    i beregningene til erlend på ark er b diagonalelementene, g er b-vektoren og u er v-vektoren. i pythonkoden er d diagonalelementene, b er b-vektoren og v er v-vektoren. med tilde er algoritmediagonal
-
-    For the forward substitution algorithm there are 5 floating point operations.
-
-    For the backward substitution algorithm there are 3 floating point operations.
-
-    The total number of floating point operations is 8. For one iteration. \\
+    For the forward substitution algorithm there are $5(n-1)$ floating point operations. For the backward substitution algorithm there are $3(n-2)$ floating point operations. We precalculate $v$'s last element and that is an additional FLOP. The total number of floating point operations is therefore $8n - 10$. \\
 
     For the forward substitution the equations used in the algorithm are
 
@@ -194,16 +177,18 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   \subsubsection{The programming}
 
-    Her skal man kommentere programmet til oppgaven
-
     First we are going to look at the program \texttt{thomas-algorithm.cpp}. This is the main program for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective program on GitHub. The file consists of programming for other exercises as well, so exercise \textbf{b)} is referred to as general algorithm. All operations for this exercise will be commented with this name. The code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. The clock starts at this point in the program. Then the computer runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonal elements to \textbf{A} and the new array for the $\vec{\tilde{b}}$
     vector. The new variable and arrays are described in the equations
-    (\ref{eq:diagonald}) and (\ref{eq:vectorb}). Furthermore the backward substitution is written in a for-loop which generates the vector $\vec{v}$ based on equation (\ref{eq:solutionv}). After this for-loop the clock is stopped and the time is printed to the terminal. The program then makes text files which includes the data for the array $x$, vector $\vec{v}$, the solution $u(x)$, ... ? . These files are made in a different directory than the main program \texttt{thomas-algorithm.cpp}, so be aware that the files are made in two directories up.
+    (\ref{eq:diagonald}) and (\ref{eq:vectorb}). Furthermore the backward substitution is written in a for-loop which generates the vector $\vec{v}$ based on equation (\ref{eq:solutionv}). After this for-loop the clock is stopped and the time is printed to the terminal. The program then makes text files which includes the data for the array $x$, vector $\vec{v}$ for the general and special algorithm and for the LU-decomposition, as well as the solution $u(x)$. These files are made in a different directory than the main program \texttt{thomas-algorithm.cpp}, so be aware that the files are made in two directories up. \\
+
+    Secondly we are going to look at the program \texttt{plot\_data.py}. The code requests an input from the user in the terminal window requesting a file. This file will be the "filename" and the file that will be read in the program. The program now opens the file and reads it. It then divides the program into different lines and divides each line into five different elements that the for-loop fills into the five empty lists in the top of the program. The lists are named after the variables stored in them. The values of $x$ from the main program is stored in the \texttt{x} list. \texttt{v\_gen} is filled with the values from the general function in the main program. \texttt{v\_spl} contains the values given by the special function in the main program. \texttt{v\_LU} has the values of the LU-decomposition from the main program. Finaly $u$ contains the values of the function $u(x)$ in the main program. The program then converts the lists to arrays using the numpy library. Then the \texttt{try} function discards the four first and for last characters for naming purposes in the \texttt{plot} function. If the file passes the \texttt{try} function the arrays go to plotting and the graph is generated using the pylab library in python.
 
 
 \subsection{Exercise c)}
 
   \subsubsection{Calculations}
+
+    For the forward substitution algorithm there are $2(n-1)$ floating point operations. For the backward substitution algorithm there are $2(n-2)$ floating point operations. We precalculate $v$'s last element and that is an additional FLOP. In total we then have $4n - 5$ number of floating point operations. \\
 
     The equation for the elements on the diagonal is
 
@@ -252,10 +237,10 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
     The program for this exercise is also given in the file \texttt{thomas-algorithm.cpp}. The structure of finding the solution $\vec{v}$ for the matrix given in this exercise is the same as for the matrix in exercise \textbf{b)}. It is only different because this matrix has predefined matrix elements, so we can precalculate the values for the new diagonal to spare usage of FLOPS.
 
+    In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}.
+
 
 \subsection{Exercise d)}
-
-
 
 
   \subsubsection{Calculations}
@@ -266,31 +251,32 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
       \varepsilon_i = \log_{10} \bigg( \bigg| \frac{v_i - u_i}{u_i} \bigg| \bigg)    \label{eq:errorfunc}
     \end{equation}
 
-    The formula is given as a function of $\log_{10}(h)$ for each value of $v_i$ and $u_i$, given in equations (\ref{eq:solutionv}) and (\ref{eq:u(x)eq}). When this is computed each stepping length will give several values of x. Both u ad v are a function of x and will therefore have several values within one stepping length of h. Within one stepping length we extract the biggest value of $e_i$ and make a plot compering difference from u(x) to v(x) over x. We decided to make a plot over a table because we felt like it better visualize the error for are task.
-
+    The formula is given as a function of $\log_{10}(h)$ for each value of $v_i$ and $u_i$, given in equations (\ref{eq:solutionv}) and (\ref{eq:u(x)eq}). When this is computed each step length will give several values of $x$. Both $u$ and $v$ are a function of $x$ and will therefore have several values within one step length of $h$. Within one step length we extract the biggest value of $\varepsilon_i$ and make a plot compering the difference from $u(x)$ to $v(x)$ over $x$. We decided to make a plot over a table because we felt like it better visualizes the error for our task.
 
 
   \subsubsection{The programming}
 
+    The program for this problem is located under the subheading; \textit{computing errors for general-algorithm} in the main program \texttt{thomas-algorithm.cpp}. The program starts by setting up an epsilon max array to store the values that will come out of the for-loop. The for-loop runs through the $\varepsilon_i$ function described in equation (\ref{eq:errorfunc}) and takes out the biggest error through an if-else statement. Then the array is stored in a txt-file which we use to show the graphs through a self made python program. \\
 
+    The python graph generating program, \texttt{error.py}, starts be defining the file name and making lists to store the information from the file. Then opens and reads the information from the file using a for-loop. The for-loop divides the strings in the line with split and then allocates the first value of the line to the array \texttt{log\_h} and the second element in the line to \texttt{log\_error}. Then turns the lists into arrays and plots the function using pylab's plotting functions.
 
 
 \subsection{Exercise e)}
 
 
-
-
   \subsubsection{Calculations}
 
+    In this task we look at the LU-decomposition as a potential solver instead of the general and special Thomas algorithm. \\
 
+    The general number of floating point operations (or FLOPS) of the LU-decomposition is given by $ \frac{2}{3} n^3$. This will be true for any LU-decomposition, where $n$ is the dimensions of the matrix.
 
 
   \subsubsection{The programming}
 
 
+    The program that answers to this task starts with the subheading \textit{A-matrix for LU-decomposition} and ends with the sub heading \textit{display duration}, and is found in the file \texttt{thomas-algorithm.cpp}. The purpose of this code is to do the LU-decomposition of the matrix A and calculate it's processing time. First the program generates the matrix \textbf{A} using Armadillo and a for-loop. Armadillo fills the matrix with zeros and the for-loop fills the three diagonals with their respective values $-1$ , $2$ and $ -1$. The next part of the program; \textit{make a vector of the pointer-array b\_tld}, converts the \texttt{b\_tld} vector through a for-loop by using Armadillo vector function. Now the clock starts and the LU-decomposition begins. First the LU-decomposition is done by using the \texttt{mat} and \texttt{lu} functions from Armadillo. The program uses these values to allow the function \texttt{solve} from Armadillo to give the answer from the LU-decomposition given as vectors. Then the clock stops and the difference between time start and stop is done by a simple subtraction and the program closes.
 
-
-
+    In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}.
 
 
 
@@ -315,6 +301,9 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   {\bf lime inn resultater av siste gang programmene kjøres} \\
 
+  \subsection{Exercise b)}
+
+    When we run the LU-decomposition of a matrix with $n = 10^5$ the terminal exits the program and states that it is "out of memory". We think this happens due to the fact that the program makes the computer generate a matrix \textbf{A} that has $10^5 \cdot 10^5$ number of elements. Each element is 8 bytes so we get a total of $8 \cdot 10^{10}$ bytes. This is the equivalent out $6.4 \cdot 10^{11}$ bits. This is way to much for any standard computer to handle. And even if you get past the first matrix you will still have to generate 3 more to complete the LU-decomposition.
 
 
 
@@ -323,10 +312,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Conclusion and perspective}
 
-  {\large \bf se gjennom} \\
-
   The solution for equation (\ref{eq:matrixeq}), $\vec{v}$, has a good approximation to the exact solution (\ref{eq:u(x)eq}) both for the general algorithm and the special algorithm. This is proven by that the relative error described in equation (\ref{eq:errorfunc}) is small. It is also possible to consider the plot made in \texttt{plot\_data.py} which shows that for different values of $n$, more specifically $n = 10, 100, 1000$, the graphs is approximately the same.
-
 
 
 
@@ -334,6 +320,15 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 \vspace{1cm}
 
 \section{Appendix}
+
+henvise til pdf-en til oppgaven
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 10cm]{program/data10.png}
+	\caption{Tester}
+	\label{fig:data10}
+\end{figure}
 
 
 
