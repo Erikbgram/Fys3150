@@ -1,5 +1,5 @@
 """
-Last changed: 07.09.2019 21:14 by Erlend
+Last changed: 07.09.2019 22:25 by Erlend
 """
 
 #imports
@@ -36,7 +36,7 @@ u = np.array(u)
 
 """in hindsight very strange, but it works"""
 try:
-    n = int(filename[4:-4]) #discard the 4 1st and 4 last elements of filename, (essentially discard "data" and discard ".txt")
+    n = int(filename[4:-4]) #discard the 4 1st and 4 last characters of filename, (essentially discard "data" and discard ".txt")
 except: #if the discardinging in try fails
     print("Could not convert to int. Defaulting to n = 10")
     n = 10 #default value incase of failure
