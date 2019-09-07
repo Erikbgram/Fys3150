@@ -59,7 +59,7 @@ Thomas algorithm, loss of numerical precision (FLOPS)
 
 \section{Introduction}
 
-{\large \bf Tror ferdig} \\
+{\large \bf les gjennom} \\
 
 In this project we are going to solve Poisson's equation as a set of linear equations. Poisson's equation is a partial differential equation written in the file \textbf{Project1.pdf}. This equation can be rewritten as an ordinary differential equation
 
@@ -86,9 +86,9 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Method}
 
-\subsection{Exercise a)}
+  {\large \bf se gjennom} \\
 
-  {\large \bf tror ferdig} \\
+\subsection{Exercise a)}
 
   In the exercise we are given the equation
 
@@ -235,9 +235,13 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   \subsubsection{The programming}
 
+  {\large \bf IKKE HELT FERDIG}
+
     The program for this exercise is also given in the file \texttt{thomas-algorithm.cpp}. The structure of finding the solution $\vec{v}$ for the matrix given in this exercise is the same as for the matrix in exercise \textbf{b)}. It is only different because this matrix has predefined matrix elements, so we can precalculate the values for the new diagonal to spare usage of FLOPS.
 
-    In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}.
+    In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}. \\
+
+    {\large  \bf TIMING.PY}
 
 
 \subsection{Exercise d)}
@@ -274,7 +278,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
   \subsubsection{The programming}
 
 
-    The program that answers to this task starts with the subheading \textit{A-matrix for LU-decomposition} and ends with the sub heading \textit{display duration}, and is found in the file \texttt{thomas-algorithm.cpp}. The purpose of this code is to do the LU-decomposition of the matrix A and calculate it's processing time. First the program generates the matrix \textbf{A} using Armadillo and a for-loop. Armadillo fills the matrix with zeros and the for-loop fills the three diagonals with their respective values $-1$ , $2$ and $ -1$. The next part of the program; \textit{make a vector of the pointer-array b\_tld}, converts the \texttt{b\_tld} vector through a for-loop by using Armadillo vector function. Now the clock starts and the LU-decomposition begins. First the LU-decomposition is done by using the \texttt{mat} and \texttt{lu} functions from Armadillo. The program uses these values to allow the function \texttt{solve} from Armadillo to give the answer from the LU-decomposition given as vectors. Then the clock stops and the difference between time start and stop is done by a simple subtraction and the program closes.
+    The program that answers to this task starts with the subheading \textit{A-matrix for LU-decomposition} and ends with the sub heading \textit{display duration}, and is found in the file \texttt{thomas-algorithm.cpp}. The purpose of this code is to do the LU-decomposition of the matrix A and calculate it's processing time. First the program generates the matrix \textbf{A} using Armadillo and a for-loop. Armadillo fills the matrix with zeros and the for-loop fills the three diagonals with their respective values $-1$ , $2$ and $ -1$. The next part of the program; \textit{make a vector of the pointer-array b\_tld}, converts the \texttt{b\_tld} vector through a for-loop by using Armadillo vector function. Now the clock starts and the LU-decomposition begins. First the LU-decomposition is done by using the \texttt{mat} and \texttt{lu} functions from Armadillo. The program uses these values to allow the function \texttt{solve} from Armadillo to give the answer from the LU-decomposition given as vectors. Then the clock stops and the difference between time start and stop is done by a simple subtraction and the program closes. \\
 
     In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}.
 
@@ -321,24 +325,38 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
 \section{Appendix}
 
-henvise til pdf-en til oppgaven
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width = 10cm]{program/data10.png}
-	\caption{Tester}
-	\label{fig:data10}
+	\includegraphics[width = 11cm]{program/data10.png}
+	\caption{The plot of the different algorithm for $n = 10$. }
+	\label{fig:data10png}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 11cm]{program/data100.png}
+	\caption{The plot of the different algorithm for $n = 100$. }
+	\label{fig:data100png}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 11cm]{program/data1000.png}
+	\caption{The plot of the different algorithm for $n = 1000$. }
+	\label{fig:data1000png}
 \end{figure}
 
 
 
-
-
+\clearpage
 
 %----------------Refrences----------------------------------------
 \vspace{1cm}
 
 \section{Refrences}
+
+\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project1/pdf/Project1.pdf}{Link to the PDF of the project}
 
 \href{https://github.com/Erikbgram/Fys3150}{Link to our GitHub-repository}. \\
 
