@@ -1,5 +1,5 @@
 /*
-Last changed: 07.09.2019 XX:YY by Erlend
+Last changed: 07.09.2019 20:54 by Erlend
 */
 
 #include <iostream> // input and output from command-line
@@ -83,7 +83,6 @@ int main() {
   for(int i = 1; i < n; i++) {
     ad[i-1] = a[i-1]/d_new[i-1]; // measure once, cut twice
     d_new[i] = d[i] - ad[i-1]*c[i-1];
-    std::cout << "i = " << i << " d_new = " << d_new[i] << std::endl;
     b_tld_new[i] = b_tld[i] - b_tld_new[i-1]*ad[i-1];
   }
 
@@ -116,7 +115,6 @@ int main() {
   for(int i = 1; i < n; i++) {
     j = i;
     d_new[i] = (j + 1)/j;
-    std::cout << "i = " << i << " d_new = " << d_new[i] << std::endl;
   }
 
   //start clock
@@ -144,7 +142,6 @@ int main() {
   delete[] d;
   delete[] c;
   delete[] d_new;
-  delete[] b_tld;
   delete[] b_tld_new;
 
   //exact solution
@@ -162,6 +159,8 @@ int main() {
       max_eps = std::max(eps[i], max_eps);
     }
   }
+
+  delete[] eps; //eps is no longer used
 
   //initializing variables for file-writing
   std::string filename = "";
@@ -190,6 +189,8 @@ int main() {
       b_tld_vec[i] = b_tld[i];
     }
 
+    delete[] b_tld; //b_tld is no longer used
+
     start = ch::steady_clock::now();
 
 
@@ -205,6 +206,7 @@ int main() {
 
     ch::duration<double> time_span_LU = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used for LU-decomposition and solving = " << time_span_LU.count()  << "s" << std::endl;
+
 
     std::cout << "Calculations complete!" << std::endl << "Writing files" << std::endl;
 
@@ -226,6 +228,12 @@ int main() {
       std::cout << "Calculations complete!" << std::endl << "n is larger than 1000, only special files will be made." << std::endl;
   }
 
+  //deletion of straggling arrays
+  delete[] x;
+  delete[] u;
+  delete[] v_gen;
+  delete[] v_spl;
+
 
   //data-file for timings
   if(n==1000000){ //if to save storage
@@ -238,8 +246,9 @@ int main() {
 
 
 
-  //file for error of the standard algorithm
-  /* SNIPPET IS COMMENTED TO AVOID DUPLICATE VALUES
+  //file for error of the standard algorithm (SNIPPET IS COMMENTED OUT TO AVOID DUPLICATE VALUES)
+
+  /*
   filename = "../../error.txt";
   outfile.open(filename, std::fstream::out | std::ofstream::app);
   outfile << std::log10(h) << ", " << max_eps << std::endl;

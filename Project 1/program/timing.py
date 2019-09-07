@@ -1,5 +1,5 @@
 """
-Last changed: 07.09.2019 12:36 by Erlend
+Last changed: 07.09.2019 20:54 by Erlend
 """
 
 import numpy as np
@@ -28,6 +28,7 @@ for i in range(len(general)):
 avg_general = avg_general/n
 avg_special = avg_special/n
 
+print()
 print("The average time for the general Thomas-algorithm after %d runs is: %fs" % (n, avg_general))
 print("The average time for the special Thomas-algorithm after %d runs is: %fs" % (n, avg_special))
 print("The specialized algorithm is %fs faster than the general algorithm" % (avg_general-avg_special))
