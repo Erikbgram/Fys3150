@@ -1,5 +1,5 @@
 /*
-Last changed: 07.09.2019 23:12 by Erlend
+Last changed: 08.09.2019 16:05 by Erlend
 */
 
 #include <iostream> // input and output from command-line
@@ -86,7 +86,7 @@ int main() {
     b_tld_new[i] = b_tld[i] - b_tld_new[i-1]*ad[i-1];
   }
 
-  v_gen[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1]
+  v_gen[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1] given by the backward subsitution
 
   // backward substitution
   for(int i = n-2; i > 0; i--) { //by setting i >= 0, we can fix the general-algorithms discontinuity in the 1st point, but we KNOW the value so can ignore it
@@ -97,6 +97,12 @@ int main() {
 
   ch::duration<double> time_span_general = ch::duration_cast<ch::nanoseconds>(stop - start);
   std::cout << "Time used for general algorithm = " << time_span_general.count()  << "s" << std::endl;
+
+  /* Debugging snippet for seeing the difference of d_new from the general and special algorithms
+  std::cout << "index, value\n";
+  for(int i = 0; i < n; i++){
+      std::cout << "    " << i << ", " << d_new[i] << std::endl;
+  }*/
 
   //clean-up before starting the specialized algorithm
   delete[] d_new;
@@ -117,6 +123,12 @@ int main() {
     d_new[i] = (j + 1)/j;
   }
 
+  /* Debugging snippet for seeing the difference of d_new from the general and special algorithms
+  std::cout << "index, value\n";
+  for(int i = 0; i < n; i++){
+      std::cout << "    " << i << ", " << d_new[i] << std::endl;
+  }*/
+
   //start clock
   start = ch::steady_clock::now();
 
@@ -125,7 +137,7 @@ int main() {
     b_tld_new[i] = b_tld[i] + (b_tld_new[i-1])/(d_new[i-1]);
   }
 
-  v_spl[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1]
+  v_spl[n-1] = b_tld_new[n-1]/d_new[n-1]; // initial condition for v[-1] given by the backward subsitution
 
   //backward substitution
   for(int i = n-2; i > 0; i--) {

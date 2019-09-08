@@ -1,3 +1,5 @@
+Last edited: 08.09.2019 18:38 by Erlend
+
 >thomas-algorithm.exe
 Choose your n: 10
 h = 0.111111
