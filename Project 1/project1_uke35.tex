@@ -2,10 +2,12 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[norsk,english]{babel} %norsk først så engelsk, så engelsk blir prioritert
+\usepackage[norsk,english]{babel}   %norsk først så engelsk, så engelsk blir prioritert
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{listings}
+
+%Definerer hyperlinker og dens farger
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -14,7 +16,10 @@
     linkcolor=blue,
     urlcolor=blue
 }
-\usepackage{nameref}
+
+%-----------------------------------
+
+%Definerer farger til kodeeksemplene i PDF-en
 \usepackage{color}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -43,6 +48,8 @@
 
 \lstset{style=mystyle}
 
+%------------------------------------
+
 \setlength{\parindent}{0pt}
 
 \setlength{\tabcolsep}{18pt}
@@ -65,29 +72,38 @@
 
 \maketitle
 
-%------------her starter skrivingen-----------------------------------------
+%------------Her starter skrivingen-----------------------------------------
 \vspace{1cm}
 
 \tableofcontents
 
+\vspace{1cm}
+TING Å GJØRE
+
+ - rette på ulik formatering - kode, array, osv \\
+ - rette på referanser (få til navn til seksjoner bl.a. , gjøre label til dem til sec: foran) \\
+ - sjekke at ting er referert riktig (riktig formel, riktig figur, riktig seksjon) \\
+ - lese gjennom alt \\
+ - sjekke at alt er limt inn riktig og svart på \\
+ - rette på caption til tabeller og figurer (bl.a. legge inn punktum)
+
+
 %----------Abstract-------------------------------
 
 
-\section{Abstract} \label{Abstract}
+\section{Abstract} \label{sec:Abstract}
 
-We have developed an algorithm that computes...
+{\large \bf ferdig} \\
 
-Thomas algorithm, loss of numerical precision (FLOPS)
-
-{\large lime inn abstract fra overleaf.}
+In this project we have studied the importance of second-order differential equations exemplified in this project through Poisson’s equation. We have used the set of equations a ordinary differential equation gives, and tried solving them using three different numeric methods. We have computed results from matrix size $10$ to matrix $10^7$. We found that the decomposition we made using the special case of our matrix gave the closest results to the given solution and had the shortest run time. The more general method, Thomas-algorithm and the LU-decomposition were therefore inferior in this specific case. The Thomas-algorithm had a higher number of floating point operations, FLOPS, per iteration and the LU-decomposition demanded so much RAM that it crashed for matrices of dimensions $10^5$ and higher. This task does not only show efficiency of different methods, it shows the power of an algorithm that is specifically made for the problem you are solving.
 
 
 %--------------Introduction------------------------------
 \vspace{1cm}
 
-\section{Introduction} \label{Introduction}
+\section{Introduction} \label{sec:Introduction}
 
-{\large \bf les gjennom} \\
+{\large \bf ferdig} \\
 
 In this project we are going to solve Poisson's equation as a set of linear equations. Poisson's equation is a partial differential equation written in the file \textbf{Project1.pdf}. This equation can be rewritten as an ordinary differential equation
 
@@ -104,17 +120,19 @@ The functions we are operating with are
 
 These are also given in \textbf{Project1.pdf}. We are going to solve the ordinary differential equation by computing the decomposition and forward substitution and the backward substitution of the given matrices with the programming language \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
 
-For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main program is \texttt{thomas-algorithm.cpp}. For \textbf{b)}, \textbf{c)} and \textbf{e)} there is an additional program called \texttt{plot\_data.py} which plots the our different algorithm's solutions and compares it to equation (\ref{eq:u(x)eq}). For exercise \textbf{c)} there is the program \texttt{timing.py} for comparing the time used by the general and the special algorithm, For \textbf{d)} we have \texttt{error.py} which computes the error for the algorithm in \textbf{b)}. \\
+For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main program is \texttt{thomas-algorithm.cpp}. For \textbf{b)}, \textbf{c)} and \textbf{e)} there is an additional program called \texttt{plot\_data.py} which plots the different algorithm's solutions and compares it to equation (\ref{eq:u(x)eq}). For exercise \textbf{c)} there is also the program \texttt{timing.py} for comparing the time used by the general and the special algorithm. For \textbf{d)} we also have \texttt{error.py} which computes the error for the algorithm in \textbf{b)}. \\
 
 
 %---------------Method------------------------------------
 \vspace{1cm}
 
-\section{Method} \label{Method}
+\section{Method} \label{sec:Method}
 
   {\large \bf se gjennom} \\
 
-\subsection{Exercise a)} \label{Method a)}
+\subsection{Exercise a)} \label{sec:Method a)}
+
+  {\large \bf ferdig} \\
 
   In the exercise we are given the equation
 
@@ -148,7 +166,7 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   where $\vec{v}$ is the solution. The matrix and the vectors are given as
 
-  \begin{equation*} \label{full matrix-equation}
+  \begin{equation*} \label{eq:fullmatrixeq}
     \begin{bmatrix}
       2 & -1 & 0 & 0 & \dots & 0 \\
       -1 & 2 & -1 & 0 & \dots & 0 \\
@@ -178,11 +196,13 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   Therefore the matrix equation has been proved. \\
 
-\subsection{Exercise b)} \label{Method b)}
+\subsection{Exercise b)} \label{sec:Method b)}
 
   \subsubsection{Calculations}
 
-    For the forward substitution algorithm there are $5(n-1)$ floating point operations. For the backward substitution algorithm there are $3(n-2)$ floating point operations. We precalculate $v$'s last element and that is an additional FLOP. The total number of floating point operations is therefore $8n - 10$. \\
+    {\large \bf ferdig} \\
+
+    For the forward substitution algorithm there are $5(n-1)$ FLOPS. For the backward substitution algorithm there are $3(n-2)$ FLOPS. We precalculate $v$'s last element and that is an additional FLOP. The total number of floating point operations is therefore $8n - 10$. \\
 
     For the forward substitution the equations used in the algorithm are
 
@@ -203,11 +223,12 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   \subsubsection{The programming}
 
-    First we are going to look at the program \texttt{thomas-algorithm.cpp}. This is the main program for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective program on GitHub. The file consists of programming for other exercises as well, so exercise \textbf{b)} is referred to as general algorithm. All operations for this exercise will be commented with this name. The code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. The clock starts at this point in the program. Then the computer runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonal elements to \textbf{A} and the new array for the $\vec{\tilde{b}}$
-    vector. The new variable and arrays are described in the equations
-    (\ref{eq:diagonald}) and (\ref{eq:vectorb}). Furthermore the backward substitution is written in a for-loop which generates the vector $\vec{v}$ based on equation (\ref{eq:solutionv}). After this for-loop the clock is stopped and the time is printed to the terminal. The program then makes text files which includes the data for the array $x$, vector $\vec{v}$ for the general and special algorithm and for the LU-decomposition, as well as the solution $u(x)$. These files are made in a different directory than the main program \texttt{thomas-algorithm.cpp}, so be aware that the files are made in two directories up. \\
+    {\bf lese gjennom en gang til} \\
 
-    Secondly we are going to look at the program \texttt{plot\_data.py}. The code requests an input from the user in the terminal window requesting a file. This file will be the "filename" and the file that will be read in the program. The program now opens the file and reads it. It then divides the program into different lines and divides each line into five different elements that the for-loop fills into the five empty lists in the top of the program. The lists are named after the variables stored in them. The values of $x$ from the main program is stored in the \texttt{x} list. \texttt{v\_gen} is filled with the values from the general function in the main program. \texttt{v\_spl} contains the values given by the special function in the main program. \texttt{v\_LU} has the values of the LU-decomposition from the main program. Finaly $u$ contains the values of the function $u(x)$ in the main program. The program then converts the lists to arrays using the numpy library. Then the \texttt{try} function discards the four first and for last characters for naming purposes in the \texttt{plot} function. If the file passes the \texttt{try} function the arrays go to plotting and the graph is generated using the pylab library in python.
+    First we are going to look at the program \texttt{thomas-algorithm.cpp}. This is the main program for this exercise, which computes the decomposition and forward substitution and the backward substitution of the given matrices. More disriptive comments are included in the respective program on \href{https://github.com/Erikbgram/Fys3150}{GitHub}. The file consists of programming for other exercises as well, so exercise \textbf{b)} is referred to as general algorithm. All operations for this exercise will be commented with this name. The code asks the user for an input for the variable $n$, which is the dimension for the matrix \textbf{A} and the length of the vectors $\vec{v}$ and $\vec{b}$. The clock starts at this point in the program. Then the computer runs through a for-loop to compute the new arrays \texttt{ad}, \texttt{d\_new} and \texttt{b\_tld\_new} for the forward substitution. They are respectively the variable $\frac{a_{i-1}}{\tilde{d}_{i-1}}$, the new diagonal elements to \textbf{A}
+    and the new array $\vec{\tilde{b}}$. The new variable and arrays are described in the equations (\ref{eq:diagonald}) and (\ref{eq:vectorb}). Furthermore the backward substitution is written in a for-loop which generates the vector $\vec{v}$ based on equation (\ref{eq:solutionv}). After this for-loop the clock is stopped and the time is printed to the terminal. The program then makes text files which includes the data for the array $x$, vector $\vec{v}$ for the general and special algorithm and for the LU-decomposition, as well as the solution $u(x)$. These files are made in a different directory than the main program \texttt{thomas-algorithm.cpp}, so be aware that the files are made in two directories up. \\
+
+    Secondly we are going to look at the program \texttt{plot\_data.py}. The code requests an input from the user in the terminal window requesting a file. This file will be the "filename" and the file that will be read in the program. The program now opens the file and reads it. It then divides the program into different lines and divides each line into five different elements that the for-loop fills into the five empty lists in the top of the program. The lists are named after the variables stored in them. The values of $x$ from the main program is stored in the \texttt{x} list. \texttt{v\_gen} is filled with the values from the general function in the main program. \texttt{v\_spl} contains the values given by the special function in the main program. \texttt{v\_LU} has the values of the LU-decomposition from the main program. Finaly $u$ contains the values of the function $u(x)$ in the main program. The program then converts the lists to arrays using the numpy library. Then the \texttt{try} function discards the four first and four last characters for naming purposes in the \texttt{plot} function. If the file passes the \texttt{try} function the arrays go to plotting and the graph is generated using the pylab library in python.
 
 
 \subsection{Exercise c)} \label{Method c)}
@@ -267,10 +288,13 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
     In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)} where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}. \\
 
-    {\large  \bf lime inn for TIMING.PY}
+    Lastly we have the file \texttt{timing.py}. The purpose of this program is to make a table for the run times in order to compare them. The program starts with creating lists for the data. Then the program reads the given file and fills the lists with data using the for-loop. Then the number of data points and the initialize average for the two lists are given. after that the \\
 
 
-\subsection{Exercise d)} \label{Method c)}
+    {\large  \it lime inn for TIMING.PY - setningen stopper midt i}
+
+
+\subsection{Exercise d)} \label{Method d)}
 
 
   \subsubsection{Calculations}
@@ -335,16 +359,17 @@ For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main
 
   \subsection{Exercise a)} \label{Results a)}
 
-  The results of the exercise is the matrix-equation given in \ref{full matrix-equation}.
+  The results of the exercise is the matrix-equation given in \ref{eq:fullmatrixeq}.
 
   \subsection{Exercise b)} \label{Results b)}
 
-  In Figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see how the general Thomas-algorithm compares to the other algorithms and the exact solution. We can clearly see that the algorithm benefits from the larger $n$ (as it should). The approximation starts off as a so-so good approximation. However it gains accuracy failry quickly for each n we run through. All data was made by running \textbf{thomas-algorithm.cpp} in \textbf{QtCreator}. See the corresponding \textbf{.txt}-files for the raw data. The raw data was put in \textbf{plot\_data.py} which created the actual plots. To read more about how the programs work, see \ref{Method b)}.\\
+  In Figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see how the general Thomas-algorithm compares to the other algorithms and the exact solution. We can clearly see that the algorithm benefits from the larger $n$ (as it should). The approximation starts off as a so-so good approximation. However it gains accuracy failry quickly for each n we run through. All data was made by running \textbf{thomas-algorithm.cpp} in \textbf{QtCreator}. See the corresponding \textbf{.txt}-files for the raw data. The raw data was put in \textbf{plot\_data.py} which created the actual plots. To read more about how the programs work, see
+  \ref{sec:Method b)}.\\
   Ignoring the initial-condition we chose to calculate mid-algorithm and looking at \underline{one} iteration we have 8 FLOPS.
 
   \subsection{Exercise c)} \label{Results c)}
 
-  In \textbf{thomas-algorithm.cpp} additional code was added. Using the new equations (see \ref{Method c)}) we create a specialized algorithm for out given matrix. Again, by looking at figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see the algorithms data compared to the others and the exact solution. We can actually see that the algorithm is more accurate than the general algorithm from the get-go. This could be because of the fewer FLOPS (fewer chances for numerical errors). However, this would be more visible at higher values of $n$. By debugging the program (printing $d_{new}$ for each of the algorithms) we see that they in fact are not the same. By inserting the following code after filling each array we can see the differences
+  In \texttt{thomas-algorithm.cpp} additional code was added. Using the new equations (see \ref{Method c)}) we create a specialized algorithm for our given matrix. Again, by looking at figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see the algorithms data compared to the others and the exact solution. We can actually see that the algorithm is more accurate than the general algorithm from the get-go. This could be because of the fewer FLOPS (fewer chances for numerical errors). However, this would be more visible at higher values of $n$. By debugging the program (printing \texttt{d\_new} for each of the algorithms) we see that they in fact are not the same. By inserting the following code after filling each array we can see the differences
   \begin{lstlisting}[language=C++]
     std::cout << "index, value\n";
   for(int i = 0; i < n; i++){
@@ -379,7 +404,7 @@ index, value
     9, 1.11111
   \end{verbatim}
 
-  We can now understand that $d_{new}$ is filled differently because of the analytical expression. This can easily be fixed by doing $\frac{i+2}{i\1}$ instead of $\frac{i+1}{i}$. However, we found this error beneficial and decided to stick with it. After all, it turns out to be an improvement to the accuracy.
+  We can now understand that \texttt{d\_new} is filled differently because of the analytical expression. This can easily be fixed by doing $\frac{i+2}{i+1}$ instead of $\frac{i+1}{i}$. However, we found this error beneficial and decided to stick with it. After all, it turns out to be an improvement to the accuracy.
 
   When it comes to the differences in calculation-time between the general and special algorithm we use the output from \textbf{timing.py} with the input \textit{timings1000000.txt}. The program gives us the following output:
 
@@ -394,7 +419,7 @@ index, value
 
   \subsection{Exercise d)} \label{Results d)}
 
-  The error is calculated at line 162 in \textbf{thomas-algorithm.cpp}. It calculates the relative error made by the general algorithm. The raw data is put in \textbf{error.txt} and thereafter read by \textbf{error.py}. The program shows a plot (not at table) and is shown in figure (\ref{fig:errorpng}).We can clearly see that the error decreases for larger $n$. From $n=10^5$ to $n=10^6$ we actually see that the program rapidly gains accuracy. This seems peculiar, but after mulitple runs for calculating errors and adjusting codes we still get this plot. This might be since we have defined $h=\frac{x[n-1]-x[0]}{n-1}$ giving us an ugly value ($n=10 \rightarrow{} h=0.11...$). When we reach $n=10^6$ The machine probably rounds of h and leads to an easier calculation in the rest of the algorithm.\\
+  The error is calculated at line 162 in \texttt{thomas-algorithm.cpp}. It calculates the relative error made by the general algorithm. The raw data is put in \texttt{error.txt} and thereafter read by \texttt{error.py}. The program shows a plot (not at table) and is shown in figure (\ref{fig:errorpng}).We can clearly see that the error decreases for larger $n$. From $n=10^5$ to $n=10^6$ we actually see that the program rapidly gains accuracy. This seems peculiar, but after mulitple runs for calculating errors and adjusting codes we still get this plot. This might be since we have defined $h=\frac{x[n-1]-x[0]}{n-1}$ giving us an ugly value ($n=10 \rightarrow{} h=0.11...$). When we reach $n=10^6$ The machine probably rounds of h and leads to an easier calculation in the rest of the algorithm.\\
   When it comes to the peak of accuracy we can see that $n=10^6$ is most accurate as the error start increasing at $n=10^7$. The increase of error comes from the machine's numerical error.
 
   \subsection{Exercise e)} \label{Results e)}
@@ -414,7 +439,7 @@ index, value
       \hspace{0pt}\\
       Table 1: Execution time
   \end{center}
-  We can see from the table above that our specialized algorithm is vastly superior to the LU-decomposition. This is no surprise considering our algorithm has $\sim4n$ FLOPS whilst the LU-decomposition has $\sim\frac{2}{3}n^3$. In addition the LU-decomposition has way more memory-reads and memory-writes and this slows the method down a lot.
+  We can see from the table above that our specialized algorithm is vastly superior to the LU-decomposition. This is no surprise considering our algorithm has $\sim4n$ FLOPS whilst the LU-decomposition has $\sim\frac{2}{3}n^3$. In addition the LU-decomposition has way more memory-reads and memory-writes and this slows the method down a lot. \\
 
   When we run the LU-decomposition for a matrix with $n = 10^5$ the program crashes and states that it is "out of memory" (using Qt). This happens due to the fact that the program makes the computer generate a matrix \textbf{A} that has $10^5 \cdot 10^5$ number of elements. Each element is 8 bytes so we get a total of $8 \cdot 10^{10}$ bytes. This is the equivalent to $80$ gigabytes. This is way to much for any standard computer to handle. And even if you get past the first matrix you will still have to generate 3 more (L,U and sometimes P) to complete the LU-decomposition.
 
@@ -437,32 +462,33 @@ index, value
 
 Below are the plots for the different exercises. Also see the repository for the text-files \texttt{data10.txt}, \texttt{data100.txt} and \texttt{data1000.txt}.
 
+
 \begin{figure}[ht]
 	\centering
-	\label{fig:data10png}
 	\includegraphics[width = 11cm]{program/data10.png}
 	\caption{The plot of the different algorithm for $n = 10$. }
+  \label{fig:data10png}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\label{fig:data100png}
 	\includegraphics[width = 11cm]{program/data100.png}
 	\caption{The plot of the different algorithm for $n = 100$. }
+  \label{fig:data100png}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\label{fig:data1000png}
 	\includegraphics[width = 11cm]{program/data1000.png}
 	\caption{The plot of the different algorithm for $n = 1000$. }
+  \label{fig:data1000png}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
-	\label{fig:errorpng}
 	\includegraphics[width = 11cm]{program/error.png}
 	\caption{The plot of the error from $n = 10, 100, 1000 ... , 10^7$. }
+  \label{fig:errorpng}
 \end{figure}
 
 
