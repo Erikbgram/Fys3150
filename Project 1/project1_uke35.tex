@@ -121,7 +121,7 @@ The functions we are operating with are
 These are also given in \textbf{Project1.pdf}. We are going to solve the ordinary differential equation by computing the decomposition and forward substitution and the backward substitution of the given matrices with the programming language \texttt{C++}. Our group is using the Armadillo package to more easily define and compute with matrices. We are also going to work with and try to understand dynamic memory allocation. The main exercise is grouped into smaller sub exercises ranging from \textbf{a)} to \textbf{e)}. \\
 
 For the exercises \textbf{b)}, \textbf{c)}, \textbf{d)} and \textbf{e)} the main program is \texttt{thomas-algorithm.cpp}. For \textbf{b)}, \textbf{c)} and \textbf{e)} there is an additional program called \texttt{plot\_data.py} which plots the different algorithm's solutions and compares it to equation (\ref{eq:u(x)eq}). For exercise \textbf{c)} there is also the program \texttt{timing.py} for comparing the time used by the general and the special algorithm. For \textbf{d)} we also have \texttt{error.py} which computes the error for the algorithm in \textbf{b)}.
-All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
+All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
 
 %---------------Method------------------------------------
@@ -289,16 +289,13 @@ All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitH
 
   \subsubsection{The programming}
 
-  {\large \bf IKKE HELT FERDIG} \\
+  {\bf ferdig} \\
 
     The program for this exercise is also given in the file \texttt{thomas-algorithm.cpp}. The structure of finding the solution $\vec{v}$ for the matrix given in this exercise is the same as for the matrix in exercise \textbf{b)}, \ref{sec:Method b)}. It is only different because this matrix has predefined matrix elements, so we can precalculate the values for the new diagonal to spare usage of FLOPS. \\
 
     In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)}, \ref{sec:Method b)}, where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}. \\
 
-    Lastly we have the file \texttt{timing.py}. The purpose of this program is to make a table for the run times in order to compare them. The program starts with creating lists for the data. Then the program reads the given file and fills the lists with data using the for-loop. Then the number of data points and the initialize average for the two lists are given. after that the \\
-
-
-    {\large  \it lime inn for TIMING.PY - setningen stopper midt i}
+    Lastly we have the file \texttt{timing.py}. The purpose of this program is to make a table for the run times in order to compare them. The program starts with creating lists for the data. It then reads the given file and fills the lists with data using the for-loop. Then the number of data points and the initialized average for the two lists are given. After that the for-loop generates the averages and the code underneath makes the values in the list into actual averages. Lastly the time average for each program is printed.
 
 
 \subsection{Exercise d)} \label{sec:Method d)}
@@ -313,16 +310,16 @@ All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitH
       \varepsilon_i = \log_{10} \bigg( \bigg| \frac{v_i - u_i}{u_i} \bigg| \bigg)    \label{eq:errorfunc}
     \end{equation}
 
-    The formula is given as a function of $\log_{10}(h)$ for each value of $v_i$ and $u_i$, given in equations (\ref{eq:solutionv}) and (\ref{eq:u(x)eq}). When this is computed each step length will give several values of $x$. Both $u$ and $v$ are a function of $x$ and will therefore have several values within one step length of $h$. Within one step length we extract the biggest value of $\varepsilon_i$ and make a plot compering the difference from $u(x)$ to $v(x)$ over $x$. We decided to make a plot over a table because we felt like it better visualizes the error for our task.
+    The formula is given as a function of $\log_{10}(h)$ for each value of $v_i$ and $u_i$, given in equations (\ref{eq:solutionv}) and (\ref{eq:u(x)eq}). When this is computed each step length will give several values of $x$. Both $u$ and $v$ are a function of $x$ and will therefore have several values within one step length of $h$. Within one step length we extract the biggest value of $\varepsilon_i$ and make a plot comparing the difference from $u(x)$ to $v(x)$ over $x$. We decided to make a plot over a table because we felt like it better visualizes the error for our task.
 
 
   \subsubsection{The programming}
 
     {\bf ferdig} \\
 
-    The program for this problem is located under the subheading; \textit{computing errors for general-algorithm} in the main program \texttt{thomas-algorithm.cpp}. The program starts by setting up an epsilon max array to store the values that will come out of the for-loop. The for-loop runs through the $\varepsilon_i$ function described in equation (\ref{eq:errorfunc}) and takes out the biggest error through an if-else statement. Then the array is stored in a txt-file which we use to show the graphs through a self made python program. \\
+    The program for this problem is located under the subheading; \textit{computing errors for general-algorithm} in the main program \texttt{thomas-algorithm.cpp}. The program starts by setting up an epsilon max array to store the values that will come out of the for-loop. The for-loop runs through the $\varepsilon_i$ function described in equation (\ref{eq:errorfunc}) and takes out the biggest error through an if-else statement. Then the array is stored in a \texttt{.txt}-file which we use to show the graphs through a self made python program. \\
 
-    The python graph generating program, \texttt{error.py}, starts be defining the file name and making lists to store the information from the file. Then opens and reads the information from the file using a for-loop. The for-loop divides the strings in the line with split and then allocates the first value of the line to the array \texttt{log\_h} and the second element in the line to \texttt{log\_error}. Then turns the lists into arrays and plots the function using pylab's plotting functions.
+    The python graph generating program, \texttt{error.py}, starts by defining the file name and making lists to store the information from the file. Then opens and reads the information from the file using a for-loop. The for-loop divides the strings in the line with split and then allocates the first value of the line to the array \texttt{log\_h} and the second element in the line to \texttt{log\_error}. Then turns the lists into arrays and plots the function using pylab's plotting functions.
 
 
 \subsection{Exercise e)} \label{sec:Method e)}
@@ -334,13 +331,14 @@ All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitH
 
     In this task we look at the LU-decomposition as a potential solver instead of the general and special Thomas algorithm. \\
 
-    The general number of FLOPS of the LU-decomposition is given by $ \frac{2}{3} n^3$. This will be true for any LU-decomposition, where $n$ is the dimension of the matrix.
+    The general number of FLOPS of the LU-decomposition is given by $ \frac{2}{3} n^3$. This will be true for any LU-decomposition, where $n$ is the dimensions of the $(n \times n)$ matrix.
 
 
   \subsubsection{The programming}
 
+    {\large \bf ferdig} \\
 
-    The program that answers to this task starts with the subheading \textit{A-matrix for LU-decomposition} and ends with the sub heading \textit{display duration}, and is found in the file \texttt{thomas-algorithm.cpp}. The purpose of this code is to do the LU-decomposition of the matrix A and calculate it's processing time. First the program generates the matrix \textbf{A} using Armadillo and a for-loop. Armadillo fills the matrix with zeros and the for-loop fills the three diagonals with their respective values $-1$ , $2$ and $ -1$. The next part of the program; \textit{make a vector of the pointer-array b\_tld}, converts the \texttt{b\_tld} vector through a for-loop by using Armadillo vector function. Now the clock starts and the LU-decomposition begins. First the LU-decomposition is done by using the \texttt{mat} and \texttt{lu} functions from Armadillo. The program uses these values to allow the function \texttt{solve} from Armadillo to give the answer from the LU-decomposition given as vectors. Then the clock stops and the difference between time start and stop is done by a simple subtraction and the program closes. \\
+    The program that answers to this task starts with the subheading \textit{A-matrix for LU-decomposition} and ends with the subheading \textit{display duration}, and is found in the file \texttt{thomas-algorithm.cpp}. The purpose of this code is to do the LU-decomposition of the matrix \textbf{A} and calculate its processing time. First the program generates the matrix \textbf{A} using Armadillo and a for-loop. Armadillo fills the matrix with zeros and the for-loop fills the three diagonals with their respective values $-1$ , $2$ and $ -1$. The next part of the program; \textit{make a vector of the pointer-array b\_tld}, converts the \texttt{b\_tld} vector through a for-loop by using Armadillo's vector function. Now the clock starts and the LU-decomposition begins. First the LU-decomposition is done by using the \texttt{mat} and \texttt{lu} functions from Armadillo. The program uses these values to allow the function \texttt{solve} from Armadillo to give the answer for the LU-decomposition as vectors. Then the clock stops and the difference between time start and stop is done by a simple subtraction and the program closes. \\
 
     In this exercise we also compute with the program \texttt{plot\_data.py}. However there are no differences between the algorithm in this exercise and in exercise \textbf{b)}, \ref{sec:Method b)}, where the program is commented, so for an explanation of the program please read the associated subsubsection \textbf{3.2.2}.
 
@@ -373,13 +371,13 @@ All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitH
 
     {\bf ferdig} \\
 
-    The results of the exercise is the matrix equation \ref{eq:fullmatrixeq}.
+    The results of this exercise is the matrix equation \ref{eq:fullmatrixeq}.
 
   \subsection{Exercise b)} \label{sec:Results b)}
 
     {\bf ferdig} \\
 
-    In Figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see how the general Thomas-algorithm compares to the other algorithms and the exact solution. We can clearly see that the algorithm benefits from the larger $n$ (as it should). The approximation starts off as a so-so good approximation. However it gains accuracy fairly quickly for each $n$ we run through. All data was made by running \texttt{thomas-algorithm.cpp} in \textbf{QtCreator}. See the corresponding \texttt{.txt}-files for the raw data. The raw data was put in \texttt{plot\_data.py} which created the actual plots. To read more about how the programs work, see
+    In figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see how the general Thomas-algorithm compares to the other algorithms and the exact solution. We can clearly see that the algorithm benefits from the larger $n$ (as it should). The approximation starts off as a so-so good approximation. However it gains accuracy fairly quickly for each $n$ we run through. All data was made by running \texttt{thomas-algorithm.cpp} in \textbf{QtCreator}. See the corresponding \texttt{.txt}-files for the raw data. The raw data was put in \texttt{plot\_data.py} which created the actual plots. To read more about how the programs work, see
     \ref{sec:Method b)}.\\
 
     Ignoring the initial-condition we chose to calculate mid-algorithm and looking at \underline{one} iteration we have 8 FLOPS.
@@ -388,7 +386,7 @@ All programmes are found at our \href{https://github.com/Erikbgram/Fys3150}{GitH
 
     {\bf ferdig} \\
 
-    In \texttt{thomas-algorithm.cpp} additional code was added. Using the new equations (see \ref{sec:Method c)}) we created a specialized algorithm for our given matrix. Again, by looking at figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see the algorithms data compared to the others and the exact solution. We can actually see that the algorithm is more accurate than the general algorithm from the get-go. This could be because of the fewer FLOPS (fewer chances for numerical errors). However, this would be more visible at higher values of $n$. By debugging the program (printing \texttt{d\_new} for each of the algorithms) we see that they in fact are not the same. By inserting the following code after filling each array we can see the differences \\
+    In \texttt{thomas-algorithm.cpp} additional code was added. Using the new equations (see \ref{sec:Method c)}) we created a specialized algorithm for our given matrix. Again, by looking at figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see the algorithm's data compared to the others and the exact solution. We can actually see that the special algorithm is more accurate than the general algorithm from the get-go. This could be because of the fewer FLOPS (fewer chances for numerical errors). However, this would be more visible at higher values of $n$. By debugging the program (printing \texttt{d\_new} for each of the algorithms) we see that they in fact are not the same. By inserting the following code after filling each array we can see the differences \\
 
   \begin{lstlisting}[language=C++]
     std::cout << "index, value\n";
@@ -442,7 +440,7 @@ index, value
 
   {\bf ferdig} \\
 
-  The error is calculated at line 162 in \texttt{thomas-algorithm.cpp}. It calculates the relative error made by the general algorithm. The raw data is put in \texttt{error.txt} and thereafter read by \texttt{error.py}. The program shows a plot (not a table) and is shown in figure (\ref{fig:errorpng}).We can clearly see that the error decreases for larger $n$. From $n=10^5$ to $n=10^6$ we actually see that the program rapidly gains accuracy. This seems peculiar, but after mulitple runs for calculating errors and adjusting the codes we still get this plot. This might be since we have defined $h=\frac{x_{n-1}-x_0}{n-1}$ giving us an ugly value ($n=10 \rightarrow{} h=0.11 \hdots$). When we reach $n=10^6$ the machine probably rounds of $h$ and leads to an easier calculation in the rest of the algorithm.\\
+  The error is calculated at line 162 in \texttt{thomas-algorithm.cpp}. It calculates the relative error made by the general algorithm. The raw data is put in \texttt{error.txt} and thereafter read by \texttt{error.py}. The program shows a plot (not a table) and is shown in figure (\ref{fig:errorpng}). We can clearly see that the error decreases for larger $n$. From $n=10^5$ to $n=10^6$ we actually see that the program rapidly gains accuracy. This seems peculiar, but after mulitple runs for calculating errors and adjusting the codes we still get this plot. This might be since we have defined $h=\frac{x_{n-1}-x_0}{n-1}$ giving us an ugly value ($n=10 \rightarrow{} h=0.11 \hdots$). When we reach $n=10^6$ the machine probably rounds of $h$ and leads to an easier calculation in the rest of the algorithm.\\
 
   When it comes to the peak of accuracy we can see that $n=10^6$ is most accurate as the error start increasing at $n=10^7$. The increase of error comes from the machine's numerical error.
 
@@ -452,7 +450,7 @@ index, value
 
   Again, in figures (\ref{fig:data10png}), (\ref{fig:data100png}) and (\ref{fig:data1000png}) we see the LU-decomposition compared to the other algorithms and to the exact solution. The LU-decomposition is identical to the general Thomas-algorithm except for our predefined endpoints.\\
 
-  Comparing the execution time of our Tridiagonal solver (special algorithm) and the LU-decomposition we get the following times. \\
+  Comparing the execution time of our tridiagonal solver (special algorithm) and the LU-decomposition we get the following times. \\
 
   \newpage
 
@@ -483,9 +481,12 @@ index, value
 
 \section{Conclusion and perspective} \label{sec:Conclusion}
 
-  The solution for equation (\ref{eq:matrixeq}), $\vec{v}$, has a good approximation to the exact solution of equation (\ref{eq:u(x)eq}) both for the general algorithm and the special algorithm. This is proven by that the relative error described in equation (\ref{eq:errorfunc}) is small. It is also possible to consider the plot made in \texttt{plot\_data.py} which shows that for different values of $n$, more specifically $n = 10, 100, 1000$, the graphs is approximately the same.
+  {\bf ferdig} \\
 
-  {\large skrive inn noe for perspective? }
+  The solution for equation (\ref{eq:matrixeq}), $\vec{v}$, has a good approximation to the exact solution of equation (\ref{eq:u(x)eq}) both for the general algorithm and the special algorithm. This is proven by that the relative error described in equation (\ref{eq:errorfunc}) is small. It is also possible to consider the plot made in \texttt{plot\_data.py} which shows that for different values of $n$, more specifically $n = 10, 100, 1000$, the graphs is approximately the same. See figures (\ref{fig:data10png}),
+  (\ref{fig:data100png}) and (\ref{fig:data1000png}). \\
+
+  If in future projects there is need for a solver of a second order ordinary differential equation, then the findings in this project can be useful, as the error is relatively small and the program fairy simple. At least for a special case as described in exercise \textbf{c)}, \ref{sec:Method c)}. One con of the methods in this project is that for larger values of $n$, the time and the memory the programs uses to run is too large. This is for the general and special algorithm with $n = 10^8$ and greater values of $n$. For the LU-decomposition $n$ is limited at $n = 10^5$ and greater. Matrices with these dimensions is not recommended to run the programs.
 
 
 %--------------Appendix---------------------------------------------
@@ -493,27 +494,27 @@ index, value
 
 \section{Appendix} \label{sec:Appendix}
 
-Below are the plots for the different exercises. Also see the repository for the text-files \texttt{data10.txt}, \texttt{data100.txt} and \texttt{data1000.txt}.
+Below are the plots for the different exercises. Also see the GitHub-repository for the \texttt{.txt}-files \texttt{data10.txt}, \texttt{data100.txt}, \texttt{data1000.txt} and \texttt{error.txt}.
 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width = 11cm]{program/data10.png}
-	\caption{The plot of the different algorithm for $n = 10$. }
+	\caption{The plot of the different algorithms for $n = 10$. }
   \label{fig:data10png}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width = 11cm]{program/data100.png}
-	\caption{The plot of the different algorithm for $n = 100$. }
+	\caption{The plot of the different algorithms for $n = 100$. }
   \label{fig:data100png}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width = 11cm]{program/data1000.png}
-	\caption{The plot of the different algorithm for $n = 1000$. }
+	\caption{The plot of the different algorithms for $n = 1000$. }
   \label{fig:data1000png}
 \end{figure}
 
@@ -533,7 +534,8 @@ Below are the plots for the different exercises. Also see the repository for the
 
 \section{References} \label{sec:References}
 
-\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project1/pdf/Project1.pdf}{Project1.pdf}. by Morten Hjorth-Jensen. The PDF of the project we were given.\\
+\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project1/pdf/Project1.pdf}{Project1.pdf} by Morten Hjorth-Jensen. The PDF to the project we were given.\\
+
 \href{https://github.com/Erikbgram/Fys3150}{Our GitHub-repository}. \\
 
 \href{http://www.industrial-maths.com/ms6021_thomas.pdf}{Link to an article about the tridiagonal matrix algorithm}. This includes general theory about the algorithm and how it works. \\
