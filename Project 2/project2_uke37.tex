@@ -59,11 +59,11 @@
 
 \addtocounter{page}{0}
 
-\title{Project 1 \\
+\title{Project 2 \\
       \large For the course FYS3150}
 \date{\today \\
     \vspace{1mm}
-    \large Week 35 - 37}
+    \large Week 37 - 40}
 
 \author{Erik Grammeltvedt, Erlend Tiberg North and Alexandra Jahr Kolstad}
 
@@ -102,7 +102,18 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 \subsection{Exercise a)} \label{sec:Method a)}
 
+In this exercise we are going to prove that $\vec{w}_i = U \vec{v}_i$ is an orthogonal or unitary transformation that preserves the dot product and orthogonality. We start by multiplying $\vec{w}_j ^T$ with $\vec{w}_i$ to take the vector product, also called the dot product. If the vector product of these vectors is equal to $\delta_{ij}$, given by $\vec{v}_j ^T \vec{v}_i = \delta_{ij}$ in the exercise, then the dot product and orthogonality is preserved. In this exercise we assume that $U^T U = I$, where $I$ is the identity matrix, because this defines a unitary matrix $U$ which we compute with in this exercise. \\
 
+The vector product is calculated as followed:
+
+\begin{align*}
+  \vec{w}_j ^T \vec{w}_i &= (U \vec{v})^T U \vec{v}_i \\
+  &= \vec{v}_j ^T U^T U \vec{v}_i \\
+  &= \vec{v}_j ^T \vec{v}_i \\
+  &= \delta _{ij}
+\end{align*}
+
+The vector product of $\vec{w}_j ^T$ and $\vec{w}_i$ is $\delta_{ij}$, which proves that the dot product and orthogonality is preserved for the transformation.
 
 
 \subsection{Exercise b)} \label{sec:Method b)}
