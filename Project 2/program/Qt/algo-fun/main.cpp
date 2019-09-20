@@ -63,8 +63,8 @@ int main() {
   delete index;
   while(A(k, l)*A(k, l) > eps) {
     double tau = (A(l,l) - A(k,k))/(2*A(k,l));
-    tan1 = - tau + std::sqrt(1 + tau*tau);
-    tan2 = - tau - std::sqrt(1 + tau*tau);
-    c
+    if (tau > 0) {
+
+    }
   }
 }
