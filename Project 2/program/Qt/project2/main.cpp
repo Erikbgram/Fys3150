@@ -15,7 +15,7 @@ int* maxdiag(arma::mat A, int n) {
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             double a_ij = fabs(A(i,j));
-            if (a_ij > max) {
+            if (i!=j && a_ij > max) { //if not diagonal & element is larger than current max
                 max = a_ij;
                 p = i;
                 q = j;
@@ -59,20 +59,52 @@ int main() {
     std::cin >> n;
 
     arma::mat A = arma::mat(n, n, arma::fill::randu);
-    A.print("A: ");
     /*
      * Fill matrix A here
     */
-    arma::mat S = diagmat(A);
+    arma::mat S = diagmat(A); //"exact" solution
 
     int* index = maxdiag(A, n);
     int k = index[0];
     int l = index[1];
-    std::cout << k << " " << l << std::endl;
-    /*while(A(k, l)*A(k, l) > eps) {
-        double tau = (A(l,l) - A(k,k))/(2*A(k,l));
-        if (tau > 0) {
 
+    //temporary
+    //A.print("A: ");
+    //std::cout << "row: " << k << " col: " << l << std::endl;
+
+    int iteration = 0;
+    while(A(k, l)*A(k, l) > eps) {
+        //defines tau, tan, cos and tan
+        double tau = (A(l,l) - A(k,k))/(2*A(k,l));
+        double t, c, s;
+        if (tau > 0) {
+            t = 1/(tau+std::sqrt(1+tau*tau)); //tan
         }
-    }*/
+        else {
+            t = -1/(-tau+std::sqrt(1+tau*tau)); //tan
+        }
+        c = 1/std::sqrt(1+tau*tau); //cos
+        s = t*c; //sin
+
+
+        //create B
+        arma::mat B = arma::mat(n, n, arma::fill::zeros);
+        for(int i = 0; i < n; i++) {
+            if(i != k && i != l) {
+                B(i,i) = A(i,i);
+                B(i,k) = A(i,k)*c - A(i,l)*s;
+                B(i,l) = A(i,l)*c + A(i,k)*s;
+            }
+        double temp = 2*A(k,l)*c*s;
+        B(k,k) = A(k,k)*c*c - temp + A(l,l)*s*s;
+        B(l,l) = A(l,l)*c*c + temp + A(k,k)*s*s;
+        B(k,l) = 0;
+        /*B(k,l) = (A(k,k) - A(l,l))*std::cos(theta)*std::sin(theta)
+               + A(k,l)*(std::cos(theta)*std::cos(theta) - std::sin(theta)*std::sin(theta));*/
+        A = B;
+        std::cout << "iteration: " << iteration << std::endl;
+        iteration++;
+        }
+
+    }
 }
