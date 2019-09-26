@@ -170,6 +170,12 @@ int main() {
     else {
       max_eps = std::max(eps[i], max_eps);
     }
+
+  }
+
+  std::cout << "\n" "Printing eps: " "\n" ;
+  for ( int i = 0 ; i < n ; i++) {
+    std::cout << eps[i] << "\n" ;
   }
 
   delete[] eps; //eps is no longer used
