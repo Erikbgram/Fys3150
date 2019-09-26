@@ -6,6 +6,9 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{listings}
+\usepackage{multicol}
+%\usepackage{blindtext} %Automatically generates dummy text.
+\usepackage[margin=2.5cm]{geometry}
 
 %Definerer hyperlinker og dens farger
 \usepackage{hyperref}
@@ -51,9 +54,19 @@
 %------------------------------------
 
 \setlength{\parindent}{0pt}
+%\setlength{\columnsep}{5mm} %column separation
+\setlength{\columnsep}{10mm}
 
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{1.5}
+
+\iffalse
+If you want to change this temporarily, you can write:
+\savegeometry{mydefaultgeometry}
+\newgeometry{margin=3in}
+And then later you can call:
+\loadgeometry{mydefaultgeometry}
+\fi
 
 \begin{document}
 
@@ -76,8 +89,24 @@
 
 \vspace{1cm}
 
+\begin{multicols}{2}
+
+
+\iffalse
+\begin{wrapfigure}{l}{0.7\linewidth}
+\includegraphics[width=\linewidth]{./lion-logo.jpg}
+\caption{This is the former Share\LaTeX{} logo}
+\end{wrapfigure}
+\fi
+
+
+%\Blindtext
+
+%\newpage
+
 %----------Abstract-------------------------------
 
+\vspace{30cm}
 
 \section{Abstract} \label{sec:Abstract}
 
@@ -337,5 +366,7 @@ index, value
 %----------------Slutten av dokumentet---------------------------------------
 
 
+
+\end{multicols}
 
 \end{document}
