@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 
 
     double tolerance = 1.0E-10;
-    int maxiteration = 10000;
+    int maxiteration = 10000000;
     double maxnondiag = 1;
 
     int iterations = 0;
@@ -111,12 +111,8 @@ int main(int argc, char *argv[])
        cout << "Iteration: " << iterations << endl;
        int p, q;
        offdiag(A, &p, &q, n);
-       cout << "offdiag complete\n";
-       cout << p << " " << q << endl;
        maxnondiag = fabs(A(p,q));
-       cout << "maxnondiag=" << maxnondiag << endl;
        A = Jacobi_rotate(A, R, p, q, n);
-       cout << "rotation complete\n";
        iterations++;
     }
 
