@@ -1,12 +1,15 @@
 /*
-Last edited by Erlend 20.09.2019 16:05
+Last edited by Erlend 27.09.2019 13:40
 */
 
 #include <iostream>
 #include <armadillo>
 #include <cmath>
+#include <chrono>
 
-int* maxdiag(arma::mat A, int n) {
+namespace ch = std::chrono;
+
+int* maxnondiag(arma::mat A, int n) {
     //finds the largest element in A and returns its indices
     double max = 0;
     int p = 0;
@@ -57,11 +60,11 @@ int main() {
     std::cout << "The tolerance is: " << eps << std::endl;
     std::cout << "Choose n: ";
     std::cin >> n;
-
-    arma::mat A = arma::mat(n, n, arma::fill::randn);
+    std::cout << std::endl;
+    arma::mat A = arma::mat(n, n, arma::fill::zeros);
 
     //Creates the matrix A
-    /*for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             if(i == j) {
                 A(i,j) = 2;
@@ -73,22 +76,28 @@ int main() {
                 A(i,j) = -1;
             }
         }
-    }*/
+    }
 
 
     arma::mat S = diagmat(A); //"exact" solution
 
-    int* index = maxdiag(A, n);
+    int* index = maxnondiag(A, n);
     int k = index[0];
     int l = index[1];
     delete[] index;
 
     int iteration = 0;
-    while( fabs(A(k,l)*A(k,l)) > eps) {
-        A.print("A: ");
-        std::cout << "row: " << k+1 << " col: " << l+1 << std::endl;
 
-        //defines tau, tan, cos and tan
+    //A.print("A: ");
+    std::cout << "row: " << k << " col: " << l << std::endl;
+    std::cout << "iteration: " << iteration << std::endl;
+    std::cout << "A(k,l): " << A(k,l) << "\nA(k,l)^2: " << fabs(A(k,l)*A(k,l)) << std::endl;
+    std::cout << std::endl;
+
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+
+    while( fabs(A(k,l)*A(k,l)) > eps) {
+        //defines tau, tan, cos and sin
         double tau = (A(l,l) - A(k,k))/(2*A(k,l));
         double t;
         if (tau > 0) {
@@ -119,13 +128,25 @@ int main() {
             B(l,k) = B(k,l);
         }
         A = B;
-        std::cout << "iteration: " << iteration << std::endl;
-        std::cout << "A(k,l): " << std::scientific << A(k,l) << "\nA(k,l)^2: " << fabs(A(k,l)*A(k,l)) << std::endl;
         iteration++;
-        index = maxdiag(A, n);
+        index = maxnondiag(A, n);
         k = index[0];
         l = index[1];
         delete[] index;
+        /*A.print("A: ");
+        std::cout << "row: " << k << " col: " << l << std::endl;
+        std::cout << "iteration: " << iteration << std::endl;
+        std::cout << "A(k,l): " << A(k,l) << "\nA(k,l)^2: " << fabs(A(k,l)*A(k,l)) << std::endl;
+        std::cout << std::endl;*/
     }
+
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+
+    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    std::cout << "Time used = " << time_span.count()  << "s" << std::endl;
+    std::cout << "Iterations = " << iteration << std::endl;
+
     return 0;
 }
+
+//12: 1.31E-05
