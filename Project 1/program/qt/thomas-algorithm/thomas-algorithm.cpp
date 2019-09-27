@@ -201,6 +201,8 @@ int main() {
     }
     }
 
+    A.print("A: ");
+
     //make a vector of the pointer-array b_tld
     arma::vec b_tld_vec = arma::zeros<arma::vec>(n);
     for(int i = 0; i < n; i++) {
