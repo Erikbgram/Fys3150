@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <chrono>
+#include <fstream>
 
 using namespace std;
 namespace ch = std::chrono;
@@ -15,14 +16,14 @@ void offdiag(arma::mat A, int *p, int *q, int n) {
            double aij = fabs(A(i,j));
            if ( aij > max)
            {
-              max = aij;  p = &i; q = &j;
+              max = aij;  *p = i; *q = j;
            }
        }
    }
 }
 
 
-void Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
+arma::mat Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
   double s, c;
   if ( A(k,l) != 0.0 ) {
     double t, tau;
@@ -63,15 +64,13 @@ void Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
     R(i,k) = c*r_ik - s*r_il;
     R(i,l) = c*r_il + s*r_ik;
   }
-  return;
+  return A;
 } // end of function jacobi_rotate
 
-int main()
+int main(int argc, char *argv[])
 {
-    int n;
-    cout << "Hello World!" << endl;
-    cout << "Choose your n: ";
-    cin >> n;
+    int n = atoi(argv[1]);
+    cout << n;
     cout << endl;
 
     arma::mat A = arma::mat(n+1, n+1, arma::fill::zeros);
@@ -93,7 +92,6 @@ int main()
     A.print("A: ");
 
 
-
     //  The final matrix R has the eigenvectors in its row elements, it is set to one
     //  for the diagonal elements in the beginning, zero else.
 
@@ -105,18 +103,30 @@ int main()
     double maxnondiag = 1;
 
     int iterations = 0;
+
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+
     while ( maxnondiag > tolerance && iterations <= maxiteration)
     {
        cout << "Iteration: " << iterations << endl;
        int p, q;
        offdiag(A, &p, &q, n);
        cout << "offdiag complete\n";
-       maxnondiag = A(p,q);
-       Jacobi_rotate(A, R, p, q, n);
+       cout << p << " " << q << endl;
+       maxnondiag = fabs(A(p,q));
+       cout << "maxnondiag=" << maxnondiag << endl;
+       A = Jacobi_rotate(A, R, p, q, n);
        cout << "rotation complete\n";
        iterations++;
     }
 
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    std::cout << "Time used = " << time_span.count()  << "s" << std::endl;
+
+    fstream outfile;
+    outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << ", " << iterations << ", " << time_span.count() << endl;
 
     return 0;
 }
