@@ -1,3 +1,7 @@
+/*
+Last edited by: Erlend T. North 21:03 27.09.2019
+*/
+
 #include <iostream>
 #include <armadillo>
 #include <chrono>
@@ -23,7 +27,7 @@ void offdiag(arma::mat A, int *p, int *q, int n) {
 }
 
 
-void Jacobi_rotate (arma::mat &A, arma::mat &R, int k, int l, int n ) {
+void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   double s, c;
   if ( A(k,l) != 0.0 ) {
     double t, tau;
@@ -67,6 +71,11 @@ void Jacobi_rotate (arma::mat &A, arma::mat &R, int k, int l, int n ) {
   return;
 } // end of function jacobi_rotate
 
+bool orthogonality() {
+    // Tests whether Jacobi-rotate preserves orthogonality
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
     int n = atoi(argv[1]);
@@ -92,8 +101,6 @@ int main(int argc, char *argv[])
     A.print("A: ");
 
 
-    //  The final matrix R has the eigenvectors in its row elements, it is set to one
-    //  for the diagonal elements in the beginning, zero else.
 
     arma::vec eigval;
     arma::mat eigvec;
