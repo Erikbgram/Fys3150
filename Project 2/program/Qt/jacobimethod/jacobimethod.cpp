@@ -23,7 +23,7 @@ void offdiag(arma::mat A, int *p, int *q, int n) {
 }
 
 
-arma::mat Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
+void Jacobi_rotate (arma::mat &A, arma::mat &R, int k, int l, int n ) {
   double s, c;
   if ( A(k,l) != 0.0 ) {
     double t, tau;
@@ -64,7 +64,7 @@ arma::mat Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
     R(i,k) = c*r_ik - s*r_il;
     R(i,l) = c*r_il + s*r_ik;
   }
-  return A;
+  return;
 } // end of function jacobi_rotate
 
 int main(int argc, char *argv[])
@@ -95,16 +95,20 @@ int main(int argc, char *argv[])
     //  The final matrix R has the eigenvectors in its row elements, it is set to one
     //  for the diagonal elements in the beginning, zero else.
 
-
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+    arma::mat S = arma::eig_sym(A);
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    std::cout << "Time used by eig_sym = " << time_span.count()  << "s" << std::endl;
 
 
     double tolerance = 1.0E-10;
-    int maxiteration = 10000000;
+    int maxiteration = 100000;
     double maxnondiag = 1;
 
     int iterations = 0;
 
-    ch::steady_clock::time_point start = ch::steady_clock::now();
+    start = ch::steady_clock::now();
 
     while ( maxnondiag > tolerance && iterations <= maxiteration)
     {
@@ -112,17 +116,20 @@ int main(int argc, char *argv[])
        int p, q;
        offdiag(A, &p, &q, n);
        maxnondiag = fabs(A(p,q));
-       A = Jacobi_rotate(A, R, p, q, n);
+       Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
 
-    ch::steady_clock::time_point stop = ch::steady_clock::now();
-    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
-    std::cout << "Time used = " << time_span.count()  << "s" << std::endl;
+    stop = ch::steady_clock::now();
+    time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    std::cout << "Time used by us = " << time_span.count()  << "s" << std::endl;
+
 
     fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
     outfile << n << ", " << iterations << ", " << time_span.count() << endl;
 
+    A.print("A: ");
+    S.print("S: ");
     return 0;
 }
