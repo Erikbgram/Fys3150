@@ -1,11 +1,12 @@
 /*
-Last edited by: Erlend T. North 21:03 27.09.2019
+Last edited by: Erlend T. North 23:19 27.09.2019
 */
 
 #include <iostream>
 #include <armadillo>
 #include <chrono>
 #include <fstream>
+#include "catch.hpp"
 
 using namespace std;
 namespace ch = std::chrono;
@@ -71,9 +72,44 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   return;
 } // end of function jacobi_rotate
 
+bool test_ortho() {
+    // Tried catch.cpp, but did not have time to learn
+    // Primitive, yet functional tests
+    int n = 3;
+    arma::mat A = arma::mat(n,n, arma::fill::zeros);
+    arma::mat B = arma::mat(n,n, arma::fill::zeros);
+    arma::mat C = arma::mat(n,n, arma::fill::zeros);
+    arma::mat D = arma::mat(n,n, arma::fill::zeros);
+    int p, q;
 
-int main(int argc, char *argv[])
-{
+    A(0,0) = 1.0; A(0,1) = 4.0; A(0,2) = 7.0;
+    A(1,0) = 4.0; A(1,1) = 5.0; A(1,2) = 8.0;
+    A(2,0) = 7.0; A(2,1) = 8.0; A(2,2) = 9.0;
+    offdiag(A, &p, &q, n);
+    double A_offdiag = A(p,q);
+
+    B(0,0) =  1.0; B(0,1) = 22.0; B(0,2) = 25.0;
+    B(1,0) = 22.0; B(1,1) =  6.0; B(1,2) =  4.0;
+    B(2,0) = 25.0; B(2,1) =  8.0; B(2,2) =  5.0;
+    offdiag(B, &p, &q, n);
+    double B_offdiag = B(p,q);
+
+    C(0,0) = 2.0; C(0,1) =  7.0; C(0,2) = 4.0;
+    C(1,0) = 7.0; C(1,1) = 12.0; C(1,2) = 6.0;
+    C(2,0) = 4.0; C(2,1) =  6.0; C(2,2) = 3.0;
+    offdiag(C, &p, &q, n);
+    double C_offdiag = C(p,q);
+
+    D(0,0) =   72.0; D(0,1) = 3.1415; D(0,2) =  2.718;
+    D(1,0) = 3.1415; D(1,1) =  188.0; D(1,2) = 3.1416;
+    D(2,0) =  2.718; D(2,1) = 3.1416; D(2,2) =   68.0;
+    offdiag(D, &p, &q, n);
+    double D_offdiag = D(p,q);
+
+    return (A_offdiag == 8.0 && B_offdiag == 25.0 && C_offdiag == 7.0 && D_offdiag == 3.1416);
+}
+
+int main(int argc, char *argv[]) {
     std::cout << std::scientific;
     int n = atoi(argv[1]);
     //cout << n;
@@ -120,8 +156,7 @@ int main(int argc, char *argv[])
 
     start = ch::steady_clock::now();
 
-    while ( maxnondiag > tolerance && iterations <= maxiteration)
-    {
+    while ( maxnondiag > tolerance && iterations <= maxiteration) {
        int p, q;
        offdiag(A, &p, &q, n);
        maxnondiag = fabs(A(p,q));
@@ -131,14 +166,21 @@ int main(int argc, char *argv[])
     }
 
     stop = ch::steady_clock::now();
+    if(iterations > maxiteration) {
+        cout << "Reached max iterations" << endl;
+    }
+    else {
+        cout << "Complete!" << endl;
+    }
     ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
 
-
+    /*
     fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
     outfile << std::scientific ;
     outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << "," << time_span_ours.count() << endl;
+    */
 
     A.print("A: ");
     eigval.print("Armadillo eigenvalues: ");
@@ -146,6 +188,14 @@ int main(int argc, char *argv[])
     R.print("R: ");
     eigvec.print("S: ");
 
-    cout << "Doing tests" << endl;
+    cout << endl << "Commencing tests.." << endl;
+    bool ortho = test_ortho();
+    if(ortho) {
+        cout << "Orthogonality preserved!" << endl;
+    }
+    else {
+        cout << "Orthogonality NOT preserved!" << endl;
+    }
+
     return 0;
 }
