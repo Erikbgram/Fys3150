@@ -71,18 +71,6 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   return;
 } // end of function jacobi_rotate
 
-bool orthogonality() {
-    // Tests whether Jacobi-rotate preserves orthogonality
-    int n = 5;
-    arma::mat M = arma::mat(5, 5, arma::fill::zeros);
-
-    for(int i = 0; i < n; i ++) {
-
-    }
-      //ignorere dette!!
-
-    return 0;
-}
 
 int main(int argc, char *argv[])
 {
@@ -152,10 +140,12 @@ int main(int argc, char *argv[])
     outfile << std::scientific ;
     outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << "," << time_span_ours.count() << endl;
 
-    //A.print("A: ");
-    //eigval.print("Armadillo eigenvalues: ");
+    A.print("A: ");
+    eigval.print("Armadillo eigenvalues: ");
 
-    //R.print("R: ");
-    //eigvec.print("S: ");
+    R.print("R: ");
+    eigvec.print("S: ");
+
+    cout << "Doing tests" << endl;
     return 0;
 }
