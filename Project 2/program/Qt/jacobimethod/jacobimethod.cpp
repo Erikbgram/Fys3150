@@ -73,11 +73,11 @@ int main(int argc, char *argv[])
     cout << n;
     cout << endl;
 
-    arma::mat A = arma::mat(n+1, n+1, arma::fill::zeros);
-    arma::mat R = arma::mat(n+1, n+1, arma::fill::eye);
+    arma::mat A = arma::mat(n, n, arma::fill::zeros);
+    arma::mat R = arma::mat(n, n, arma::fill::eye);
 
-    for(int i = 0; i < n+1; i++) {
-          for(int j = 0; j < n+1; j++) {
+    for(int i = 0; i < n; i++) {
+          for(int j = 0; j < n; j++) {
             if(i == j) {
               A(i,j) = 2;
             }
@@ -95,8 +95,14 @@ int main(int argc, char *argv[])
     //  The final matrix R has the eigenvectors in its row elements, it is set to one
     //  for the diagonal elements in the beginning, zero else.
 
+    arma::vec eigval;
+    arma::mat eigvec;
+
+
     ch::steady_clock::time_point start = ch::steady_clock::now();
-    arma::mat S = arma::eig_sym(A);
+
+    arma::eig_sym(eigval, eigvec, A);
+
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by eig_sym = " << time_span.count()  << "s" << std::endl;
@@ -130,6 +136,9 @@ int main(int argc, char *argv[])
     outfile << n << ", " << iterations << ", " << time_span.count() << endl;
 
     A.print("A: ");
-    S.print("S: ");
+    eigval.print("Armadillo eigenvalues: ");
+
+    R.print("R: ");
+    eigvec.print("S: ");
     return 0;
 }
