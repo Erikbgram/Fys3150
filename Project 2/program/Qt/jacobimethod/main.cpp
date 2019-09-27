@@ -1,7 +1,3 @@
-/*
-Last edited by: Erlend T. North 21:03 27.09.2019
-*/
-
 #include <iostream>
 #include <armadillo>
 #include <chrono>
@@ -27,7 +23,7 @@ void offdiag(arma::mat A, int *p, int *q, int n) {
 }
 
 
-void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
+arma::mat Jacobi_rotate (arma::mat A, arma::mat R, int k, int l, int n ) {
   double s, c;
   if ( A(k,l) != 0.0 ) {
     double t, tau;
@@ -68,34 +64,20 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
     R(i,k) = c*r_ik - s*r_il;
     R(i,l) = c*r_il + s*r_ik;
   }
-  return;
+  return A;
 } // end of function jacobi_rotate
-
-bool orthogonality() {
-    // Tests whether Jacobi-rotate preserves orthogonality
-    int n = 5;
-    arma::mat M = arma::mat(5, 5, arma::fill::zeros);
-
-    for(int i = 0; i < n; i ++) {
-
-    }
-      //ignorere dette!!
-
-    return 0;
-}
 
 int main(int argc, char *argv[])
 {
-    std::cout << std::scientific;
     int n = atoi(argv[1]);
-    //cout << n;
+    cout << n;
     cout << endl;
 
-    arma::mat A = arma::mat(n, n, arma::fill::zeros);
-    arma::mat R = arma::mat(n, n, arma::fill::eye);
+    arma::mat A = arma::mat(n+1, n+1, arma::fill::zeros);
+    arma::mat R = arma::mat(n+1, n+1, arma::fill::eye);
 
-    for(int i = 0; i < n; i++) {
-          for(int j = 0; j < n; j++) {
+    for(int i = 0; i < n+1; i++) {
+          for(int j = 0; j < n+1; j++) {
             if(i == j) {
               A(i,j) = 2;
             }
@@ -107,55 +89,40 @@ int main(int argc, char *argv[])
             }
         }
     }
-    //A.print("A: ");
+    A.print("A: ");
 
 
+    //  The final matrix R has the eigenvectors in its row elements, it is set to one
+    //  for the diagonal elements in the beginning, zero else.
 
-    arma::vec eigval;
-    arma::mat eigvec;
 
-
-    ch::steady_clock::time_point start = ch::steady_clock::now();
-
-    arma::eig_sym(eigval, eigvec, A);
-
-    ch::steady_clock::time_point stop = ch::steady_clock::now();
-    ch::duration<double> time_span_eig_sym = ch::duration_cast<ch::nanoseconds>(stop - start);
-    std::cout << "Time used by eig_sym = " << time_span_eig_sym.count()  << "s" << std::endl;
 
 
     double tolerance = 1.0E-10;
-    int maxiteration = 100000;
+    int maxiteration = 10000000;
     double maxnondiag = 1;
 
     int iterations = 0;
 
-    start = ch::steady_clock::now();
+    ch::steady_clock::time_point start = ch::steady_clock::now();
 
     while ( maxnondiag > tolerance && iterations <= maxiteration)
     {
+       cout << "Iteration: " << iterations << endl;
        int p, q;
        offdiag(A, &p, &q, n);
        maxnondiag = fabs(A(p,q));
-       Jacobi_rotate(A, R, p, q, n);
+       A = Jacobi_rotate(A, R, p, q, n);
        iterations++;
-       //cout << "Iteration: " << iterations << " complete!" << endl;
     }
 
-    stop = ch::steady_clock::now();
-    ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
-    std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
-
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    std::cout << "Time used = " << time_span.count()  << "s" << std::endl;
 
     fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
-    outfile << std::scientific ;
-    outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << "," << time_span_ours.count() << endl;
+    outfile << n << ", " << iterations << ", " << time_span.count() << endl;
 
-    //A.print("A: ");
-    //eigval.print("Armadillo eigenvalues: ");
-
-    //R.print("R: ");
-    //eigvec.print("S: ");
     return 0;
 }
