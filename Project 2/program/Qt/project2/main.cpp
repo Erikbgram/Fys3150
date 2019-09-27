@@ -6,6 +6,7 @@ Last edited by Erlend 27.09.2019 13:40
 #include <armadillo>
 #include <cmath>
 #include <chrono>
+#include <fstream>
 
 namespace ch = std::chrono;
 
@@ -145,6 +146,13 @@ int main() {
     ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used = " << time_span.count()  << "s" << std::endl;
     std::cout << "Iterations = " << iteration << std::endl;
+
+    std::string filename = "../../stats.txt";
+    std::fstream outfile;
+
+    outfile.open(filename, std::fstream::out | std::ofstream::app);
+    outfile << n << " " << iteration << std::endl;
+
 
     return 0;
 }
