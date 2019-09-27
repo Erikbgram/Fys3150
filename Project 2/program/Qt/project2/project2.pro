@@ -4,7 +4,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+    jacobimethod.cpp
 
 INCLUDEPATH += C:\armadillo-9.600.6\include
 DEPENDPATH += C:\armadillo-9.600.6\include
