@@ -73,6 +73,14 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
 
 bool orthogonality() {
     // Tests whether Jacobi-rotate preserves orthogonality
+    int n = 5;
+    arma::mat M = arma::mat(5, 5, arma::fill::zeros);
+
+    for(int i = 0; i < n; i ++) {
+
+    }
+
+
     return 0;
 }
 
@@ -125,12 +133,12 @@ int main(int argc, char *argv[])
 
     while ( maxnondiag > tolerance && iterations <= maxiteration)
     {
-       cout << "Iteration: " << iterations << endl;
        int p, q;
        offdiag(A, &p, &q, n);
        maxnondiag = fabs(A(p,q));
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
+       cout << "Iteration: " << iterations << " complete!" << endl;
     }
 
     stop = ch::steady_clock::now();
