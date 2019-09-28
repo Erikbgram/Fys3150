@@ -1,5 +1,5 @@
 """
-Last changed: 27.09.2019 23:19 by Alexandra
+Last changed: 28.09.2019 14:04 by Alexandra Jahr Kolstad
 """
 
 #imports
@@ -12,9 +12,9 @@ iterations = []
 time_span_eig_sym = []
 time_span_ours = []
 
-filename = sys.argv[1][:-4] #multiple files useful, we ask for user-input
+filename = sys.argv[1]  #multiple files useful, we ask for user-input
 
-with open(filename + ".txt") as infile:
+with open(filename) as infile:
     infile.readline() #discard 1st line
     lines = infile.readlines() #read whole file
     for line in lines:
@@ -37,7 +37,7 @@ plt.title("Plot of iterations from " + filename) #add title
 plt.xlabel("n") #add x-label
 plt.ylabel("Iterations") #add y-label
 plt.legend() #enable labels on plot
-plt.savefig("../iterations-" + filename + ".png") #saves plot as image
+plt.savefig("../iterations-" + filename[:-4] + ".png") #saves plot as image
 plt.show() #show plot
 
 
@@ -49,5 +49,5 @@ plt.title("Plot of timespan from " + filename) #add title
 plt.xlabel("n") #add x-label
 plt.ylabel("Time [s]") #add y-label
 plt.legend() #enable labels on plot
-plt.savefig("../timespan-" + filename + ".png") #saves plot as image
+plt.savefig("../timespan-" + filename[:-4] + ".png") #saves plot as image
 plt.show() #show plot
