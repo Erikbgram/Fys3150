@@ -175,7 +175,7 @@ bool test_eig() {
     return arma::approx_equal(A_diag, eigval, "absdiff", tolerance);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for running tests
     std::cout << std::scientific;
     int n = atoi(argv[1]);
     //cout << n;
@@ -254,24 +254,27 @@ int main(int argc, char *argv[]) {
     R.print("R: ");
     eigvec.print("S: ");
 
-    cout << endl << "Commencing tests..." << endl;
+    if(argv[2]) {
+        cout << endl << "Commencing tests..." << endl;
 
-    cout << endl << "Testing preservation of orthogonality:" << endl;
-    bool ortho = test_ortho();
-    if(ortho) {
-        cout << "Orthogonality preserved!" << endl;
-    }
-    else {
-        cout << "Orthogonality NOT preserved!" << endl;
+        cout << endl << "Testing preservation of orthogonality:" << endl;
+        bool ortho = test_ortho();
+        if(ortho) {
+            cout << "Orthogonality preserved!" << endl;
+        }
+        else {
+            cout << "Orthogonality NOT preserved!" << endl;
+        }
+
+        cout << endl << "Testing for eigenvalues:" << endl;
+        if(test_eig()) {
+            cout << "Eigenvalues correct!" << endl;
+        }
+        else {
+            cout << "Eigenvalues NOT correct!" << endl;
+        }
     }
 
-    cout << endl << "Testing for eigenvalues:" << endl;
-    if(test_eig()) {
-        cout << "Eigenvalues correct!" << endl;
-    }
-    else {
-        cout << "Eigenvalues NOT correct!" << endl;
-    }
 
 
 
