@@ -223,7 +223,6 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     arma::vec eigval;
     arma::mat eigvec;
 
-
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
     arma::eig_sym(eigval, eigvec, A);
@@ -272,6 +271,32 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     R.print("R: ");
     eigvec.print("S: ");
+
+    //
+    // Harmonic Oscillator
+    //
+
+    double * rho = new double[n];
+    rho[n-1] = 1E20;
+    double h = (rho[n-1] - rho[0])/n;
+
+    for(int i = 1; i < n-1; i++) {
+        rho[i] = rho[0] + i*h;
+    }
+
+    for(int i = 0; i < n; i++) { // Filling A
+          for(int j = 0; j < n; j++) {
+            if(i == j) {
+              A(i,j) = 2;
+            }
+            else if(i == j+1) {
+                A(i,j) = -1;
+            }
+            else if(i == j-1) {
+                A(i,j) = -1;
+            }
+        }
+    }
 
 
     return 0;
