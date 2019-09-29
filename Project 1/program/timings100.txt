@@ -1,0 +1,5 @@
+<<<<<<< Updated upstream
+5e-006, 2e-006
+=======
+1.6026e-05, 7.48e-06
+>>>>>>> Stashed changes
