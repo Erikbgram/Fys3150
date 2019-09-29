@@ -9,7 +9,7 @@ import pylab as pl
 #create lists for file-data
 x = []
 v_gen = []
-v_spl = []
+v_elementsspl = []
 v_LU = []
 u = []
 
