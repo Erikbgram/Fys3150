@@ -281,7 +281,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     cout << endl << "Entering the quantum domain!" << endl;
 
     double* rho = new double[n];
-    rho[n-1] = 3;
+    rho[n-1] = 3.5;
     /* n=300, rho_max = 3 gave:
     2.9893
     7.28708
@@ -297,7 +297,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
-    for(int i = 0; i < n; i++) { // Filling A (quantum)
+    for(int i = 0; i < n; i++) { // Filling A (harmonic)
           for(int j = 0; j < n; j++) {
             if(i == j) {
               A(i,j) = 2/(h*h) + (rho[i]*rho[i]); // Could move rho^2 outside of loop, but not *that* necessarry (could do the same with (h*h) )
@@ -313,17 +313,16 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     maxnondiag = 1;
     iterations = 0;
-    //A.print(to_string(iterations));
 
-    while ( maxnondiag > tolerance && iterations <= maxiteration) {
+    while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum harmonic oscillator A
        int p, q;
        offdiag(A, &p, &q, n);
        maxnondiag = fabs(A(p,q));
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
-       //A.print(to_string(iterations));
     }
-    cout << "Iterations for quantum: " << iterations << endl;
+
+    cout << "Iterations for harmonic oscillator: " << iterations << endl;
     //cout << A(0,0) << endl;
     eigval = A.diag();
     eigval = sort(eigval);
@@ -332,6 +331,57 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     for(int i = 0; i < 5; i++) {
         cout << eigval[i] << endl;
     }
+
+
+    //
+    // Two-electron Quantum Dot
+    //
+
+    cout << endl << "Look out for Quantum dots!" << endl;
+
+    double omega_r = 0.01;
+    h = (rho[n-1] - rho[0])/(n-1);
+
+    for(int i = 1; i < n-1; i++) {
+        rho[i] = rho[0] + i*h;
+    }
+
+    A = arma::mat(n, n, arma::fill::zeros); // Resetting A
+    R = arma::mat(n, n, arma::fill::zeros); // Resetting R
+    for(int i = 0; i < n; i++) { // Filling A (qDot)
+        // Could move constants outside of loop, but not *that* necessarry
+        for(int j = 0; j < n; j++) {
+            if(i == j) {
+                A(i,j) = 2/(h*h) + omega_r*omega_r*rho[i]*rho[i] + 1/rho[i] ;
+            }
+            else if(i == j+1) {
+                A(i,j) = -1/(h*h);
+            }
+            else if(i == j-1) {
+                A(i,j) = -1/(h*h);
+            }
+        }
+    }
+
+    maxnondiag = 1;
+    iterations = 0;
+
+    while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum dot A
+       int p, q;
+       offdiag(A, &p, &q, n);
+       maxnondiag = fabs(A(p,q));
+       Jacobi_rotate(A, R, p, q, n);
+       iterations++;
+    }
+
+    cout << "Iterations for quantum dot: " << iterations << endl;
+    //cout << A(0,0) << endl;
+    eigval = A.diag();
+    for(int i = 0; i < 5; i++) {
+        cout << eigval[i] << endl;
+    }
+
+
 
     return 0;
 }
