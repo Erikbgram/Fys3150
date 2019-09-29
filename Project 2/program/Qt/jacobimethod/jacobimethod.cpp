@@ -72,9 +72,11 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   return;
 } // end of function jacobi_rotate
 
+// Tried catch.cpp, but did not have time to learn
+// Primitive, yet functional tests
+
 bool test_ortho() {
-    // Tried catch.cpp, but did not have time to learn
-    // Primitive, yet functional tests
+    // Checks for largest offdiag-element in matrices A, B, C and D
     int n = 5;
     arma::mat A = arma::mat(n,n, arma::fill::zeros);
     arma::mat B = arma::mat(n,n, arma::fill::zeros);
@@ -123,6 +125,14 @@ bool test_ortho() {
     cout << "Test for D returned: " << D_pass << endl;
 
     return (A_pass && B_pass && C_pass && D_pass);
+}
+
+bool test_eig() {
+    int n = 5;
+
+    arma::mat A = arma::mat(n, n, arma::fill::zeros);
+
+    return 1;
 }
 
 int main(int argc, char *argv[]) {
