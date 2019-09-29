@@ -212,7 +212,7 @@ In the main function we define the matrix \textbf{A} given by the constants $d$ 
 \vspace{2cm}
 
 The program \texttt{plot\_data.py} reads the \texttt{.txt}-file made in \texttt{jacobimethod.cpp} and plots the data. \texttt{jacobimethod.cpp} generates the file \texttt{stats.txt}, which contains the dimension of the matrices, \texttt{n}, the number of iterations, \texttt{i}, the time used for the Armadillo-funtion \texttt{eig\_syl}, \texttt{timespan eig\_sym} and the time used in our algorithm, \texttt{timespan ours}.
-\texttt{plot\_data.py} plots the number of iterations needed given by different values of the matrix dimension and it plots the time needed as a function of the matrix dimensions. The values in \texttt{stats.txt} is taken from multiple runs of \texttt{jacobimethod.cpp} for different dimensions of the matrices. The figures (\ref{fig:iterationspng}) and (\ref{fig:timespanpng}) are the plots from \texttt{plot\_data.py}. \\
+\texttt{plot\_data.py} plots the number of iterations needed given by different values of the matrix dimension and it plots the time needed as a function of the matrix dimensions. The values in \texttt{stats.txt} is taken from multiple runs of \texttt{jacobimethod.cpp} for different dimensions of the matrices. The figures (\ref{fig:iterationspng}) and (\ref{fig:timespanpng}) are the plots from \texttt{plot\_data.py}. \textbf{HAR FLERE PLOT Å PLOTTE} \\ 
 
 
 
@@ -309,17 +309,19 @@ In the lecture notes it states that for the Jacobi method there is no way to pre
   Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
   utføre flere iterasjoner. \\
 
+  Hvorfor er jacobimethod tregere enn eigsym? økende n, jacobi øker verdien til noen elementer, mens den minker noen andre verdier. altså den fucker noen verdier, mens den fikser noen andre. \\
+
+  eigsym bruker ikke jacobi metoden, og kan dermed være raskere. den kan f.eks. bruke thomas algorithm, som vi programerte i project 1, som er raskere for større matriser. tror den bruker en if-else-statement med ulike algoritmer til å løse de forskjellige matrisene - har prøvd å finne kildefilen gitt ved armadillo, men den finner jeg ikke. \\
+
+  når man skriver inn std istedenfor dc for eigsym er dc litt raskere for store matriser, med n rundt 200, men siden vi
+
+
+
+
+
   \subsection{Exercise c)} \label{sec:Results c)}
 
 
-
-
-  \begin{lstlisting}[language=C++]
-    std::cout << "index, value\n";
-  for(int i = 0; i < n; i++){
-      std::cout << "    " << i << ", " << d_new[i] << std::endl;
-  }
-  \end{lstlisting}
 
 
 
