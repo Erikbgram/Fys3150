@@ -7,7 +7,6 @@
 \usepackage{amsmath}
 \usepackage{listings}
 \usepackage{multicol}
-%\usepackage{blindtext} %Automatically generates dummy text.
 %\usepackage[margin=2.0cm]{geometry}
 
 %Definerer hyperlinker og dens farger
@@ -55,7 +54,7 @@
 
 \setlength{\parindent}{0pt}
 %\setlength{\columnsep}{5mm} %column separation
-\setlength{\columnsep}{10mm}
+%\setlength{\columnsep}{10mm}
 
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{1.5}
@@ -128,6 +127,8 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 \textbf{Hvilke filer som er til hvilke oppgaver} \\
 
+Our project consists of the files \texttt{jacobimethod.cpp} and \texttt{plot\_data.py}. For exercises \textbf{b)} through \textbf{e)} we use the file \texttt{jacobimethod.cpp}. Also for exercise \textbf{b)} we have the file \texttt{plot\_data.py}.
+
 \subsection{Exercise a)} \label{sec:Method a)}
 
 In this exercise we are going to prove that $\vec{w}_i = U \vec{v}_i$ is an orthogonal or unitary transformation that preserves the dot product and orthogonality. We start by multiplying $\vec{w}_j ^T$ with $\vec{w}_i$ to take the vector product, also called the dot product. If the vector product of these vectors is equal to $\delta_{ij}$, given by $\vec{v}_j ^T \vec{v}_i = \delta_{ij}$ in the exercise, then the dot product and orthogonality is preserved. In this exercise we assume that $U^T U = I$, where $I$ is the identity matrix, because this defines a unitary matrix $U$ which we compute with in this exercise. \\
@@ -178,7 +179,8 @@ The vector product of $\vec{w}_j ^T$ and $\vec{w}_i$ is $\delta_{ij}$, which pro
       \end{bmatrix}
     \end{equation*} \\
 
-where $d = \frac{2}{h^2}$ and $a = - \frac{1}{h^2}$. \textbf{still correct??} \\
+where $d = \frac{2}{h^2}$ and $a = - \frac{1}{h^2}$. We implement these values later in exercise \textbf{d)}. For now in this exercise, we have set $d = 2$ and $a = - 1$.
+\textbf{still correct??} \\
 
 $\lambda$ are eigenvalues given by the equation
 
@@ -207,24 +209,18 @@ for finding the diagonal matrix with the eigenvalues of the matrix \textbf{A}. I
 
 In the main function we define the matrix \textbf{A} given by the constants $d$ and $a$. See \ref{sec:Calculations b)} for the definitions of the matrix. Then the clock is set to start, and it times how long the armadillo \\
 
+\vspace{2cm}
+
+The program \texttt{plot\_data.py} reads the \texttt{.txt}-file made in \texttt{jacobimethod.cpp} and plots the data. \texttt{jacobimethod.cpp} generates the file \texttt{stats.txt}, which contains the dimension of the matrices, \texttt{n}, the number of iterations, \texttt{i}, the time used for the Armadillo-funtion \texttt{eig\_syl}, \texttt{timespan eig\_sym} and the time used in our algorithm, \texttt{timespan ours}.
+\texttt{plot\_data.py} plots the number of iterations needed given by different values of the matrix dimension and it plots the time needed as a function of the matrix dimensions. The values in \texttt{stats.txt} is taken from multiple runs of \texttt{jacobimethod.cpp} for different dimensions of the matrices. The figures (\ref{fig:iterationspng}) and (\ref{fig:timespanpng}) are the plots from \texttt{plot\_data.py}. \\
+
+
+
 \textbf{Skal egentlig kommentere dette?????} \\
 
-The number of similarity transformations needed to reach the desired matrix depends on the dimension $n$. For instance a run of our matrix \textbf{A} given as a $(10 \times 10)$ matrix, there are 154 transformations needed. This number is only exact for this specific run, as it will change for any changes to the matrix, both size and elements. \\
+The number of similarity transformations needed to reach the desired matrix depends on the dimension $n$. For instance a run of our matrix \textbf{A} given as a $(10 \times 10)$ matrix, there are 154 transformations needed. This number is only exact for this specific run, as it will change for any differences to the matrix, both size and elements. \\
 
 In the lecture notes it states that for the Jacobi method there is no way to predict the number of transformations needed. See this \href{http://compphysics.github.io/ComputationalPhysics/doc/pub/eigvalues/html/eigvalues.html}{file} under \textit{Discussion for Householder's method for eigenvalues}. \textbf{Riktig??} \\
-
-
-
-
-%-------------------------------------------
-
-\vspace{3cm}
-
-Må vente litt med å kommentere dette
-
-Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
-utføre flere iterasjoner.
-
 
 
 
@@ -274,24 +270,57 @@ utføre flere iterasjoner.
 
   \subsection{Exercise a)} \label{sec:Results a)}
 
-
+  The results are given in the method for \textbf{a)}, see \ref{sec:Method a)}.
 
   \subsection{Exercise b)} \label{sec:Results b)}
 
+  Under follows the data in \texttt{stats.txt}.
 
+  \begin{verbatim}
+    n, iterations, timespan eig_sym, timespan ours
+    3, 10, 1.137520e-04, 1.666000e-05
+    5, 32, 8.632200e-05, 6.015200e-05
+    10, 154, 8.277800e-05, 3.797710e-04
+    15, 363, 1.395090e-04, 1.351192e-03
+    20, 644, 2.044150e-04, 3.183269e-03
+    25, 1025, 2.189260e-04, 7.074493e-03
+    30, 1463, 1.089399e-02, 1.494651e-02
+    40, 2685, 1.947745e-02, 4.040845e-02
+    50, 4115, 8.989085e-03, 8.897613e-02
+    60, 6007, 7.917790e-04, 1.650397e-01
+    70, 8081, 1.022618e-02, 2.948578e-01
+    80, 10487, 1.577296e-03, 4.732270e-01
+    90, 13338, 2.079035e-03, 7.397605e-01
+    100, 16438, 1.184104e-02, 1.103670e+00
+    110, 19905, 2.845618e-03, 1.580353e+00
+    120, 23547, 3.005831e-03, 2.222943e+00
+    130, 27615, 3.534705e-03, 2.997598e+00
+    140, 31981, 4.432247e-03, 4.003528e+00
+    150, 36537, 4.577840e-03, 5.204313e+00
+    160, 41531, 5.158932e-03, 6.712134e+00
+    170, 47005, 6.375916e-03, 8.584403e+00
+    180, 52424, 7.180886e-03, 1.065379e+01
+    190, 58289, 7.780051e-03, 1.319042e+01
+    200, 64379, 8.258574e-03, 1.607514e+01
+  \end{verbatim}
+
+  We observe that for small matrix-dimensions $n$ our algorithm is sligthly faster than the Armadillo function \texttt{eig\_sym}. When $n$ increases in value, the time used in our algorithm increases exponentially. For the biggest given dimension, $n = 200$, our algorithm uses $16 s$ while \texttt{eig\_sym} uses only $0.008 s$. Here we can observe how slow
+
+  Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
+  utføre flere iterasjoner. \\
 
   \subsection{Exercise c)} \label{sec:Results c)}
 
 
 
-\iffalse
+
   \begin{lstlisting}[language=C++]
     std::cout << "index, value\n";
   for(int i = 0; i < n; i++){
       std::cout << "    " << i << ", " << d_new[i] << std::endl;
   }
   \end{lstlisting}
-\fi
+
 
 
 \iffalse
