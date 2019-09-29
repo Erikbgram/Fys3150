@@ -7,7 +7,8 @@
 \usepackage{amsmath}
 \usepackage{listings}
 \usepackage{multicol}
-%\usepackage[margin=2.0cm]{geometry}
+\usepackage[margin=2.0cm]{geometry}
+\usepackage{wrapfig}
 
 %Definerer hyperlinker og dens farger
 \usepackage{hyperref}
@@ -53,8 +54,8 @@
 %------------------------------------
 
 \setlength{\parindent}{0pt}
-%\setlength{\columnsep}{5mm} %column separation
-%\setlength{\columnsep}{10mm}
+\setlength{\columnsep}{5mm} %column separation
+\setlength{\columnsep}{10mm}
 
 \setlength{\tabcolsep}{18pt}
 \renewcommand{\arraystretch}{1.5}
@@ -81,7 +82,7 @@ And then later you can call:
 
 \maketitle
 
-\newpage
+%\newpage
 
 %------------Her starter skrivingen-----------------------------------------
 \vspace{1cm}
@@ -91,7 +92,7 @@ And then later you can call:
 \vspace{1cm}
 
 %---------------------------------------
-%\begin{multicols}{2}
+\begin{multicols}{2}
 
 \iffalse
 \begin{wrapfigure}{l}{0.7\linewidth}
@@ -101,6 +102,7 @@ And then later you can call:
 \fi
 
 \newpage
+\clearpage
 
 %----------Abstract-------------------------------
 \vspace{1cm}
@@ -129,9 +131,9 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 Our project consists of the files \texttt{jacobimethod.cpp} and \texttt{plot\_data.py}. For exercises \textbf{b)} through \textbf{e)} we use the file \texttt{jacobimethod.cpp}. Also for exercise \textbf{b)} we have the file \texttt{plot\_data.py}.
 
-\subsection{Exercise a)} \label{sec:Method a)}
+\subsection{Orthogonality of a unitary transformation} \label{sec:orthogonality}
 
-In this exercise we are going to prove that $\vec{w}_i = U \vec{v}_i$ is an orthogonal or unitary transformation that preserves the dot product and orthogonality. We start by multiplying $\vec{w}_j ^T$ with $\vec{w}_i$ to take the vector product, also called the dot product. If the vector product of these vectors is equal to $\delta_{ij}$, given by $\vec{v}_j ^T \vec{v}_i = \delta_{ij}$ in the exercise, then the dot product and orthogonality is preserved. In this exercise we assume that $U^T U = I$, where $I$ is the identity matrix, because this defines a unitary matrix $U$ which we compute with in this exercise. \\
+Firstly we are going to prove that $\vec{w}_i = U \vec{v}_i$ is an orthogonal or unitary transformation that preserves the dot product and orthogonality. We start by multiplying $\vec{w}_j ^T$ with $\vec{w}_i$ to take the vector product, also called the dot product. If the vector product of these vectors is equal to $\delta_{ij}$, given by $\vec{v}_j ^T \vec{v}_i = \delta_{ij}$ in the exercise, then the dot product and orthogonality is preserved. In this exercise we assume that $U^T U = I$, where $I$ is the identity matrix, because this defines a unitary matrix $U$ which we compute with in this exercise. \\
 
 The vector product is calculated as followed:
 
@@ -144,40 +146,35 @@ The vector product is calculated as followed:
 
 The vector product of $\vec{w}_j ^T$ and $\vec{w}_i$ is $\delta_{ij}$, which proves that the dot product and orthogonality is preserved for the transformation.
 
+In this prject we compute with a symmetric matrix, similar to the matrix \textbf{A} in project 1. This matrix is given by the matrix equation
 
-\subsection{Exercise b)} \label{sec:Method b)}
-
-  \subsubsection{Calculations} \label{sec:Calculations b)}
-
-  In this prject we compute with a symmetric matrix, similar to the matrix \textbf{A} in project 1. This matrix is given by the matrix equation
-
-    \begin{equation*} \label{eq:fullmatrixeq}
-      \begin{bmatrix}
+  \begin{equation*} \label{eq:fullmatrixeq}
+    \begin{bmatrix}
         d & a & 0 & \dots & 0 & 0 \\
         a & d & a & \dots & 0 & 0 \\
         0 & a & d & \dots & 0 & 0 \\
         \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
         0 & 0 & 0 & a & d & a \\
         0 & 0 & 0 & 0 & a & d \\
-      \end{bmatrix}
-      \begin{bmatrix}
+    \end{bmatrix}
+    \begin{bmatrix}
         u_1 \\
         u_2 \\
         u_3 \\
         \vdots \\
         u_{N-2} \\
         u_{N-1} \\
-      \end{bmatrix}
+    \end{bmatrix}
       = \lambda
-      \begin{bmatrix}
+    \begin{bmatrix}
         u_1 \\
         u_2 \\
         u_3 \\
         \vdots \\
         u_{N-2} \\
         u_{N-1} \\
-      \end{bmatrix}
-    \end{equation*} \\
+    \end{bmatrix}
+  \end{equation*} \\
 
 where $d = \frac{2}{h^2}$ and $a = - \frac{1}{h^2}$. We implement these values later in exercise \textbf{d)}. For now in this exercise, we have set $d = 2$ and $a = - 1$.
 \textbf{still correct??} \\
@@ -195,8 +192,6 @@ given for $ j = 1, 2, ..., N$.
 
 \textbf{Skal kommentere noe for egenverdi og egenvektor?}
 
-  \subsubsection{The programming}
-
 Commenting the code \texttt{jacobimethod.cpp}.  OBS. \\
 
 The program starts with defining a function for finding the max values of the off-diagonal elements. This is the function \texttt{offdiag}, which is taken from the lecture notes. The same applies for the function \texttt{Jacobi\_rotate}. \texttt{Jacobi\_rotate} is the function for rotating and computing the matrix. It calculates the equation
@@ -207,12 +202,12 @@ The program starts with defining a function for finding the max values of the of
 
 for finding the diagonal matrix with the eigenvalues of the matrix \textbf{A}. It also computes the eigenvectors, and stores them in a matrix \textbf{R}. \\
 
-In the main function we define the matrix \textbf{A} given by the constants $d$ and $a$. See \ref{sec:Calculations b)} for the definitions of the matrix. Then the clock is set to start, and it times how long the armadillo \\
+In the main function we define the matrix \textbf{A} given by the constants $d$ and $a$. See ? for the definitions of the matrix. Then the clock is set to start, and it times how long the armadillo \\
 
 \vspace{2cm}
 
 The program \texttt{plot\_data.py} reads the \texttt{.txt}-file made in \texttt{jacobimethod.cpp} and plots the data. \texttt{jacobimethod.cpp} generates the file \texttt{stats.txt}, which contains the dimension of the matrices, \texttt{n}, the number of iterations, \texttt{i}, the time used for the Armadillo-funtion \texttt{eig\_syl}, \texttt{timespan eig\_sym} and the time used in our algorithm, \texttt{timespan ours}.
-\texttt{plot\_data.py} plots the number of iterations needed given by different values of the matrix dimension and it plots the time needed as a function of the matrix dimensions. The values in \texttt{stats.txt} is taken from multiple runs of \texttt{jacobimethod.cpp} for different dimensions of the matrices. The figures (\ref{fig:iterationspng}) and (\ref{fig:timespanpng}) are the plots from \texttt{plot\_data.py}. \textbf{HAR FLERE PLOT Å PLOTTE} \\ 
+\texttt{plot\_data.py} plots the number of iterations needed given by different values of the matrix dimension and it plots the time needed as a function of the matrix dimensions. The values in \texttt{stats.txt} is taken from multiple runs of \texttt{jacobimethod.cpp} for different dimensions of the matrices. The figures (\ref{fig:iterationspng}) and (\ref{fig:timespanpng}) are the plots from \texttt{plot\_data.py}. \textbf{HAR FLERE PLOT Å PLOTTE} \\
 
 
 
@@ -224,55 +219,13 @@ In the lecture notes it states that for the Jacobi method there is no way to pre
 
 
 
-\subsection{Exercise c)} \label{sec:Method c)}
-
-  \subsubsection{Calculations}
-
-
-
-
-  \subsubsection{The programming}
-
-
-
-
-\subsection{Exercise d)} \label{sec:Method d)}
-
-  \subsubsection{Calculations}
-
-
-
-
-  \subsubsection{The programming}
-
-
-
-\subsection{Exercise e)} \label{sec:Method e)}
-
-
-  \subsubsection{Calculations}
-
-
-
-
-  \subsubsection{The programming}
-
-
-
-
 
 %--------------Results and discussion------------------------------
 \vspace{1cm}
 
 \section{Results and discussion} \label{sec:Results}
 
-  Our results are as shown in the \nameref{sec:Appendix}. We also have \texttt{.txt}-files for all the raw data generated by the projects up on \href{https://github.com/Erikbgram/Fys3150}{GitHub}. \\
-
-  \subsection{Exercise a)} \label{sec:Results a)}
-
-  The results are given in the method for \textbf{a)}, see \ref{sec:Method a)}.
-
-  \subsection{Exercise b)} \label{sec:Results b)}
+  \textit{Our results are as shown in the \nameref{sec:Appendix}}. We also have \texttt{.txt}-files for all the raw data generated by the projects up on \href{https://github.com/Erikbgram/Fys3150}{GitHub}. \\
 
   Under follows the data in \texttt{stats.txt}.
 
@@ -304,7 +257,49 @@ In the lecture notes it states that for the Jacobi method there is no way to pre
     200, 64379, 8.258574e-03, 1.607514e+01
   \end{verbatim}
 
-  We observe that for small matrix-dimensions $n$ our algorithm is sligthly faster than the Armadillo function \texttt{eig\_sym}. When $n$ increases in value, the time used in our algorithm increases exponentially. For the biggest given dimension, $n = 200$, our algorithm uses $16 s$ while \texttt{eig\_sym} uses only $0.008 s$. Here we can observe how slow
+  We observe that for small matrix-dimensions $n$ our algorithm is sligthly faster than the Armadillo function \texttt{eig\_sym}. When $n$ increases in value, the time used in our algorithm increases exponentially when looking at figure (\ref{fig:timespanpng}). For the biggest given dimension, $n = 200$, our algorithm uses $16$s  while \texttt{eig\_sym} uses only $0.008$s. Here we can observe how slow our algorithm is compared to \texttt{eig\_sym}. \\
+
+%\end{multicols}
+
+\iffalse
+  \begin{figure*}[ht]
+  	\centering
+    \includegraphics[width = 0.7\linewidth]{iterations-stats.png}
+  	\caption{The plot of iterations for the Jacobi method as function of the dimension $n$ of the matrix \textbf{A}. }
+    \label{fig:iterationspng}
+  \end{figure*}
+
+  \begin{figure*}[ht]
+    \centering
+    %\includegraphics[width = 11cm]{timespan-stats.png}
+    \includegraphics[width = 0.7\linewidth]{timespan-stats.png}
+    \caption{The plot of the time the function \texttt{eig\_sym} from Armadillo uses and the time Jacobi method uses as functions of the dimension $n$ if the matrix \textbf{A}. }
+    \label{fig:timespanpng}
+  \end{figure*}
+\fi
+
+  \begin{wrapfigure}{ci}{1.1\linewidth}
+    \includegraphics[width=\linewidth]{iterations-stats.png}
+    \caption{The plot of iterations for the Jacobi method as function of the dimension $n$ of the matrix \textbf{A}. }
+    \label{fig:iterationspng}
+  \end{wrapfigure}
+
+\newpage
+
+  \begin{wrapfigure}{ci}{1.1\linewidth}
+    \includegraphics[width=\linewidth]{timespan-stats.png}
+    \caption{The plot of the time the function \texttt{eig\_sym} from Armadillo uses and the time Jacobi method uses as functions of the dimension $n$ if the matrix \textbf{A}.}
+    \label{fig:timespanpng}
+  \end{wrapfigure}
+
+
+%\clearpage
+
+%\begin{multicols}{2}
+
+
+  The Jacobi method is considerably slower for large values of $n$ mainly because the matrix is larger, which means that the algorithm has more elements to rotate and because
+  \\
 
   Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
   utføre flere iterasjoner. \\
@@ -313,54 +308,12 @@ In the lecture notes it states that for the Jacobi method there is no way to pre
 
   eigsym bruker ikke jacobi metoden, og kan dermed være raskere. den kan f.eks. bruke thomas algorithm, som vi programerte i project 1, som er raskere for større matriser. tror den bruker en if-else-statement med ulike algoritmer til å løse de forskjellige matrisene - har prøvd å finne kildefilen gitt ved armadillo, men den finner jeg ikke. \\
 
-  når man skriver inn std istedenfor dc for eigsym er dc litt raskere for store matriser, med n rundt 200, men siden vi
+  når man skriver inn std istedenfor dc for eigsym er dc litt raskere for store matriser, med n rundt 200, men siden vi driver med relativt små matriser vil man ikke merke stor forskjell. for større matriser, altså 10 i 3 og litt høyere merker man stor forskjell
+
+  eigsym ser at den er tridiagonal og finner letteste løsningsmetode
 
 
-
-
-
-  \subsection{Exercise c)} \label{sec:Results c)}
-
-
-
-
-
-\iffalse
-  \begin{verbatim}
-index, value
-    0, 2
-    1, 1.5
-    2, 1.33333
-    3, 1.25
-    4, 1.2
-    5, 1.16667
-    6, 1.14286
-    7, 1.125
-    8, 1.11111
-    9, 1.1
-index, value
-    0, 2
-    1, 2
-    2, 1.5
-    3, 1.33333
-    4, 1.25
-    5, 1.2
-    6, 1.16667
-    7, 1.14286
-    8, 1.125
-    9, 1.11111
-  \end{verbatim}
-\fi
-
-
-  \subsection{Exercise d)} \label{sec:Results d)}
-
-
-
-
-  \subsection{Exercise e)} \label{sec:Results e)}
-
-
+\vspace{3cm}
 
 
 \iffalse
@@ -394,24 +347,10 @@ index, value
 
 \section{Appendix} \label{sec:Appendix}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width = 11cm]{iterations-stats.png}
-	\caption{The plot of iterations for the Jacobi method as function of the dimension $n$ of the matrix \textbf{A}. }
-  \label{fig:iterationspng}
-\end{figure}
-
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width = 11cm]{timespan-stats.png}
-	\caption{The plot of the time the function \texttt{eig\_sym} from Armadillo uses and the time Jacobi method uses as functions of the dimension $n$ if the matrix \textbf{A}. }
-  \label{fig:timespanpng}
-\end{figure}
 
 
 
-\clearpage
+%\clearpage
 
 %----------------Refrences----------------------------------------
 \vspace{1cm}
@@ -434,6 +373,6 @@ index, value
 
 
 
-%\end{multicols}
+\end{multicols}
 
 \end{document}
