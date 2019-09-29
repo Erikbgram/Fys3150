@@ -14,7 +14,7 @@ EQ            = =
 CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_QML_DEBUG
-CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -W -Wextra $(DEFINES)
+CFLAGS        = -fno-keep-inline-dllexport -O3 -Wall -W -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I..\jacobimethod -I. -IC:\armadillo-9.600.6\include -IC:\Qt\5.13.0\mingw73_64\mkspecs\win32-g++ 
 LINKER      =        g++

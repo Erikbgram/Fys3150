@@ -1,5 +1,5 @@
 /*
-Last edited by: Erlend T. North 23:19 27.09.2019
+Last edited by: Erlend T. North 18:12 29.09.2019
 */
 
 #include <iostream>
@@ -176,7 +176,7 @@ bool test_eig() {
 }
 
 int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for running tests
-    std::cout << std::scientific;
+    //std::cout << std::scientific;
 
     //Tests
     if(atoi(argv[2])) {
@@ -202,6 +202,8 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     }
 
     int n = atoi(argv[1]);
+
+    // We "move" h^2 outside of the matrix and "scale it" away
 
     arma::mat A(n, n, arma::fill::zeros);
     arma::mat R(n, n, arma::fill::eye);
@@ -234,7 +236,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
 
     double tolerance = 1.0E-10;
-    int maxiteration = 100000;
+    int maxiteration = n*n*n;
     double maxnondiag = 1;
 
     int iterations = 0;
@@ -279,11 +281,18 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     cout << endl << "Entering the quantum domain!" << endl;
 
     double* rho = new double[n];
-    rho[n-1] = 1E15;
-    double h = (rho[n-1] - rho[0])/n;
+    rho[n-1] = 3;
+    /* n=300, rho_max = 3 gave:
+    2.9893
+    7.28708
+    12.8707
+    20.4791
+    30.2611
+    */
+    double h = (rho[n-1] - rho[0])/(n-1);
 
     for(int i = 1; i < n-1; i++) {
-        rho[i] = rho[0] + i/h;
+        rho[i] = rho[0] + i*h;
     }
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
@@ -291,20 +300,20 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     for(int i = 0; i < n; i++) { // Filling A (quantum)
           for(int j = 0; j < n; j++) {
             if(i == j) {
-              A(i,j) = 2 + (rho[i]*rho[i]); //(h*h)
+              A(i,j) = 2/(h*h) + (rho[i]*rho[i]); // Could move rho^2 outside of loop, but not *that* necessarry (could do the same with (h*h) )
             }
             else if(i == j+1) {
-                A(i,j) = -1;
+                A(i,j) = -1/(h*h);
             }
             else if(i == j-1) {
-                A(i,j) = -1;
+                A(i,j) = -1/(h*h);
             }
         }
     }
 
     maxnondiag = 1;
     iterations = 0;
-    A.print(to_string(iterations));
+    //A.print(to_string(iterations));
 
     while ( maxnondiag > tolerance && iterations <= maxiteration) {
        int p, q;
@@ -312,11 +321,17 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        maxnondiag = fabs(A(p,q));
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
-       A.print(to_string(iterations));
+       //A.print(to_string(iterations));
     }
     cout << "Iterations for quantum: " << iterations << endl;
     //cout << A(0,0) << endl;
-    A.diag().print();
+    eigval = A.diag();
+    eigval = sort(eigval);
+
+    cout << "eigval: " << endl;
+    for(int i = 0; i < 5; i++) {
+        cout << eigval[i] << endl;
+    }
 
     return 0;
 }
