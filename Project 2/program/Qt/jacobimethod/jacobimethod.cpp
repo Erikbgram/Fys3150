@@ -71,7 +71,7 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
     R(i,l) = c*r_il + s*r_ik;
   }
   return;
-} // end of function jacobi_rotate
+}
 
 bool test_ortho() {
     // Checks for largest offdiag-element in matrices A, B, C and D
@@ -177,14 +177,35 @@ bool test_eig() {
 
 int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for running tests
     std::cout << std::scientific;
+
+    //Tests
+    if(argv[2]) {
+        cout << endl << "Commencing tests..." << endl;
+
+        cout << endl << "Testing preservation of orthogonality:" << endl;
+        bool ortho = test_ortho();
+        if(ortho) {
+            cout << "Orthogonality preserved!" << endl;
+        }
+        else {
+            cout << "Orthogonality NOT preserved!" << endl;
+        }
+
+        cout << endl << "Testing for eigenvalues:" << endl;
+        if(test_eig()) {
+            cout << "Eigenvalues correct!" << endl;
+        }
+        else {
+            cout << "Eigenvalues NOT correct!" << endl;
+        }
+    }
+
     int n = atoi(argv[1]);
-    //cout << n;
-    cout << endl;
 
     arma::mat A = arma::mat(n, n, arma::fill::zeros);
     arma::mat R = arma::mat(n, n, arma::fill::eye);
 
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) { // Filling A
           for(int j = 0; j < n; j++) {
             if(i == j) {
               A(i,j) = 2;
@@ -197,8 +218,6 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
             }
         }
     }
-    //A.print("A: ");
-
 
 
     arma::vec eigval;
@@ -253,29 +272,6 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     R.print("R: ");
     eigvec.print("S: ");
-
-    if(argv[2]) {
-        cout << endl << "Commencing tests..." << endl;
-
-        cout << endl << "Testing preservation of orthogonality:" << endl;
-        bool ortho = test_ortho();
-        if(ortho) {
-            cout << "Orthogonality preserved!" << endl;
-        }
-        else {
-            cout << "Orthogonality NOT preserved!" << endl;
-        }
-
-        cout << endl << "Testing for eigenvalues:" << endl;
-        if(test_eig()) {
-            cout << "Eigenvalues correct!" << endl;
-        }
-        else {
-            cout << "Eigenvalues NOT correct!" << endl;
-        }
-    }
-
-
 
 
     return 0;
