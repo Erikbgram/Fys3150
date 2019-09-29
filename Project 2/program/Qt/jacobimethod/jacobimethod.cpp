@@ -195,7 +195,7 @@ int main(int argc, char *argv[]) {
     fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
     outfile << std::scientific ;
-    outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << "," << time_span_ours.count() << endl;
+    outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << ", " << time_span_ours.count() << endl;
     */
 
     A.print("A: ");

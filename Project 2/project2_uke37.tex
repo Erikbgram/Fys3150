@@ -8,7 +8,7 @@
 \usepackage{listings}
 \usepackage{multicol}
 %\usepackage{blindtext} %Automatically generates dummy text.
-\usepackage[margin=2.5cm]{geometry}
+%\usepackage[margin=2.0cm]{geometry}
 
 %Definerer hyperlinker og dens farger
 \usepackage{hyperref}
@@ -82,6 +82,8 @@ And then later you can call:
 
 \maketitle
 
+\newpage
+
 %------------Her starter skrivingen-----------------------------------------
 \vspace{1cm}
 
@@ -89,8 +91,8 @@ And then later you can call:
 
 \vspace{1cm}
 
-\begin{multicols}{2}
-
+%---------------------------------------
+%\begin{multicols}{2}
 
 \iffalse
 \begin{wrapfigure}{l}{0.7\linewidth}
@@ -99,16 +101,15 @@ And then later you can call:
 \end{wrapfigure}
 \fi
 
-
-%\Blindtext
-
-%\newpage
+\newpage
 
 %----------Abstract-------------------------------
-
-\vspace{30cm}
+\vspace{1cm}
 
 \section{Abstract} \label{sec:Abstract}
+
+bla bla bla bla bla bla bla
+
 
 
 
@@ -116,7 +117,6 @@ And then later you can call:
 \vspace{1cm}
 
 \section{Introduction} \label{sec:Introduction}
-
 
 All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
@@ -126,7 +126,7 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 \section{Method} \label{sec:Method}
 
-
+\textbf{Hvilke filer som er til hvilke oppgaver} \\
 
 \subsection{Exercise a)} \label{sec:Method a)}
 
@@ -146,54 +146,84 @@ The vector product of $\vec{w}_j ^T$ and $\vec{w}_i$ is $\delta_{ij}$, which pro
 
 \subsection{Exercise b)} \label{sec:Method b)}
 
-  \subsubsection{Calculations}
+  \subsubsection{Calculations} \label{sec:Calculations b)}
 
-    Det under som ikke er mulig å lese blir kommentert ut:
+  In this prject we compute with a symmetric matrix, similar to the matrix \textbf{A} in project 1. This matrix is given by the matrix equation
 
-    \iffalse
-
-    dovkdfv
-    fvokdfv
-    odkv
-    dfvkd
-    ofvkdfovkdf
-
-    \fi
-
-    Ferdig kommentert ut.
-
-\iffalse
-    \begin{equation*} \label{eq:fullmatrixeqbackward}
+    \begin{equation*} \label{eq:fullmatrixeq}
       \begin{bmatrix}
-        d_1 & c_1 & 0 & 0 & \dots & 0 \\
-        0 & \tilde{d}_2 & c_2 & 0 & \dots & 0 \\
-        0 & 0 & \tilde{d}_3 & c_3 & \dots & 0 \\
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-        0 & 0 & 0 & 0 & \tilde{d}_{n-1} & c_{n-1} \\
-        0 & 0 & 0 & 0 & 0 & \tilde{d}_n \\
+        d & a & 0 & \dots & 0 & 0 \\
+        a & d & a & \dots & 0 & 0 \\
+        0 & a & d & \dots & 0 & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 & 0 & 0 & a & d & a \\
+        0 & 0 & 0 & 0 & a & d \\
       \end{bmatrix}
       \begin{bmatrix}
-        v_1 \\
-        v_2 \\
-        v_3 \\
+        u_1 \\
+        u_2 \\
+        u_3 \\
         \vdots \\
-        v_{n-1} \\
-        v_n \\
+        u_{N-2} \\
+        u_{N-1} \\
       \end{bmatrix}
-      =
+      = \lambda
       \begin{bmatrix}
-        \tilde{b}_1 \\
-        \tilde{b}_2 \\
-        \tilde{b}_3 \\
+        u_1 \\
+        u_2 \\
+        u_3 \\
         \vdots \\
-        \tilde{b}_{n-1} \\
-        \tilde{b}_n \\
+        u_{N-2} \\
+        u_{N-1} \\
       \end{bmatrix}
     \end{equation*} \\
-\fi
 
+where $d = \frac{2}{h^2}$ and $a = - \frac{1}{h^2}$. \textbf{still correct??} \\
+
+$\lambda$ are eigenvalues given by the equation
+
+\begin{equation*}
+    \lambda_j = d + 2a \cos \left( \frac{j \pi }{N + 1} \right)
+\end{equation*}
+
+given for $ j = 1, 2, ..., N$.
+
+
+%--------------------
+
+\textbf{Skal kommentere noe for egenverdi og egenvektor?}
 
   \subsubsection{The programming}
+
+Commenting the code \texttt{jacobimethod.cpp}.  OBS. \\
+
+The program starts with defining a function for finding the max values of the off-diagonal elements. This is the function \texttt{offdiag}, which is taken from the lecture notes. The same applies for the function \texttt{Jacobi\_rotate}. \texttt{Jacobi\_rotate} is the function for rotating and computing the matrix. It calculates the equation
+
+\begin{equation*}
+    \textbf{B} = \textbf{S}^T A \textbf{S}
+\end{equation*}
+
+for finding the diagonal matrix with the eigenvalues of the matrix \textbf{A}. It also computes the eigenvectors, and stores them in a matrix \textbf{R}. \\
+
+In the main function we define the matrix \textbf{A} given by the constants $d$ and $a$. See \ref{sec:Calculations b)} for the definitions of the matrix. Then the clock is set to start, and it times how long the armadillo \\
+
+\textbf{Skal egentlig kommentere dette?????} \\
+
+The number of similarity transformations needed to reach the desired matrix depends on the dimension $n$. For instance a run of our matrix \textbf{A} given as a $(10 \times 10)$ matrix, there are 154 transformations needed. This number is only exact for this specific run, as it will change for any changes to the matrix, both size and elements. \\
+
+In the lecture notes it states that for the Jacobi method there is no way to predict the number of transformations needed. See this \href{http://compphysics.github.io/ComputationalPhysics/doc/pub/eigvalues/html/eigvalues.html}{file} under \textit{Discussion for Householder's method for eigenvalues}. \textbf{Riktig??} \\
+
+
+
+
+%-------------------------------------------
+
+\vspace{3cm}
+
+Må vente litt med å kommentere dette
+
+Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
+utføre flere iterasjoner.
 
 
 
@@ -333,14 +363,20 @@ index, value
 
 \section{Appendix} \label{sec:Appendix}
 
-\iffalse
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width = 11cm]{program/data10.png}
-	\caption{The plot of the different algorithms for $n = 10$. }
-  \label{fig:data10png}
+	\includegraphics[width = 11cm]{iterations-stats.png}
+	\caption{The plot of iterations for the Jacobi method as function of the dimension $n$ of the matrix \textbf{A}. }
+  \label{fig:iterationspng}
 \end{figure}
-\fi
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width = 11cm]{timespan-stats.png}
+	\caption{The plot of the time the function \texttt{eig\_sym} from Armadillo uses and the time Jacobi method uses as functions of the dimension $n$ if the matrix \textbf{A}. }
+  \label{fig:timespanpng}
+\end{figure}
 
 
 
@@ -367,6 +403,6 @@ index, value
 
 
 
-\end{multicols}
+%\end{multicols}
 
 \end{document}
