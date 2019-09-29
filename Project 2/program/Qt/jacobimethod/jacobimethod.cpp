@@ -179,12 +179,11 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     std::cout << std::scientific;
 
     //Tests
-    if(argv[2]) {
+    if(atoi(argv[2])) {
         cout << endl << "Commencing tests..." << endl;
 
         cout << endl << "Testing preservation of orthogonality:" << endl;
-        bool ortho = test_ortho();
-        if(ortho) {
+        if(test_ortho()) {
             cout << "Orthogonality preserved!" << endl;
         }
         else {
@@ -198,12 +197,14 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         else {
             cout << "Eigenvalues NOT correct!" << endl;
         }
+
+        cout << endl;
     }
 
     int n = atoi(argv[1]);
 
-    arma::mat A = arma::mat(n, n, arma::fill::zeros);
-    arma::mat R = arma::mat(n, n, arma::fill::eye);
+    arma::mat A(n, n, arma::fill::zeros);
+    arma::mat R(n, n, arma::fill::eye);
 
     for(int i = 0; i < n; i++) { // Filling A
           for(int j = 0; j < n; j++) {
@@ -254,7 +255,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         cout << "Reached max iterations" << endl;
     }
     else {
-        cout << "Complete!" << endl;
+        cout << "Algorithm complete!" << endl;
     }
     ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
@@ -266,28 +267,31 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << ", " << time_span_ours.count() << endl;
     */
 
-    A.print("A: ");
-    eigval.print("Armadillo eigenvalues: ");
+    //A.print("A: ");
+    //eigval.print("Armadillo eigenvalues: ");
 
-    R.print("R: ");
-    eigvec.print("S: ");
+    //R.print("R: ");
+    //eigvec.print("S: ");
 
     //
     // Harmonic Oscillator
     //
+    cout << endl << "Entering the quantum domain!" << endl;
 
-    double * rho = new double[n];
-    rho[n-1] = 1E20;
+    double* rho = new double[n];
+    rho[n-1] = 1E15;
     double h = (rho[n-1] - rho[0])/n;
 
     for(int i = 1; i < n-1; i++) {
-        rho[i] = rho[0] + i*h;
+        rho[i] = rho[0] + i/h;
     }
 
-    for(int i = 0; i < n; i++) { // Filling A
+    A = arma::mat(n, n, arma::fill::zeros); // Resetting A
+    R = arma::mat(n, n, arma::fill::zeros); // Resetting R
+    for(int i = 0; i < n; i++) { // Filling A (quantum)
           for(int j = 0; j < n; j++) {
             if(i == j) {
-              A(i,j) = 2;
+              A(i,j) = 2 + (rho[i]*rho[i]); //(h*h)
             }
             else if(i == j+1) {
                 A(i,j) = -1;
@@ -298,6 +302,21 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         }
     }
 
+    maxnondiag = 1;
+    iterations = 0;
+    A.print(to_string(iterations));
+
+    while ( maxnondiag > tolerance && iterations <= maxiteration) {
+       int p, q;
+       offdiag(A, &p, &q, n);
+       maxnondiag = fabs(A(p,q));
+       Jacobi_rotate(A, R, p, q, n);
+       iterations++;
+       A.print(to_string(iterations));
+    }
+    cout << "Iterations for quantum: " << iterations << endl;
+    //cout << A(0,0) << endl;
+    A.diag().print();
 
     return 0;
 }
