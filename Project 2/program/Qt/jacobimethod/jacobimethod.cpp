@@ -200,8 +200,8 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         cout << endl;
     }
 
-    int n = atoi(argv[1]);
 
+    int n = atoi(argv[1]);
     // We "move" h^2 outside of the matrix and "scale it" away
 
     arma::mat A(n, n, arma::fill::zeros);
@@ -280,15 +280,8 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     cout << endl << "Entering the quantum domain!" << endl;
 
     double* rho = new double[n];
-    rho[n-1] = 3.5;
-    /* n=300, rho_max = 3 gave:
-    2.9893
-    7.28708
-    12.8707
-    20.4791
-    30.2611
-    */
-    double h = (rho[n-1] - rho[0])/(n-1);
+    rho[n-1] = 10;
+    double h = (rho[n-1] - rho[0])/(n+1);
 
     for(int i = 0; i < n; i++) {
         rho[i] = rho[0] + (i+1)*h;
@@ -297,8 +290,8 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
 
-    for(int i = 1; i < n-1; i++) { // Filling A (harmonic)
-          for(int j = 1; j < n-1; j++) {
+    for(int i = 0; i < n; i++) { // Filling A (harmonic)
+          for(int j = 0; j < n; j++) {
             if(i == j) {
               A(i,j) = 2.0/(h*h) + (rho[i]*rho[i]); // Could move constants outside of loop, but not *that* necessarry
             }
@@ -331,7 +324,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     cout << "eigval: " << endl;
     for(int i = 0; i < 5; i++) {
-        cout << eigval[i] << endl;
+        //cout << eigval[i] << endl;
     }
 
 
@@ -341,14 +334,13 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     cout << endl << "Look out for Quantum dots!" << endl;
 
-    double omega_r = 0.01;
+    double omega_r = 0.25;
     h = (rho[n-1] - rho[0])/(n-1);
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
     for(int i = 0; i < n; i++) { // Filling A (qDot)
-        // Could move constants outside of loop, but not *that* necessarry
-        for(int j = 0; j < n-1; j++) {
+        for(int j = 0; j < n; j++) {
             if(i == j) {
                 A(i,j) = 2.0/(h*h) + omega_r*omega_r*rho[i]*rho[i] + 1.0/rho[i] ;
             }
@@ -378,7 +370,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     //cout << A(0,0) << endl;
     eigval = A.diag();
     for(int i = 0; i < 5; i++) {
-        cout << eigval[i] << endl;
+        //cout << eigval[i] << endl;
     }
 
 
