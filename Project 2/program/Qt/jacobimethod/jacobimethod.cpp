@@ -356,8 +356,10 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     maxnondiag = 1;
     iterations = 0;
     eig_sym(eigval, eigvec, A);
-    eigval.print();
-/*
+    for(int i = 0; i < 5; i++) {
+        cout << eigval[i] << endl;
+    }
+
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum dot A
        int p, q;
        offdiag(A, &p, &q, n);
@@ -365,12 +367,12 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
-*/
+
     cout << "Iterations for quantum dot: " << iterations << endl;
     //cout << A(0,0) << endl;
     eigval = A.diag();
     for(int i = 0; i < 5; i++) {
-        //cout << eigval[i] << endl;
+        cout << eigval[i] << endl;
     }
 
 
