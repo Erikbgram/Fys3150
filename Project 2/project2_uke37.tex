@@ -97,6 +97,7 @@ And then later you can call:
 \newpage
 \clearpage
 
+Kommentarer fra project 1: 
 
 Abstract: short motivation and presentation of the results and the findings \\
 
@@ -114,27 +115,55 @@ conclusion: concluding the findings, your neutral opinion, etc… and future wor
 
 appendix:How you derived your method, theory, etc… \\
 
+\vspace{2cm}
+
+Generelle kommentarer om hva prosjektet skal inneholde fra oppgaveteksten:
+
 \begin{itemize}
 
   \item How many similarity transformations are needed before you reach a result
   where all non-diagonal matrix elements are essentially zero?  \textit{Besvart i discussion}
 
-  \item Try to estimate the number of transformations and extract a behavior as function of the dimension- ality of the matrix. \textit{Besvart i discussion}
+  \item Try to estimate the number of transformations and extract a behavior as function of the dimensionality of the matrix. \textit{Besvart i discussion}
 
   \item Compare your results with the analytical ones. \textit{Besvart i discussion og noe i results}
 
   \item Comment your results (here you could for example compute the time needed for both algorithms for a given dimensionality of the matrix). \textit{Besvart i discussion og noe i results}
 
-  \item Try to figure out other tests your code should pass, based either on the mathematical properties of the algorithms or more program specific tests. Implement at least two unit tests in this project. \textit{Besvart i koden, men tenker å kommentere hvorfor valgte disse i method}
+  \item Try to figure out other tests your code should pass, based either on the mathematical properties of the algorithms or more program specific tests. Implement at least two unit tests in this project. \textit{Besvart i koden og kommentert hvorfor valgte disse i method}
 
-  \item Study the results as functions of the number of integration points N and your approximation to $\rho$ max. The analytical results with our scaling for the one-electron energies are $\lambda$ = 3, 7, 11, 15, . . . .
+  \item Study the results as functions of the number of integration points N and your approximation to $\rho$ max. The analytical results with our scaling for the one-electron energies are $\lambda$ = 3, 7, 11, 15, . . . . \textit{Vet ikke om vi har gjort dette}
 
-  \item How many integration points do you need in order to reproduce the analytical results with say four leading digits after the decimal point?
+  \item How many integration points do you need in order to reproduce the analytical results with say four leading digits after the decimal point?  \textit{Vet ikke om vi har gjort dette}
 
-  \item Comment the results for the lowest state (ground state) as function of varying strengths of $ \omega$ r.
+  \item Comment the results for the lowest state (ground state) as function of varying strengths of $ \omega$ r. \textit{Vet ikke om vi har gjort dette}
 
 \end{itemize}
 
+\vspace{2cm}
+
+Ting som mangler/generelle kommentarer til det som er skrevet hittil:
+
+\begin{itemize}
+    \item mangler abstract
+
+    \item mangler mer på introduction - generelt om hva som kommer i artikkelen, hva problemet vårt er osv
+
+    \item mangler mer på theory - forklaring av Jacobi method osv
+
+    \item se gjennom method for om det er mulig å legge til noe mer
+
+    \item results er cirka riktig, men hvis man skulle plotte noe mer så må dette legges til - endre plottene som er hvis dette også er blitt endret
+
+    \item se gjennom discussion - det med å estimere antall transformasjoner er forvirrende, fordi det er motstridende informasjon i lecture notes \\
+    vet at noen av de punktene som er gitt ovenfor på engelsk ikke er skrevet om enda - se på om dette skal i discussion eller results (eller andre steder hvis det passer bedre)
+
+    \item mangler conclusion
+
+    \item se gjennom appendix - usikker på om kommentarene til kodene skal være der, og hvis det ikke skal vil det ikke være noe særlig i appendix i det hele tatt
+
+    \item references skal være riktig, men se igjennom om har referert til noen i artikkelen som ikke er lagt til her
+\end{itemize}
 
 
 %----------Abstract-------------------------------
@@ -154,11 +183,20 @@ bla bla bla bla bla bla bla
 
 All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
+
+\textbf{Generelt skrive Introduction!!!!} \\
+
+
+
 \textbf{Hvilke filer som er til hvilke oppgaver} \\
 
-Our project consists of the files \texttt{jacobimethod.cpp} and \texttt{plot\_data.py}. For exercises \textbf{b)} through \textbf{e)} we use the file \texttt{jacobimethod.cpp}. Also for exercise \textbf{b)} we have the file \texttt{plot\_data.py}.
+Our project consists of the files \texttt{jacobimethod.cpp} and \texttt{plot\_data.py}. \texttt{jacobimethod.cpp} is the main program for computing the Jacobi method, while \texttt{plot\_data.py} plots the data generated in \texttt{jacobimethod.cpp}, which is appended into \texttt{.txt}-files. \\
 
-This article is seperated into sections with some subsections.
+\textbf{main.cpp som Erik har skrevet?} \\
+
+This article is seperated into sections with some subsections. See table of contents for page number to the sections. In \nameref{sec:Theory} we will present essential theory to understand our problem, why we solve it and how we solve it. In \nameref{sec:Method} we will explain why we use the Jacobi algorithm to solve our problem. Furthermore it includes explanations to the unit tests we chose in our algorithm.
+In \nameref{sec:Results} we will present the data and the plots generated in our programs, with a short explanation of what the results present. The section \nameref{sec:Discussion} is where we will consider our problem, and discuss why the two methods Jacobi method and the Armadillo function \texttt{eig\_sym} gives different computation times. After this we will conclude our findings in the section \nameref{sec:Conclusion}.
+Finally we have the section \nameref{sec:Appendix} for additional information, such as derivations, comments and figures, tables or text, and the section \nameref{sec:References} for citing every reference in one place.
 
 %--------------- Theory ------------------------------------
 \vspace{1cm}
@@ -347,31 +385,19 @@ The second unit test in our program is a test to confirm that a known simple mat
 
 \section{Discussion} \label{sec:Discussion}
 
-
   The number of similarity transformations, also called iterations, needed to reach the desired matrix depends on the dimension $n$. For instance a run of our matrix \textbf{A} given as a $(10 \times 10)$ matrix, there are 154 transformations needed. This number is only exact for this specific run, as it will change for any differences to the matrix, both size and elements. \\
 
-  In the lecture notes it states that for the Jacobi method there is no way to predict the number of transformations needed. See this \href{http://compphysics.github.io/ComputationalPhysics/doc/pub/eigvalues/html/eigvalues.html}{file} under \textit{Discussion for Householder's method for eigenvalues}. \textbf{Riktig??} \\
+  In the lecture notes it states that for the Jacobi method there is no way to predict the number of transformations needed. See this \href{http://compphysics.github.io/ComputationalPhysics/doc/pub/eigvalues/html/eigvalues.html}{file} under \textit{Discussion for Householder's method for eigenvalues}.
 
-  \textbf{The convergence rate of the Jacobi method is however poor, one needs typically 3n2 - 5n2 rotations and each rotation requires 4n operations, resulting in a total of 12n3 - 20n3 operations in order to zero out non-diagonal matrix elements.} Fra lecture notes. \\
+  \textbf{The convergence rate of the Jacobi method is however poor, one needs typically 3n2 - 5n2 rotations and each rotation requires 4n operations, resulting in a total of 12n3 - 20n3 operations in order to zero out non-diagonal matrix elements.} Fra lecture notes. Dette gir IKKE riktig svar i forhold til antall iterasjoner som vi har regnet ut i algoritmen. \\
 
 
 
 
   The Jacobi method is considerably slower for large values of $n$ mainly because the matrix is larger, which means that the algorithm has more elements to rotate and because it has to execute more iterations. The slowness for the Jacobi method is based on when $n$ increases, the algorithm increases the value of some elements, while it decreases the value of others. Consequences of this is that the algorithm has to compute multiple iterations compared to \texttt{eig\_sym} for the same values of $n$.
-  Because there is a time difference in the algorithms, we know that \texttt{eig\_sym} does not use the Jacobi method, and is therefore conseiderably faster. The function most likely observes that the matrix is tridiagonal and finds the easiest solution, based on if-else-statements and different types of eigenpair solvers. When looking at the definition of \texttt{eig\_sym} given on this \href{http://arma.sourceforge.net/docs.html#eig_sym}{website}, the function has an argument \texttt{method} for describing two different methods for using the function. The default option is \texttt{dc}, which stands for \textit{divide-and-conquer}, while the other option is \texttt{std}, which stands for \textit{standard}. The \texttt{dc} method is sligthly faster for smaller matrices, dimension $\tilde 300$ and smaller, but for larger matrices it is considerably faster.
+  Because there is a time difference in the algorithms, we know that \texttt{eig\_sym} does not use the Jacobi method, and is therefore considerably faster. The function most likely observes that the matrix is tridiagonal and finds the easiest solution, based on if-else-statements and different types of eigenpair solvers. When looking at the definition of \texttt{eig\_sym} given on this \href{http://arma.sourceforge.net/docs.html#eig_sym}{website}, the function has an argument \texttt{method} for describing two different methods for using the function. The default option is \texttt{dc}, which stands for \textit{divide-and-conquer}, while the other option is \texttt{std}, which stands for \textit{standard}. The \texttt{dc} method is sligthly faster for smaller matrices, dimension $\tilde 300$ and smaller, but for larger matrices it is considerably faster.
   When testing \texttt{eig\_sym} with both methods for matrices of sizes $n = \{ 1000, 5000, 10000\}$ there is already a notable diffrence for $n = 1000$, where \texttt{dc} is ten times faster than \texttt{std}. Because we compute with matrices of dimension $n = 200$ and smaller, the difference in usage of \texttt{eig\_sym} can be ignored as it gives very similar results. \\
 
-
-    Koden bruker lengre tid både fordi matrisen er større, slik at det er mer å rotere og fordi den må
-    utføre flere iterasjoner. \\
-
-    Hvorfor er jacobimethod tregere enn eigsym? økende n, jacobi øker verdien til noen elementer, mens den minker noen andre verdier. altså den fucker noen verdier, mens den fikser noen andre. \\
-
-    eigsym bruker ikke jacobi metoden, og kan dermed være raskere. den kan f.eks. bruke thomas algorithm, som vi programerte i project 1, som er raskere for større matriser. tror den bruker en if-else-statement med ulike algoritmer til å løse de forskjellige matrisene - har prøvd å finne kildefilen gitt ved armadillo, men den finner jeg ikke. \\
-
-    når man skriver inn std istedenfor dc for eigsym er dc litt raskere for store matriser, med n rundt 200, men siden vi driver med relativt små matriser vil man ikke merke stor forskjell. for større matriser, altså 10 i 3 og litt høyere merker man stor forskjell
-
-    eigsym ser at den er tridiagonal og finner letteste løsningsmetode
 
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
