@@ -28,7 +28,6 @@ void offdiag(arma::mat A, int *p, int *q, int n) {
    }
 }
 
-
 void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   double s, c;
   if ( A(k,l) != 0.0 ) {
@@ -73,7 +72,7 @@ void Jacobi_rotate(arma::mat &A, arma::mat &R, int k, int l, int n ) {
   return;
 }
 
-bool test_ortho() {
+bool test_offdiag() {
     // Checks for largest offdiag-element in matrices A, B, C and D
     int n = 5;
     arma::mat A = arma::mat(n,n, arma::fill::zeros);
@@ -182,12 +181,12 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     if(atoi(argv[2])) {
         cout << endl << "Commencing tests..." << endl;
 
-        cout << endl << "Testing preservation of orthogonality:" << endl;
-        if(test_ortho()) {
-            cout << "Orthogonality preserved!" << endl;
+        cout << endl << "Testing for largest non-diagonal element:" << endl;
+        if(test_offdiag()) {
+            cout << "Largest non-diagonal element preserved!" << endl;
         }
         else {
-            cout << "Orthogonality NOT preserved!" << endl;
+            cout << "Largest non-diagonal element NOT preserved!" << endl;
         }
 
         cout << endl << "Testing for eigenvalues:" << endl;
@@ -240,7 +239,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     double maxnondiag = 1;
 
     int iterations = 0;
-
+/*
     start = ch::steady_clock::now();
 
     while ( maxnondiag > tolerance && iterations <= maxiteration) {
@@ -261,7 +260,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     }
     ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
-
+*/
     /*
     fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
@@ -291,29 +290,32 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     */
     double h = (rho[n-1] - rho[0])/(n-1);
 
-    for(int i = 1; i < n-1; i++) {
-        rho[i] = rho[0] + i*h;
+    for(int i = 0; i < n; i++) {
+        rho[i] = rho[0] + (i+1)*h;
     }
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
-    for(int i = 0; i < n; i++) { // Filling A (harmonic)
-          for(int j = 0; j < n; j++) {
+
+    for(int i = 1; i < n-1; i++) { // Filling A (harmonic)
+          for(int j = 1; j < n-1; j++) {
             if(i == j) {
-              A(i,j) = 2/(h*h) + (rho[i]*rho[i]); // Could move rho^2 outside of loop, but not *that* necessarry (could do the same with (h*h) )
+              A(i,j) = 2.0/(h*h) + (rho[i]*rho[i]); // Could move constants outside of loop, but not *that* necessarry
             }
             else if(i == j+1) {
-                A(i,j) = -1/(h*h);
+                A(i,j) = -1.0/(h*h);
             }
             else if(i == j-1) {
-                A(i,j) = -1/(h*h);
+                A(i,j) = -1.0/(h*h);
             }
         }
     }
 
     maxnondiag = 1;
     iterations = 0;
-
+    eig_sym(eigval, eigvec, A);
+    eigval.print();
+/*
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum harmonic oscillator A
        int p, q;
        offdiag(A, &p, &q, n);
@@ -321,7 +323,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
-
+*/
     cout << "Iterations for harmonic oscillator: " << iterations << endl;
     //cout << A(0,0) << endl;
     eigval = A.diag();
@@ -342,30 +344,28 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     double omega_r = 0.01;
     h = (rho[n-1] - rho[0])/(n-1);
 
-    for(int i = 1; i < n-1; i++) {
-        rho[i] = rho[0] + i*h;
-    }
-
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
     for(int i = 0; i < n; i++) { // Filling A (qDot)
         // Could move constants outside of loop, but not *that* necessarry
-        for(int j = 0; j < n; j++) {
+        for(int j = 0; j < n-1; j++) {
             if(i == j) {
-                A(i,j) = 2/(h*h) + omega_r*omega_r*rho[i]*rho[i] + 1/rho[i] ;
+                A(i,j) = 2.0/(h*h) + omega_r*omega_r*rho[i]*rho[i] + 1.0/rho[i] ;
             }
             else if(i == j+1) {
-                A(i,j) = -1/(h*h);
+                A(i,j) = -1.0/(h*h);
             }
             else if(i == j-1) {
-                A(i,j) = -1/(h*h);
+                A(i,j) = -1.0/(h*h);
             }
         }
     }
 
     maxnondiag = 1;
     iterations = 0;
-
+    eig_sym(eigval, eigvec, A);
+    eigval.print();
+/*
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum dot A
        int p, q;
        offdiag(A, &p, &q, n);
@@ -373,7 +373,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
-
+*/
     cout << "Iterations for quantum dot: " << iterations << endl;
     //cout << A(0,0) << endl;
     eigval = A.diag();
