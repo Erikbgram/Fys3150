@@ -244,7 +244,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     double maxnondiag = 1;
 
     int iterations = 0;
-
+/*
     start = ch::steady_clock::now();
 
     while ( maxnondiag > tolerance && iterations <= maxiteration) {
@@ -264,7 +264,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     }
     ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
-
+*/
 
     /*
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
@@ -311,6 +311,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     }
     */
 
+/*
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum harmonic oscillator A
        int p, q;
        offdiag(A, &p, &q, n);
@@ -331,16 +332,18 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         cout << eigval[i] << endl;
     }
 
+
     outfile.open("../../harmonic.txt", std::fstream::out | std::ofstream::app);
     outfile << n << ", " << rho[n-1] << ", " << eigval[0] << ", " << eigval[1] << ", " << eigval[2] << ", " << eigval[3] << ", " << eigval[4] << endl;
     outfile.close();
+*/
 
     //
     // Two-electron Quantum Dot
     //
     cout << endl << "Look out for Quantum dots!" << endl;
 
-    double omega_r = 0.25;
+    double omega_r = 5;
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
