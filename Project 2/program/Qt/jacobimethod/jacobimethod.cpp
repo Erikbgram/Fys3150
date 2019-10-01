@@ -1,5 +1,5 @@
 /*
-Last edited by: Erlend T. North 18:12 29.09.2019
+Last edited by: Erlend T. North 10:21 01.10.2019
 */
 
 #include <iostream>
@@ -12,7 +12,6 @@ Last edited by: Erlend T. North 18:12 29.09.2019
 using namespace std;
 namespace ch = std::chrono;
 
-//  the offdiag function, using Armadillo
 void offdiag(arma::mat A, int *p, int *q, int n) {
    double max;
    for (int i = 0; i < n; ++i)
@@ -125,7 +124,7 @@ bool test_offdiag() {
 }
 
 bool test_eig() {
-    // Checks whether our algorithm returns the correct eigenvalues
+    // Checks whether our algorithm returns the correct eigenvalues for a given matrix A
     double tolerance =1.0E-10;
     int maxiteration = 100000;
     int n = 5;
@@ -177,6 +176,8 @@ bool test_eig() {
 int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for running tests
     //std::cout << std::scientific;
 
+    fstream outfile; // Initializing outfile for later use
+
     //Tests
     if(atoi(argv[2])) {
         cout << endl << "Commencing tests..." << endl;
@@ -203,6 +204,10 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     int n = atoi(argv[1]);
     // We "move" h^2 outside of the matrix and "scale it" away
+
+    //
+    // Tridiagonal Toeplitz matrix
+    //
 
     arma::mat A(n, n, arma::fill::zeros);
     arma::mat R(n, n, arma::fill::eye);
@@ -239,7 +244,7 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
     double maxnondiag = 1;
 
     int iterations = 0;
-/*
+
     start = ch::steady_clock::now();
 
     while ( maxnondiag > tolerance && iterations <= maxiteration) {
@@ -248,7 +253,6 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        maxnondiag = fabs(A(p,q));
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
-       //cout << "Iteration: " << iterations << " complete!" << endl;
     }
 
     stop = ch::steady_clock::now();
@@ -256,23 +260,18 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         cout << "Reached max iterations" << endl;
     }
     else {
-        cout << "Algorithm complete!" << endl;
+        cout << "Algorithm complete with " << iterations << " iterations!" << endl;
     }
     ch::duration<double> time_span_ours = ch::duration_cast<ch::nanoseconds>(stop - start);
     std::cout << "Time used by us = " << time_span_ours.count()  << "s" << std::endl;
-*/
+
+
     /*
-    fstream outfile;
     outfile.open("../../stats.txt", std::fstream::out | std::ofstream::app);
     outfile << std::scientific ;
     outfile << n << ", " << iterations << ", " << time_span_eig_sym.count() << ", " << time_span_ours.count() << endl;
+    outfile.close();
     */
-
-    //A.print("A: ");
-    //eigval.print("Armadillo eigenvalues: ");
-
-    //R.print("R: ");
-    //eigvec.print("S: ");
 
     //
     // Harmonic Oscillator
@@ -281,15 +280,16 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
 
     double* rho = new double[n];
     rho[n-1] = 10;
-    double h = (rho[n-1] - rho[0])/(n+1);
+    double h = (rho[n-1] - rho[0])/(n+1); // Feels wrong with (n+1), but Morten's EigvalueArma.cpp did it like this and gave seemingly better results
 
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) { // Filling rho
         rho[i] = rho[0] + (i+1)*h;
     }
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
-
+    maxnondiag = 1;
+    iterations = 0;
     for(int i = 0; i < n; i++) { // Filling A (harmonic)
           for(int j = 0; j < n; j++) {
             if(i == j) {
@@ -304,11 +304,13 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         }
     }
 
-    maxnondiag = 1;
-    iterations = 0;
+    /* Armadillo's solver for harmonic
     eig_sym(eigval, eigvec, A);
-    eigval.print();
-/*
+    for(int i = 0; i < 5; i++) {
+        cout << eigval[i] << endl;
+    }
+    */
+
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum harmonic oscillator A
        int p, q;
        offdiag(A, &p, &q, n);
@@ -316,29 +318,34 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
-*/
-    cout << "Iterations for harmonic oscillator: " << iterations << endl;
-    //cout << A(0,0) << endl;
-    eigval = A.diag();
-    eigval = sort(eigval);
-
-    cout << "eigval: " << endl;
-    for(int i = 0; i < 5; i++) {
-        //cout << eigval[i] << endl;
+    if(iterations > maxiteration) {
+        cout << "Reached max iterations." << endl;
+    }
+    else {
+        cout << "Algorithm complete with " << iterations << " iterations!" << endl;
     }
 
+    eigval = sort(A.diag());
+    cout << "eigval: " << endl;
+    for(int i = 0; i < 5; i++) { // Prints five first eigenvalues
+        cout << eigval[i] << endl;
+    }
+
+    outfile.open("../../harmonic.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << ", " << rho[n-1] << ", " << eigval[0] << ", " << eigval[1] << ", " << eigval[2] << ", " << eigval[3] << ", " << eigval[4] << endl;
+    outfile.close();
 
     //
     // Two-electron Quantum Dot
     //
-
     cout << endl << "Look out for Quantum dots!" << endl;
 
     double omega_r = 0.25;
-    h = (rho[n-1] - rho[0])/(n-1);
 
     A = arma::mat(n, n, arma::fill::zeros); // Resetting A
     R = arma::mat(n, n, arma::fill::zeros); // Resetting R
+    maxnondiag = 1;
+    iterations = 0;
     for(int i = 0; i < n; i++) { // Filling A (qDot)
         for(int j = 0; j < n; j++) {
             if(i == j) {
@@ -353,12 +360,12 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
         }
     }
 
-    maxnondiag = 1;
-    iterations = 0;
+    /* Armadillo's solver for qDot
     eig_sym(eigval, eigvec, A);
     for(int i = 0; i < 5; i++) {
         cout << eigval[i] << endl;
     }
+    */
 
     while ( maxnondiag > tolerance && iterations <= maxiteration) { // main-loop for diagonalizing Quantum dot A
        int p, q;
@@ -367,14 +374,22 @@ int main(int argc, char *argv[]) { // argv[1]: dimension, argv[2]: bool for runn
        Jacobi_rotate(A, R, p, q, n);
        iterations++;
     }
+    if(iterations > maxiteration) {
+        cout << "Reached max iterations." << endl;
+    }
+    else {
+        cout << "Algorithm complete with " << iterations << " iterations!" << endl;
+    }
 
-    cout << "Iterations for quantum dot: " << iterations << endl;
-    //cout << A(0,0) << endl;
-    eigval = A.diag();
-    for(int i = 0; i < 5; i++) {
+    eigval = sort(A.diag());
+    cout << "eigval: " << endl;
+    for(int i = 0; i < 5; i++) { // Prints the five first eigenvalues
         cout << eigval[i] << endl;
     }
 
+    outfile.open("../../qdot.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << ", " << rho[n-1] << ", " << omega_r << ", " << eigval[0] << ", " << eigval[1] << ", " << eigval[2] << ", " << eigval[3] << ", " << eigval[4] << endl;
+    outfile.close();
 
 
     return 0;
