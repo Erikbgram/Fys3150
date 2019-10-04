@@ -1,4 +1,4 @@
-# Filer som blir ignorert
+# Filer som blir ignorert når man commiter og pusher til GitHub
 
 project1_uke35.aux
 project1_uke35.fdb_latexmk
@@ -16,3 +16,15 @@ project2_uke37.log
 project2_uke37.out
 project2_uke37.synctex.gz
 project2_uke37.toc
+
+jm.out
+testejm.cpp
+teststats.txt
+
+project3_uke40.aux
+project3_uke40.fdb_latexmk
+project3_uke40.fls
+project3_uke40.log
+project3_uke40.out
+project3_uke40.synctex.gz
+project3_uke40.toc
