@@ -4,6 +4,5 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        exampleprogram.cpp \
-        main.cpp
+        exampleprogram.cpp
         exampleprogram.cpp

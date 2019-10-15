@@ -15,8 +15,8 @@
 using namespace std;
 
 // Functions
-double int_function(double x) { // This function defines the function to integrate
-    double value = x*exp(-x);
+double psi(double r1, double r2, double alpha = 2) { // This function defines the function to integrate
+    double value = exp(-alpha*(r1+r2));
     return value;
 }
 
@@ -98,7 +98,7 @@ double gammln( double xx) {
     return -tmp+log(2.5066282746310005*ser/x);
 }
 
-void gauss_laguerre(double *x, double *w, int n, double alf = 2) {
+void gauss_laguerre(double *x, double *w, int n, double alf) {
     int i,its,j;
     double ai;
     double p1,p2,p3,pp,z,z1;
@@ -134,18 +134,37 @@ void gauss_laguerre(double *x, double *w, int n, double alf = 2) {
     }
 }
 
+double* linspace(double start,double stop, int n) {
+  double h = (stop - start)/(n-1);
+  double* arr = new double[n];
+  for(int i = 0; i < n; i++) {
+    arr[i] = start + stop*i*h;
+  }
+  return arr;
+}
 
-int main() {
-    int n;
-    double a, b;
-    cout << "Read in the number of integration points" << endl;
-    cin >> n;
-    cout << "Read in integration limits" << endl;
-    cin >> a >> b;
+int main(int argc, char *argv[]) {
+    int n = atoi(argv[1]);
+    // double a = atof(argv[2]);
+    // double b = atof(argv[3]);
 
-    // Dynamic arrays for Gauss-Legendre
-    double *x = new double [n];
-    double *w = new double [n];
+    double start = -5;
+    double stop = 5;
+
+    double *x1 = linspace(start, stop, n);
+    double *y1 = linspace(start, stop, n);
+    double *z1 = linspace(start, stop, n);
+    double *x2 = linspace(start, stop, n);
+    double *y2 = linspace(start, stop, n);
+    double *z2 = linspace(start, stop, n);
+    double *r1 = new double[n];
+    double *r2 = new double[n];
+
+    for(int i = 0; i < n; i++) {
+        r1[i] = sqrt(x1[i]*x1[i] + y1[i]*y1[i] + z1[i]*z1[i]);
+        r2[i] = sqrt(x2[i]*x2[i] + y2[i]*y2[i] + z2[i]*z2[i]);
+    }
+
 
     // Set up the mesh points and weights
     gauleg(a, b, x, w, n);
@@ -153,14 +172,36 @@ int main() {
 
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
-    double int_gauss = 0.;
-    for ( int i = 0;  i < n; i++){
-        int_gauss += w[i] * int_function(x[i]);
+    double legendre_sum = 0;
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            for(int k = 0; k < n; k++) {
+                for(int l = 0; l < n; l++) {
+                    for(int o = 0; o < n; o++) {
+                        for(int p = 0; p < n; p++) {
+                            legendre_sum += w[i]
+                        }
+                    }
+                }
+            }
+        }
     }
+
+
+
+
+
+    for (int i = 0; i < n; i++) {
+        legendre_sum += w[i] * psi(r1,r2) * 1/fabs(r1-r2);
+    }
+
+    double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
     cout  << setiosflags(ios::showpoint | ios::uppercase);
-    cout << "Gaussian-Legendre quad = " << setw(20) << setprecision(15)  << int_gauss << endl;
+    cout << "Gaussian-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
+    cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
+    cout << "E-ror = " << setw(20) << setprecision(15) << exact-legendre_sum << endl;
     delete [] x;
     delete [] w;
 
@@ -169,5 +210,5 @@ int main() {
 }
 
 
-#undef EPS
-#undef MAXIT
+// #undef EPS
+// #undef MAXIT
