@@ -15,9 +15,13 @@
 using namespace std;
 
 // Functions
-double psi(double r1, double r2, double alpha = 2) { // This function defines the function to integrate
-    double value = exp(-2*alpha*(r1+r2));
-    return value;
+double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // This function defines the function to integrate
+    double value = exp(-2*alpha*(sqrt(x1 * x1 + y1 * y1 + z1 * z1) + sqrt(x2 * x2 + y2 * y2 + z2 * z2)));
+    double length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
+      if(length < ZERO) {
+          return 0;
+        }
+    return value / length ;
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
@@ -145,38 +149,13 @@ double* linspace(double start,double stop, int n) {
 
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
-    double a = atof(argv[2]);
-    double b = atof(argv[3]);
+    double la = atof(argv[2]);
 
-    //double start = -1;
-    //double stop = 1;
-
-    /*double *w = new double[n];
-    double *x1 = linspace(start, stop, n);
-    double *y1 = linspace(start, stop, n);
-    double *z1 = linspace(start, stop, n);
-    double *x2 = linspace(start, stop, n);
-    double *y2 = linspace(start, stop, n);
-    double *z2 = linspace(start, stop, n); */
     double *w = new double[n];
-    double *x1 = linspace(a, b, n);
-    double *y1 = linspace(a, b, n);
-    double *z1 = linspace(a, b, n);
-    double *x2 = linspace(a, b, n);
-    double *y2 = linspace(a, b, n);
-    double *z2 = linspace(a, b, n);
-    /*double *r1 = new double[n];
-    double *r2 = new double[n];
-
-    for(int i = 0; i < n; i++) {
-        r1[i] = sqrt(x1[i]*x1[i] + y1[i]*y1[i] + z1[i]*z1[i]);
-        r2[i] = sqrt(x2[i]*x2[i] + y2[i]*y2[i] + z2[i]*z2[i]);
-    }*/
-
+    double *x = new double[n];
 
     // Set up the mesh points and weights
-    gauleg(a, b, x1, w, n);
-
+    gauleg(-la, la, x, w, n);
 
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
@@ -187,20 +166,8 @@ int main(int argc, char *argv[]) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
-                            double r1 = sqrt(x1[i]*x1[i] + y1[j]*y1[j] + z1[k]*x1[k]);
-                            double r2 = sqrt(x2[l]*x2[l] + y2[o]*y2[o] + z2[p]*z2[p]);
-                            double factor = 1/(fabs(r1-r2));
-                            /*if(factor < ZERO) {
-                                legendre_sum += w[i] * psi(r1,r2);
-                            }*/
-                            if(factor < ZERO) {
-                                legendre_sum += 0;
-                            }
-                            else {
-                                legendre_sum += w[i] * psi(r1,r2) * factor;
-                            }
 
-                            std::cout << r1 << " , " << r2 << "\n" ;
+                          legendre_sum += (w[i] * w[j] * w[k] * w[l] * w[o] * w[p]) * psi(x[i], x[j], x[k], x[l], x[o], x[p]);
 
                         }
                     }
@@ -210,29 +177,22 @@ int main(int argc, char *argv[]) {
     }
 
 
-    /*for (int i = 0; i < n; i++) {
-        double factor = 1/fabs(r1[i]-r2[i]);
-        if(factor < ZERO) {
-            legendre_sum += w[i] * psi(r1[i],r2[i]);
-        }
-        else {
-            legendre_sum += w[i] * psi(r1[i],r2[i]) * 1/fabs(r1[i]-r2[i]);
-        }
-        cout << legendre_sum << endl;
-    }*/
-
     double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
     cout  << setiosflags(ios::showpoint | ios::uppercase);
     cout << "Gaussian-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
-    cout << "E-ror = " << setw(20) << setprecision(15) << exact-legendre_sum << endl;
-    delete [] x1;
+    cout << "E-ror = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    delete [] x;
     delete [] w;
 
+    fstream outfile;
+    outfile.open("../../error.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << endl;
+    outfile.close();
 
-    return 0;
+  return 0;
 }
 
 
