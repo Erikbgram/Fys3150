@@ -16,7 +16,7 @@ using namespace std;
 
 // Functions
 double psi(double r1, double r2, double alpha = 2) { // This function defines the function to integrate
-    double value = exp(-alpha*(r1+r2));
+    double value = exp(-2*alpha*(r1+r2));
     return value;
 }
 
@@ -145,12 +145,13 @@ double* linspace(double start,double stop, int n) {
 
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
-    // double a = atof(argv[2]);
-    // double b = atof(argv[3]);
+    double a = atof(argv[2]);
+    double b = atof(argv[3]);
 
     double start = -5;
     double stop = 5;
 
+    double *w = new double[n];
     double *x1 = linspace(start, stop, n);
     double *y1 = linspace(start, stop, n);
     double *z1 = linspace(start, stop, n);
@@ -167,7 +168,7 @@ int main(int argc, char *argv[]) {
 
 
     // Set up the mesh points and weights
-    gauleg(a, b, x, w, n);
+    gauleg(a, b, x1, w, n);
 
 
     // Evaluate the integral with the Gauss-Legendre method
@@ -179,7 +180,7 @@ int main(int argc, char *argv[]) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
-                            legendre_sum += w[i]
+                            legendre_sum += w[i] * psi();
                         }
                     }
                 }
@@ -188,12 +189,16 @@ int main(int argc, char *argv[]) {
     }
 
 
-
-
-
-    for (int i = 0; i < n; i++) {
-        legendre_sum += w[i] * psi(r1,r2) * 1/fabs(r1-r2);
-    }
+    /*for (int i = 0; i < n; i++) {
+        double factor = 1/fabs(r1[i]-r2[i]);
+        if(factor < ZERO) {
+            legendre_sum += w[i] * psi(r1[i],r2[i]);
+        }
+        else {
+            legendre_sum += w[i] * psi(r1[i],r2[i]) * 1/fabs(r1[i]-r2[i]);
+        }
+        cout << legendre_sum << endl;
+    }*/
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
@@ -202,7 +207,7 @@ int main(int argc, char *argv[]) {
     cout << "Gaussian-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
     cout << "E-ror = " << setw(20) << setprecision(15) << exact-legendre_sum << endl;
-    delete [] x;
+    delete [] x1;
     delete [] w;
 
 
