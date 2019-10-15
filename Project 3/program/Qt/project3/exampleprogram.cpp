@@ -158,13 +158,13 @@ int main(int argc, char *argv[]) {
     double *x2 = linspace(start, stop, n);
     double *y2 = linspace(start, stop, n);
     double *z2 = linspace(start, stop, n);
-    double *r1 = new double[n];
+    /*double *r1 = new double[n];
     double *r2 = new double[n];
 
     for(int i = 0; i < n; i++) {
         r1[i] = sqrt(x1[i]*x1[i] + y1[i]*y1[i] + z1[i]*z1[i]);
         r2[i] = sqrt(x2[i]*x2[i] + y2[i]*y2[i] + z2[i]*z2[i]);
-    }
+    }*/
 
 
     // Set up the mesh points and weights
@@ -180,7 +180,16 @@ int main(int argc, char *argv[]) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
-                            legendre_sum += w[i] * psi();
+                            double r1 = sqrt(x1[i]*x1[i] + y1[j]*y1[j] + z1[k]*x1[k]);
+                            double r2 = sqrt(x2[l]*x2[l] + y2[o]*y2[o] + z2[p]*z2[p]);
+                            double factor = 1/(fabs(r1-r2));
+                            if(factor < ZERO) {
+                                legendre_sum += w[i] * psi(r1,r2);
+                            }
+                            else {
+                                legendre_sum += w[i] * psi(r1,r2) * factor;
+                            }
+
                         }
                     }
                 }
