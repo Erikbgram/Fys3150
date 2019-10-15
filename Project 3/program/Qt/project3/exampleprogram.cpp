@@ -151,7 +151,12 @@ int main(int argc, char *argv[]) {
     double start = -5;
     double stop = 5;
 
-    double *w = new double[n];
+    double *w1 = new double[n];
+    double *w2 = new double[n];
+    double *w3 = new double[n];
+    double *w4 = new double[n];
+    double *w5 = new double[n];
+    double *w6 = new double[n];
     double *x1 = linspace(start, stop, n);
     double *y1 = linspace(start, stop, n);
     double *z1 = linspace(start, stop, n);
@@ -168,7 +173,12 @@ int main(int argc, char *argv[]) {
 
 
     // Set up the mesh points and weights
-    gauleg(a, b, x1, w, n);
+    gauleg(a, b, x1, w1, n);
+    gauleg(a, b, y1, w2, n);
+    gauleg(a, b, z1, w3, n);
+    gauleg(a, b, x2, w4, n);
+    gauleg(a, b, y2, w5, n);
+    gauleg(a, b, z2, w6, n);
 
 
     // Evaluate the integral with the Gauss-Legendre method
@@ -184,10 +194,10 @@ int main(int argc, char *argv[]) {
                             double r2 = sqrt(x2[l]*x2[l] + y2[o]*y2[o] + z2[p]*z2[p]);
                             double factor = 1/(fabs(r1-r2));
                             if(factor < ZERO) {
-                                legendre_sum += w[i] * psi(r1,r2);
+                                legendre_sum += w1[i]*w2[j]*w3[k]*w4[l]*w5[o]*w6[p] * psi(r1,r2);
                             }
                             else {
-                                legendre_sum += w[i] * psi(r1,r2) * factor;
+                                legendre_sum += w1[i]*w2[j]*w3[k]*w4[l]*w5[o]*w6[p] * psi(r1,r2) * factor;
                             }
 
                         }
@@ -217,7 +227,7 @@ int main(int argc, char *argv[]) {
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
     cout << "E-ror = " << setw(20) << setprecision(15) << exact-legendre_sum << endl;
     delete [] x1;
-    delete [] w;
+    delete [] w1;
 
 
     return 0;
