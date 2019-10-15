@@ -1,5 +1,5 @@
 """
-Last changed: 15.10.2019 18:04 by Alexandra Jahr Kolstad
+Last changed: 15.10.2019 19:04 by Alexandra Jahr Kolstad
 """
 
 #imports
@@ -34,5 +34,5 @@ plt.title("Plot of error with " + str(n[0]) + " number of integrations from " + 
 plt.xlabel("Lambda") #add x-label
 plt.ylabel("Error") #add y-label
 plt.legend() #enable labels on plot
-#plt.savefig("../error-" + filename[:-4] + ".png") #saves plot as image
+plt.savefig("../error-" + filename[:-4] + ".png") #saves plot as image
 plt.show() #show plot
