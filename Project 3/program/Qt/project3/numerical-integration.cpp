@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <chrono>
+#include <random>
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -17,7 +18,23 @@ using namespace std;
 namespace ch = std::chrono;
 
 // Functions
-double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // This function defines the function to integrate
+double* linspace(double start,double stop, int n) { // Creates linspaced dynamic array
+    double h = (stop - start)/(n-1);
+    double* arr = new double[n];
+    for(int i = 0; i < n; i++) {
+      arr[i] = start + stop*i*h;
+    }
+    return arr;
+}
+
+minstd_rand0 generator;
+
+inline double ran(){
+    //return ((double) generator())/2147483647;
+    return ((double) rand()) / RAND_MAX;
+}
+
+double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // Defines the function to integrate
     double value = exp(-2*alpha*(sqrt(x1 * x1 + y1 * y1 + z1 * z1) + sqrt(x2 * x2 + y2 * y2 + z2 * z2)));
     double length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
       if(length < ZERO) {
@@ -26,7 +43,7 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
     return value / length ;
 }
 
-double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
+double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
     double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
     double value = exp(-3 * (r1+r2) )* r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
     double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
@@ -150,13 +167,33 @@ void gaulag(double *x, double *w, int n, double alf){
 	}
 }
 
-double* linspace(double start,double stop, int n) {
-  double h = (stop - start)/(n-1);
-  double* arr = new double[n];
-  for(int i = 0; i < n; i++) {
-    arr[i] = start + stop*i*h;
-  }
-  return arr;
+void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
+    double * x = new double [n];
+    double x1, x2, y1, y2, z1, z2, f;
+    double mc = 0.0;
+    double sigma = 0.0;
+    int i;
+    double jacob = pow((b-a),6);
+
+    for (i = 0; i < n; i++){
+        x1=ran()*(b-a)+a;
+        x2=ran()*(b-a)+a;
+        y1=ran()*(b-a)+a;
+        y2=ran()*(b-a)+a;
+        z1=ran()*(b-a)+a;
+        z2=ran()*(b-a)+a;
+        f=psi(x1, x2, y1, y2, z1, z2);
+        mc += f;
+        x[i] = f;
+    }
+    mc = mc/((double) n );
+    for (i = 0; i < n; i++){
+        sigma += (x[i] - mc)*(x[i] - mc);
+    }
+    sigma = sigma*jacob/((double) n );
+    std = sqrt(sigma)/sqrt(n);
+    integral = mc*jacob;
+    delete [] x;
 }
 
 int main(int argc, char *argv[]) {
@@ -194,6 +231,9 @@ int main(int argc, char *argv[]) {
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
 
+    delete [] x;
+    delete [] w;
+
     //-------------------------------------------------------------------------------------------
 
     //Laguerre
@@ -229,6 +269,31 @@ int main(int argc, char *argv[]) {
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
 
+    delete [] r;
+    delete [] the;
+    delete [] phi;
+    delete [] wr;
+    delete [] wthe;
+    delete [] wphi;
+
+    //-------------------------------------------------------------------------------------------
+
+    //Brute Force Monte Carlo
+
+    //x = new double[n];
+    //w = new double[n];
+
+    double BMC_sum;
+    double BMC_std;
+
+    start = ch::steady_clock::now();
+
+    Brute_MonteCarlo(n, -la, la, BMC_sum, BMC_std);
+
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_BMC = ch::duration_cast<ch::nanoseconds>(stop - start);
+
+
     double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
@@ -244,6 +309,13 @@ int main(int argc, char *argv[]) {
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
     std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
+    cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
+    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
+    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
+    cout << " " << "\n" ;
+
+
     delete [] x;
     delete [] w;
 
