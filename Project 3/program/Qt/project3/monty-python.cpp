@@ -9,9 +9,9 @@
 #include <cmath>
 #include <stdlib.h>
 #include <stdio.h>
-#define EPS 3.0e-14
+#define EPS   3.0e-14
 #define MAXIT 10
-#define   ZERO       1.0E-10
+#define ZERO  1.0E-10
 using namespace std;
 
 // Functions
@@ -26,7 +26,7 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
 
 double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
     double cosb = cos(t1)*cos(t2) + sin(t1)*sin(t2)*cos(p1-p2);
-    double value = exp(-3*alpha*(r1+r2))*r1*r1*r2*r2*sin(t1)*sin(t2);
+    double value = exp(-3*(r1+r2))*r1*r1*r2*r2*sin(t1)*sin(t2);
     double length = sqrt(r1*r1 + r2*r2 - 2*r1*r2*cosb);
       if(length < ZERO) {
           return 0;
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
     double legendre_sum = 0.0;
-    /*for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
                 for(int l = 0; l < n; l++) {
@@ -183,27 +183,27 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }*/
+    }
 
     //Laguerre
-    double *r = new double[n];
-    double *the = new double[n];
-    double *phi = new double[n];
-    double *wr = new double[n];
-    double *wthe = new double[n];
-    double *wphi = new double[n];
+    double *r = new double[n+1];
+    double *the = new double[n+1];
+    double *phi = new double[n+1];
+    double *wr = new double[n+1];
+    double *wthe = new double[n+1];
+    double *wphi = new double[n+1];
 
     gauss_laguerre(r, wr, n, 0);
     gauleg(0, 2*M_PI, the, wthe, n);
     gauleg(0, M_PI, phi, wphi, n);
 
     double laguerre_sum = 0.0;
-    for(int i = 0; i < n; i++) {
-        for(int j = 0; j < n; j++) {
-            for(int k = 0; k < n; k++) {
-                for(int l = 0; l < n; l++) {
-                    for(int o = 0; o < n; o++) {
-                        for(int p = 0; p < n; p++) {
+    for(int i = 1; i < n+1; i++) {
+        for(int j = 1; j < n+1; j++) {
+            for(int k = 1; k < n+1; k++) {
+                for(int l = 1; l < n+1; l++) {
+                    for(int o = 1; o < n+1; o++) {
+                        for(int p = 1; p < n+1; p++) {
                           laguerre_sum += (wr[i] * wr[j] * wthe[k] * wthe[l] * wphi[o] * wphi[p]) * psi_sphere(r[i], r[j], the[k], the[l], phi[o], phi[p]);
                         }
                     }
