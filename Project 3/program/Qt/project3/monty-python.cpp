@@ -26,9 +26,9 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
 }
 
 double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
-    double cosb = cos(t1)*cos(t2) + sin(t1)*sin(t2)*cos(p1-p2);
-    double value = exp(-3*(r1+r2))*r1*r1*r2*r2*sin(t1)*sin(t2);
-    double length = sqrt(r1*r1 + r2*r2 - 2*r1*r2*cosb);
+    double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
+    double value = exp(-3 * (r1+r2) )* r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
+    double length = sqrt(r1*r1 + r2*r2 - 2 * r1 * r2 * cosb);
       if(length < ZERO) {
           return 0;
         }
@@ -183,6 +183,8 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+
+    //-------------------------------------------------------------------------------------------
 
     //Laguerre
     double *r = new double[n+1];
