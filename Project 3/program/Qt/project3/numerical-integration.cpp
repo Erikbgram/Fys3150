@@ -316,9 +316,6 @@ int main(int argc, char *argv[]) {
     cout << " " << "\n" ;
 
 
-    delete [] x;
-    delete [] w;
-
 /*
     fstream outfile;
 
