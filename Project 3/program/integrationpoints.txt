@@ -1,1 +1,1 @@
-integration points , lambda , error
+integration points , lambda , error , time_span_gauss_legendre

@@ -1,5 +1,5 @@
 """
-Last changed: 15.10.2019 19:04 by Alexandra Jahr Kolstad
+Last changed: 17.10.2019 12:30 by Alexandra Jahr Kolstad
 """
 
 #imports
@@ -30,9 +30,20 @@ error = plt.array(error)
 #plt.figure(figsize=(12,9)) #change figuresize for better quality image
 plt.plot(la, error) #plot of iterations as function of dimension
 plt.grid()#add grid to plot
-plt.title("Plot of error with " + str(n[0]) + " number of integrations from " + filename) #add title
+plt.title("Plot of error with " + str(int(n[0])) + " number of integrations from " + filename) #add title
 plt.xlabel("Lambda") #add x-label
 plt.ylabel("Error") #add y-label
 plt.legend() #enable labels on plot
 plt.savefig("../error-" + filename[:-4] + ".png") #saves plot as image
+plt.show()
+
+"""
+plt.plot(n, error) #plot of iterations as function of dimension
+plt.grid()#add grid to plot
+plt.title("Plot of error with lambda " + str(la[0]) + " from " + filename) #add title
+plt.xlabel("n ") #add x-label
+plt.ylabel("Error") #add y-label
+plt.legend() #enable labels on plot
+plt.savefig("../integrationpoints-" + filename[:-4] + ".png") #saves plot as image
 plt.show() #show plot
+"""

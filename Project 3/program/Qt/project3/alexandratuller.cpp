@@ -1,5 +1,5 @@
 /*
-  Last edited by Erlend T. North 10:33 15/10/2019
+  Last edited: 17.10.2019 12:32 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -183,7 +183,6 @@ int main(int argc, char *argv[]) {
 
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
-    std::cout << "Time used by Gauss-Legendre = " << .count()  << "s" << std::endl;
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
@@ -191,25 +190,22 @@ int main(int argc, char *argv[]) {
     cout  << setiosflags(ios::showpoint | ios::uppercase);
     cout << "Gauss-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
-    cout << "E-ror = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    cout << "Error = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << "s" << std::endl;
     delete [] x;
     delete [] w;
 
     fstream outfile;
-/*
+
     outfile.open("../../lambda.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << endl;
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << endl;
+    outfile.close();
+
+/*
+    outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << endl;
     outfile.close();
 */
 
-    outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << endl;
-    outfile.close();
-
-
   return 0;
 }
-
-
-// #undef EPS
-// #undef MAXIT
