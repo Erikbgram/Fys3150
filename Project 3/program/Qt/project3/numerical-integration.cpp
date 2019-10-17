@@ -28,7 +28,6 @@ double* linspace(double start,double stop, int n) { // Creates linspaced dynamic
 }
 
 minstd_rand0 generator;
-
 inline double ran(){
     //return ((double) generator())/2147483647;
     return ((double) rand()) / RAND_MAX;
@@ -46,6 +45,18 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
 double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
     double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
     double value = exp(-3 * (r1+r2) )* r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
+    double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
+      if(length < ZERO) {
+          return 0;
+        }
+      else {
+          return (value) / sqrt(length) ;
+  }
+}
+
+double psi_sphere_MC(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
+    double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
+    double value = r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
     double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
       if(length < ZERO) {
           return 0;
@@ -169,7 +180,7 @@ void gaulag(double *x, double *w, int n, double alf){
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
     default_random_engine generator;
-    uniform_int_distribution<int> distribution(0,RAND_MAX);
+    uniform_real_distribution<double> distribution(a, b);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
     double mc = 0.0;
@@ -178,13 +189,13 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
     double jacob = pow((b-a),6);
 
     for (i = 0; i < n; i++){
-        x1=ran()*(b-a)+a;
-        x2=ran()*(b-a)+a;
-        y1=ran()*(b-a)+a;
-        y2=ran()*(b-a)+a;
-        z1=ran()*(b-a)+a;
-        z2=ran()*(b-a)+a;
-        f=psi(x1, x2, y1, y2, z1, z2);
+        x1 = distribution(generator)*(b-a)+a;
+        x2 = distribution(generator)*(b-a)+a;
+        y1 = distribution(generator)*(b-a)+a;
+        y2 = distribution(generator)*(b-a)+a;
+        z1 = distribution(generator)*(b-a)+a;
+        z2 = distribution(generator)*(b-a)+a;
+        f = psi(x1, x2, y1, y2, z1, z2);
         mc += f;
         x[i] = f;
     }
@@ -200,7 +211,7 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
 
 void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     default_random_engine generator;
-    exponential_distribution<double> distribution(3.5);
+    exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
     double * x = new double [n];
     double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
     double mc = 0.0;
@@ -209,15 +220,15 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     int i;
 
     for (i = 0; i < n; i++){
-        rr1=ran();
-        rr2=ran();
-        r1=-0.25*log(1-rr1);
-        r2=-0.25*log(1-rr2);
-        t1=ran()*M_PI;
-        t2=ran()*M_PI;
-        p1=ran()*2*M_PI;
-        p2=ran()*2*M_PI;
-        f=psi_sphere(r1, r2, t1, t2, p1, p2);
+        rr1 = distribution(generator);
+        rr2 = distribution(generator);
+        r1 = -0.25*log(1-rr1);
+        r2 = -0.25*log(1-rr2);
+        t1 = distribution(generator)*M_PI;
+        t2 = distribution(generator)*M_PI;
+        p1 = distribution(generator)*2*M_PI;
+        p2 = distribution(generator)*2*M_PI;
+        f = psi_sphere_MC(r1, r2, t1, t2, p1, p2);
         mc += f;
         x[i] = f;
     }
