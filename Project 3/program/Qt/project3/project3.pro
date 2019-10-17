@@ -4,4 +4,4 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        gauss-legendre.cpp
+        monty-python.cpp

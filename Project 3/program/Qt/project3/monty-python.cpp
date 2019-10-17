@@ -1,5 +1,5 @@
 /*
-  Last edited by Erlend T. North 10:33 15/10/2019
+  Last edited by Erlend T. North 10:52 17/10/2019
 */
 
 #include <cmath>
@@ -22,6 +22,17 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
           return 0;
         }
     return value / length ;
+}
+
+double psi_sphere(double r1, double r2, double the1, double the2, double phi1, double phi2, double alpha = 2) { // This function defines the function to integrate
+    double jacobi = r1*r1;
+    double value = exp(-2*alpha*(sqrt(r1+r2)));
+    double cosbeta = cos(the1)*cos(the2) + sin(the1)*sin(the2)*cos(phi1-phi2);
+    double length = sqrt(r1*r1 + r2*r2 - 2*r1*r2*cosbeta);
+      if(length < ZERO) {
+          return 0;
+        }
+    return (jacobi*value) / length ;
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
@@ -151,8 +162,9 @@ int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     double la = atof(argv[2]);
 
-    double *w = new double[n];
+    //Legendre
     double *x = new double[n];
+    double *w = new double[n];
 
     // Set up the mesh points and weights
     gauleg(-la, la, x, w, n);
@@ -160,21 +172,47 @@ int main(int argc, char *argv[]) {
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
     double legendre_sum = 0.0;
+    /*for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            for(int k = 0; k < n; k++) {
+                for(int l = 0; l < n; l++) {
+                    for(int o = 0; o < n; o++) {
+                        for(int p = 0; p < n; p++) {
+                          legendre_sum += (w[i] * w[j] * w[k] * w[l] * w[o] * w[p]) * psi(x[i], x[j], x[k], x[l], x[o], x[p]);
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+
+    //Laguerre
+    double *r = new double[n];
+    double *the = new double[n];
+    double *phi = new double[n];
+    double *wr = new double[n];
+    double *wthe = new double[n];
+    double *wphi = new double[n];
+
+    gauleg(0, la, r, wr, n);
+    gauleg(0, 2*M_PI, the, wthe, n);
+    gauleg(0, M_PI, phi, wphi, n);
+
+    double laguerre_sum = 0.0;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
-
-                          legendre_sum += (w[i] * w[j] * w[k] * w[l] * w[o] * w[p]) * psi(x[i], x[j], x[k], x[l], x[o], x[p]);
-
+                          laguerre_sum += (wr[i] * wr[j] * wthe[k] * wthe[l] * wphi[o] * wphi[p]) * psi_sphere(r[i], r[j], the[k], the[l], phi[o], phi[p]);
                         }
                     }
                 }
             }
         }
     }
+
 
 
     double exact = (5*M_PI*M_PI)/(16*16);
@@ -184,6 +222,9 @@ int main(int argc, char *argv[]) {
     cout << "Gaussian-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
     cout << "E-ror = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    cout << "Gaussian-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
+    cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
+    cout << "E-ror = " << setw(20) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
     delete [] x;
     delete [] w;
 
@@ -194,7 +235,3 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
-
-
-// #undef EPS
-// #undef MAXIT
