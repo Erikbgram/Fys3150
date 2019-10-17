@@ -24,15 +24,14 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
     return value / length ;
 }
 
-double psi_sphere(double r1, double r2, double the1, double the2, double phi1, double phi2, double alpha = 2) { // This function defines the function to integrate
-    double jacobi = r1*r1;
-    double value = exp(-2*alpha*(sqrt(r1+r2)));
-    double cosbeta = cos(the1)*cos(the2) + sin(the1)*sin(the2)*cos(phi1-phi2);
-    double length = sqrt(r1*r1 + r2*r2 - 2*r1*r2*cosbeta);
+double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
+    double cosb = cos(t1)*cos(t2) + sin(t1)*sin(t2)*cos(p1-p2);
+    double value = exp(-3*alpha*(r1+r2))*r1*r1*r2*r2*sin(t1)*sin(t2);
+    double length = sqrt(r1*r1 + r2*r2 - 2*r1*r2*cosb);
       if(length < ZERO) {
           return 0;
         }
-    return (jacobi*value) / length ;
+    return (value) / length ;
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
