@@ -1,5 +1,5 @@
 /*
-  Last edited: 17.10.2019 16:48 by Alexandra Jahr Kolstad
+  Last edited: 17.10.2019 17:50 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -29,11 +29,13 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
 double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
     double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
     double value = exp(-3 * (r1+r2) )* r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
-    double length = sqrt(r1*r1 + r2*r2 - 2 * r1 * r2 * cosb);
+    double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
       if(length < ZERO) {
           return 0;
         }
-    return (value) / length ;
+      else {
+          return (value) / sqrt(length) ;
+  }
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
@@ -203,8 +205,8 @@ int main(int argc, char *argv[]) {
     double *wphi = new double[n];
 
     gaulag(r, wr, n+1, 0);
-    gauleg(0, 2*M_PI, the, wthe, n);
-    gauleg(0, M_PI, phi, wphi, n);
+    gauleg(0, M_PI, the, wthe, n);
+    gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
@@ -227,21 +229,20 @@ int main(int argc, char *argv[]) {
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
 
-
     double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
     cout << setiosflags(ios::showpoint | ios::uppercase);
     cout << " " << "\n" ;
-    cout << "Gaussi-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
-    cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
-    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << "s" << std::endl;
+    cout << "Gauss-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
+    cout << "Exact answer = " << setw(26) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(33) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Gauss-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
-    cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(20) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
-    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << "s" << std::endl;
+    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
+    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     delete [] x;
     delete [] w;
