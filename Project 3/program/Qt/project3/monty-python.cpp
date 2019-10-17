@@ -194,7 +194,7 @@ int main(int argc, char *argv[]) {
     double *wthe = new double[n];
     double *wphi = new double[n];
 
-    gauleg(0, la, r, wr, n);
+    gauss_laguerre(r, wr, n, 0);
     gauleg(0, 2*M_PI, the, wthe, n);
     gauleg(0, M_PI, phi, wphi, n);
 
