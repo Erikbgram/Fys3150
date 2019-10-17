@@ -168,6 +168,8 @@ void gaulag(double *x, double *w, int n, double alf){
 }
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
+    default_random_engine generator;
+    uniform_int_distribution<int> distribution(0,RAND_MAX);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
     double mc = 0.0;
@@ -196,6 +198,40 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
     delete [] x;
 }
 
+void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
+    default_random_engine generator;
+    exponential_distribution<double> distribution(3.5);
+    double * x = new double [n];
+    double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
+    double mc = 0.0;
+    double sigma = 0.0;
+    double jacob = 4*pow(M_PI,4)/16;
+    int i;
+
+    for (i = 0; i < n; i++){
+        rr1=ran();
+        rr2=ran();
+        r1=-0.25*log(1-rr1);
+        r2=-0.25*log(1-rr2);
+        t1=ran()*M_PI;
+        t2=ran()*M_PI;
+        p1=ran()*2*M_PI;
+        p2=ran()*2*M_PI;
+        f=psi_sphere(r1, r2, t1, t2, p1, p2);
+        mc += f;
+        x[i] = f;
+    }
+    mc = mc/((double) n);
+    for (i = 0; i < n; i++){
+        sigma += (x[i] - mc)*(x[i] - mc);
+    }
+    sigma = sigma*jacob/((double) n );
+    std = sqrt(sigma)/sqrt(n);
+    integral = mc*jacob;
+    delete [] x;
+}
+
+
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     double la = atof(argv[2]);
@@ -211,7 +247,7 @@ int main(int argc, char *argv[]) {
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
-    double legendre_sum = 0.0;
+    double legendre_sum = 0.0;/*
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
@@ -226,7 +262,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -244,13 +280,13 @@ int main(int argc, char *argv[]) {
     double *wthe = new double[n];
     double *wphi = new double[n];
 
-    gaulag(r, wr, n+1, 0);
+    //gaulag(r, wr, n+1, 0);
     gauleg(0, M_PI, the, wthe, n);
     gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
-    double laguerre_sum = 0.0;
+    double laguerre_sum = 0.0;/*
     for(int i = 1; i < n+1; i++) {
         for(int j = 1; j < n+1; j++) {
             for(int k = 0; k < n; k++) {
@@ -264,7 +300,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -279,10 +315,6 @@ int main(int argc, char *argv[]) {
     //-------------------------------------------------------------------------------------------
 
     //Brute Force Monte Carlo
-
-    //x = new double[n];
-    //w = new double[n];
-
     double BMC_sum;
     double BMC_std;
 
@@ -293,6 +325,18 @@ int main(int argc, char *argv[]) {
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_BMC = ch::duration_cast<ch::nanoseconds>(stop - start);
 
+    //-------------------------------------------------------------------------------------------
+
+    //Spherical Monte Carlo w/ Imp.Sampling
+    double SMC_sum;
+    double SMC_std;
+
+    start = ch::steady_clock::now();
+
+    Polar_MonteCarlo_Importance(n, SMC_sum, SMC_std);
+
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_SMC = ch::duration_cast<ch::nanoseconds>(stop - start);
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
@@ -313,6 +357,11 @@ int main(int argc, char *argv[]) {
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
     std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
+    cout << " " << "\n" ;
+    cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
+    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
+    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
 
 
