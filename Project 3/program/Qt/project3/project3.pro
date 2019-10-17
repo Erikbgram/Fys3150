@@ -4,5 +4,4 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        exampleprogram.cpp
-        exampleprogram.cpp
+        gauss-legendre.cpp
