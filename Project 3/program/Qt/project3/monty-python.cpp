@@ -1,5 +1,5 @@
 /*
-  Last edited by Erlend T. North 10:52 17/10/2019
+  Last edited: 17.10.2019 16:48 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -9,11 +9,12 @@
 #include <cmath>
 #include <stdlib.h>
 #include <stdio.h>
-//#include "lib.h"
-#define EPS   3.0e-14
+#include <chrono>
+#define EPS 3.0e-14
 #define MAXIT 10
-#define ZERO  1.0E-10
+#define   ZERO       1.0E-10
 using namespace std;
+namespace ch = std::chrono;
 
 // Functions
 double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // This function defines the function to integrate
@@ -160,15 +161,17 @@ int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     double la = atof(argv[2]);
 
-    //Legendre
-    double *x = new double[n];
     double *w = new double[n];
+    double *x = new double[n];
 
     // Set up the mesh points and weights
     gauleg(-la, la, x, w, n);
 
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
+
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+
     double legendre_sum = 0.0;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
@@ -176,13 +179,18 @@ int main(int argc, char *argv[]) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
+
                           legendre_sum += (w[i] * w[j] * w[k] * w[l] * w[o] * w[p]) * psi(x[i], x[j], x[k], x[l], x[o], x[p]);
+
                         }
                     }
                 }
             }
         }
     }
+
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
 
     //-------------------------------------------------------------------------------------------
 
@@ -197,6 +205,8 @@ int main(int argc, char *argv[]) {
     gaulag(r, wr, n+1, 0);
     gauleg(0, 2*M_PI, the, wthe, n);
     gauleg(0, M_PI, phi, wphi, n);
+
+    start = ch::steady_clock::now();
 
     double laguerre_sum = 0.0;
     for(int i = 1; i < n+1; i++) {
@@ -214,6 +224,9 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
+
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
@@ -223,18 +236,28 @@ int main(int argc, char *argv[]) {
     cout << "Gaussi-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(20) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     cout << "Gauss-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
     cout << "Exact answer = " << setw(20) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(20) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
+    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     delete [] x;
     delete [] w;
 
+/*
     fstream outfile;
-    outfile.open("../../error.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << endl;
+
+    outfile.open("../../lambda.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
+
+
+    outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
+    outfile.close();
+*/
 
   return 0;
 }
