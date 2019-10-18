@@ -350,29 +350,38 @@ int main(int argc, char *argv[]) {
     //Parallelized Spherical Monte Carlo w/ Imp.Sampling
 
     //  MPI initializations
-    MPI_Init (&nargs, &args);
+    int local_n, numprocs, my_rank;
+    double total_sum, total_std, local_sum, local_std;
+    double time_start, time_end, total_time;
+
+    MPI_Init (&argc, &argv);
     MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
-    if(n%numprocs==0) {
+
+    
+    if(n%numprocs==0) {   //teste om man skriver inn et oddetall for n
       // This is good
-      int local_n = n/numprocs;
+      local_n = n/numprocs;
     }
     else {
       // This is bad
-      int local_n = n/numprocs-1;
+      local_n = n/numprocs-1;
     }
-    double time_start = MPI_Wtime();
+
+
+    time_start = MPI_Wtime();
     total_sum = 0.0;
     total_std = 0.0;
     Polar_MonteCarlo_Importance(local_n, local_sum, local_std);
     MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_std, &total_std, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    double time_end = MPI_Wtime();
-    double total_time = time_end-time_start;
+    time_end = MPI_Wtime();
+    total_time = time_end-time_start;
     if ( my_rank == 0) {
         cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling rule = " << total_sum << endl;
         cout << "Time = " << total_time << " on number of processors: " << numprocs << endl;
     }
+    MPI_Finalize();
 
 
 
@@ -402,9 +411,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Standard deviation BMC = " << BMC_std << "\n" ;
-    cout << "Standard deviation uniform = 0.2886 " << "\n" ;
     cout << "Standard deviation SMC = " << SMC_std << "\n" ;
-    cout << "Standard deviation exponential = 0.25 " << "\n" ;
     cout << " " << "\n" ;
 
 

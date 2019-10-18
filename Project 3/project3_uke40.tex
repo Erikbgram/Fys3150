@@ -85,13 +85,7 @@ And then later you can call:
 %\newpage
 
 %------------Her starter skrivingen-----------------------------------------
-\vspace{1cm}
 
-\tableofcontents
-
-\vspace{1cm}
-
-%---------------------------------------
 %\begin{multicols}{2}
 
 \newpage
@@ -136,22 +130,80 @@ Ting å gjøre for de ulike oppgavene:
 \end{itemize}
 
 
-%----------Abstract-------------------------------
+%-------------------- Abstract -------------------------------
 \vspace{1cm}
 
-\section{Abstract} \label{sec:Abstract}
 
-hensikt: tilnærme løsningen til integralet så best som mulig 5 pi**2 / 16**2 .
+\begin{center}
+
+{\Large\textbf{Abstract}} \label{sec:Abstract}
+
+\end{center}
+
+\vspace{5mm}
+
+
+%\begin{abstract}
+
+hensikt: tilnærme løsningen til integralet så best som mulig 5 pi**2 / 16**2 . \\
+
+In this project we will compute an integral with different numerical methods of integration, while comparing these values to the exact answer. Our integral is
+
+\begin{equation}
+    \left\langle \frac{1}{| \vec{r_1} - \vec{r_2} |} \right\rangle = \int_{-\infty} ^\infty d \vec{r_1} d \vec{r_2} \hspace{1mm} e^{- 2 \alpha (r_1 + r_2)} \hspace{1mm} \frac{1}{| \vec{r_1} - \vec{r_2} |}
+\end{equation}
+
+which is not normalized. The answer to the integral is $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The numerical integration methods we will use in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallization. \\
+
+In this numerical study we are going to use different numerical integration methods to approximate the ground state correlation energy between two electrons in a helium atom. The main interest and the goal of this study is to look at how the different methods compare and
 
 \begin{verbatim}
 
-  
+  1x-193-157-253-38:project3 Alexandra$ ./ni.o 1000000000 3
+
+Gauss-Legendre quad =     0.00000000000000
+Exact answer =          0.192765710958777
+Error =                 0.192765710958777
+Time used by Gauss-Legendre = 1.73000000000000E-07s
+
+Gauss-Laguerre quad =     0.00000000000000
+Exact answer =           0.192765710958777
+Error =                   0.192765710958777
+Time used by Gauss-Laguerre = 1.17000000000000E-07s
+
+Brute Force Monte Carlo =    0.193462755727606
+Exact answer =           0.192765710958777
+Error =                0.000697044768829452
+Time used by Brute Force Monte Carlo = 653.636127568000s
+
+Spherical Monte Carlo w/ Imp.Sampling =    0.192692246996587
+Exact answer =           0.192765710958777
+Error =                7.34639621890743E-05
+Time used by Spherical Monte Carlo w/ Imp.Sampling = 772.072297750000s
+
+Standard deviation BMC = 0.00111909179849692
+Standard deviation SMC = 3.31038411626575E-05
+
+
 
 
 \end{verbatim}
 
+%\end{abstract}
 
-%--------------Introduction------------------------------
+%\end{center}
+
+\newpage
+
+%------------------- Table of contents -----------------------
+
+\vspace{1cm}
+
+\tableofcontents
+
+\vspace{1cm}
+
+%-------------------- Introduction ------------------------------
 \vspace{1cm}
 
 \section{Introduction} \label{sec:Introduction}
@@ -160,7 +212,7 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 
 
-%--------------- Theory ------------------------------------
+%-------------------- Theory ------------------------------------
 \vspace{1cm}
 
 \section{Theory} \label{sec:Theory}
@@ -196,7 +248,7 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 
 
 
-%--------------- Method ------------------------------------
+%--------------------- Method ------------------------------------
 \vspace{1cm}
 
 \section{Method} \label{sec:Method}
@@ -245,7 +297,7 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
 %\vspace{3cm}
 
 
-\iffalse
+
   \begin{table}[ht] \label{tab:exec_time}
     \centering
       \caption{Execution time for the two methods.}
@@ -254,14 +306,14 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
         \hline
         $n$    &   Tridiagonal      &  LU-Decomposition  \\
         \hline \hline
-        10   & $2.00\cdot10^{-7}$ & $3.17\cdot10^{-4}$ \\
+        10   & {kcmdkcmdkmcdkmdkcmk kdmckdcm \\ eokfodfk } & $3.17\cdot10^{-4}$ \\
         100  & $1,40\cdot10^{-6}$ & $1.40\cdot10^{-3}$ \\
         1000 & $1.44\cdot10^{-5}$ & $3.36\cdot10^{-2}$ \\
         \hline
       \end{tabular} \\
       \hspace{0pt}\\
   \end{table}
-\fi
+
 
 %--------------- Discussion ---------------------------------------
 \vspace{1cm}
