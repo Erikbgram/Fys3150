@@ -27,12 +27,6 @@ double* linspace(double start,double stop, int n) { // Creates linspaced dynamic
     return arr;
 }
 
-minstd_rand0 generator;
-inline double ran(){
-    //return ((double) generator())/2147483647;
-    return ((double) rand()) / RAND_MAX;
-}
-
 double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // Defines the function to integrate
     double value = exp(-2*alpha*(sqrt(x1 * x1 + y1 * y1 + z1 * z1) + sqrt(x2 * x2 + y2 * y2 + z2 * z2)));
     double length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
@@ -58,12 +52,12 @@ double psi_sphere_MC(double r1, double r2, double t1, double t2, double p1, doub
     double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
     double value = r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
     double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
-      if(length < ZERO) {
-          return 0;
-        }
-      else {
-          return (value) / sqrt(length) ;
-  }
+    if(length < ZERO) {
+        return 0;
+    }
+    else {
+        return (value) / sqrt(length) ;
+    }
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
@@ -180,9 +174,7 @@ void gaulag(double *x, double *w, int n, double alf){
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
     std::random_device rd;
-    std::mt19937_64 gen(rd());
-    //mt19937_64 generator;
-    //uniform_real_distribution<double> distribution(a, b);
+    std::mt19937_64 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
@@ -202,11 +194,11 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n );
+    mc = mc/n;
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -214,10 +206,8 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
 
 void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::exponential_distribution<double> distribution(4);
-    //mt19937_64 generator;
-    //exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
+    std::mt19937_64 generator(rd());
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
     double * x = new double [n];
     double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
     double mc = 0.0;
@@ -238,16 +228,15 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n);
+    mc = mc/n;
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
 }
-
 
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
@@ -257,7 +246,7 @@ int main(int argc, char *argv[]) {
     double *x = new double[n];
 
     // Set up the mesh points and weights
-    gauleg(-la, la, x, w, n);
+    //gauleg(-la, la, x, w, n);
 
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
@@ -298,8 +287,8 @@ int main(int argc, char *argv[]) {
     double *wphi = new double[n];
 
     //gaulag(r, wr, n+1, 0);
-    gauleg(0, M_PI, the, wthe, n);
-    gauleg(0, 2*M_PI, phi, wphi, n);
+    //gauleg(0, M_PI, the, wthe, n);
+    //gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
