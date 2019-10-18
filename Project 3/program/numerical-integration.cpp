@@ -358,7 +358,7 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
 
-    
+
     if(n%numprocs==0) {   //teste om man skriver inn et oddetall for n
       // This is good
       local_n = n/numprocs;
@@ -376,57 +376,96 @@ int main(int argc, char *argv[]) {
     MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_std, &total_std, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     time_end = MPI_Wtime();
+    total_sum = total_sum/numprocs;
+    total_std = total_std/numprocs;
     total_time = time_end-time_start;
     if ( my_rank == 0) {
-        cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling rule = " << total_sum << endl;
+        std::cout << "\n"  ;
+        cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling = " << total_sum << endl;
+        cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling std = " << total_std << endl;
         cout << "Time = " << total_time << " on number of processors: " << numprocs << endl;
+
+        /*
+        double exact = (5*M_PI*M_PI)/(16*16);
+
+        // Final output
+        cout << setiosflags(ios::showpoint | ios::uppercase);
+        cout << " " << "\n" ;
+        cout << "Gauss-Legendre quad = " << setw(40) << setprecision(15)  << legendre_sum << endl;
+        cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+        cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+        std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << " s" << std::endl;
+        cout << " " << "\n" ;
+        cout << "Gauss-Laguerre quad = " << setw(40) << setprecision(15)  << laguerre_sum << endl;
+        cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+        cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
+        std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
+        cout << " " << "\n" ;
+        cout << "Brute Force Monte Carlo = " << setw(40) << setprecision(15)  << BMC_sum << endl;
+        cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+        cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-BMC_sum) << endl;
+        std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
+        cout << " " << "\n" ;
+        cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
+        cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+        cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-SMC_sum) << endl;
+        std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
+        cout << " " << "\n" ;
+        cout << "Standard deviation BMC = " << BMC_std << "\n" ;
+        cout << "Standard deviation SMC = " << SMC_std << "\n" ;
+        cout << " " << "\n" ;
+        cout << " " << "\n" ;
+        cout << " " << "\n" ; */
     }
     MPI_Finalize();
 
-
+    /*
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
     cout << setiosflags(ios::showpoint | ios::uppercase);
     cout << " " << "\n" ;
-    cout << "Gauss-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
-    cout << "Exact answer = " << setw(26) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(33) << setprecision(15) << fabs(exact-legendre_sum) << endl;
+    cout << "Gauss-Legendre quad = " << setw(40) << setprecision(15)  << legendre_sum << endl;
+    cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-legendre_sum) << endl;
     std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
-    cout << "Gauss-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
-    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
+    cout << "Gauss-Laguerre quad = " << setw(40) << setprecision(15)  << laguerre_sum << endl;
+    cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
     std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
-    cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
-    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
+    cout << "Brute Force Monte Carlo = " << setw(40) << setprecision(15)  << BMC_sum << endl;
+    cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-BMC_sum) << endl;
     std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
-    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
+    cout << "Exact answer = " << setw(40) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(40) << setprecision(15) << fabs(exact-SMC_sum) << endl;
     std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Standard deviation BMC = " << BMC_std << "\n" ;
     cout << "Standard deviation SMC = " << SMC_std << "\n" ;
     cout << " " << "\n" ;
+    cout << " " << "\n" ;
+    cout << " " << "\n" ;
 
+    */
 
-/*
     fstream outfile;
-
+/*
     outfile.open("../../lambda.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
-
 
     outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
 */
+
+
 
   return 0;
 }

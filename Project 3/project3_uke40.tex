@@ -159,7 +159,7 @@ In this numerical study we are going to use different numerical integration meth
 
 \begin{verbatim}
 
-  1x-193-157-253-38:project3 Alexandra$ ./ni.o 1000000000 3
+1x-193-157-253-38:project3 Alexandra$ ./ni.o 1000000000 3
 
 Gauss-Legendre quad =     0.00000000000000
 Exact answer =          0.192765710958777
@@ -184,7 +184,60 @@ Time used by Spherical Monte Carlo w/ Imp.Sampling = 772.072297750000s
 Standard deviation BMC = 0.00111909179849692
 Standard deviation SMC = 3.31038411626575E-05
 
+---------------------------------------------------
 
+1x-193-157-253-38:program Alexandra$ mpirun -n 2 ./ni2.o 1000000 3
+
+Parallelized Spherical Monte Caro w/ Imp. Sampling = 0.192536
+Parallelized Spherical Monte Caro w/ Imp. Sampling std = 0.000295753
+Time = 0.405455 on number of processors: 2
+
+Gauss-Legendre quad =     0.00000000000000
+Exact answer =          0.192765710958777
+Error =                 0.192765710958777
+Time used by Gauss-Legendre = 1.35000000000000E-07 s
+
+Gauss-Laguerre quad =     0.00000000000000
+Exact answer =           0.192765710958777
+Error =                   0.192765710958777
+Time used by Gauss-Laguerre = 7.00000000000000E-08 s
+
+Brute Force Monte Carlo =    0.199887417052828
+Exact answer =           0.192765710958777
+Error =                 0.00712170609405155
+Time used by Brute Force Monte Carlo = 0.650475530000000 s
+
+Spherical Monte Carlo w/ Imp.Sampling =    0.193504891519357
+Exact answer =           0.192765710958777
+Error =                0.000739180560580976
+Time used by Spherical Monte Carlo w/ Imp.Sampling = 0.871346541000000 s
+
+Standard deviation BMC = 0.000149923598473426
+Standard deviation SMC = 0.000199594116160946
+
+
+Gauss-Legendre quad =     0.00000000000000
+Exact answer =          0.192765710958777
+Error =                 0.192765710958777
+Time used by Gauss-Legendre = 1.53000000000000E-07 s
+
+Gauss-Laguerre quad =     0.00000000000000
+Exact answer =           0.192765710958777
+Error =                   0.192765710958777
+Time used by Gauss-Laguerre = 7.50000000000000E-08 s
+
+Brute Force Monte Carlo =    0.179064317908673
+Exact answer =           0.192765710958777
+Error =                  0.0137013930501036
+Time used by Brute Force Monte Carlo = 0.661376967000000 s
+
+Spherical Monte Carlo w/ Imp.Sampling =    0.194483818491421
+Exact answer =           0.192765710958777
+Error =                 0.00171810753264470
+Time used by Spherical Monte Carlo w/ Imp.Sampling = 0.876190826000000 s
+
+Standard deviation BMC = 0.000116998041926188
+Standard deviation SMC = 0.000216150932593955
 
 
 \end{verbatim}
@@ -259,7 +312,7 @@ The methods used in this project are Gauss-Legendre quadrature, Gauss-Laguerre q
 
 This method is excepted to give to worst approximation to the integral. This is because it uses approximations and other short cuts to more easily compute the integral. For instance the limits are originally given by $\pm \infty$ and in this method they have to be approximated to finite numbers.
 
-integrand diverges. 
+integrand diverges.
 
 
 
@@ -313,7 +366,7 @@ integrand diverges.
         \hline
         $n$    &   Tridiagonal      &  LU-Decomposition  \\
         \hline \hline
-        10   & {kcmdkcmdkmcdkmdkcmk kdmckdcm \\ eokfodfk } & $3.17\cdot10^{-4}$ \\
+        10   & verdier & $3.17\cdot10^{-4}$ \\
         100  & $1,40\cdot10^{-6}$ & $1.40\cdot10^{-3}$ \\
         1000 & $1.44\cdot10^{-5}$ & $3.36\cdot10^{-2}$ \\
         \hline
