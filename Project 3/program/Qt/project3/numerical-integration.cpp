@@ -1,5 +1,5 @@
 /*
-  Last edited: 18.10.2019 15:15 by Erlend TIberg North
+  Last edited: 18.10.2019 19:11 by Erlend TIberg North
 */
 
 #include <cmath>
@@ -10,8 +10,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <chrono>
-#include <random>
-#include <mpi.h>
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -47,18 +45,6 @@ double psi_sphere(double r1, double r2, double t1, double t2, double p1, double 
       else {
           return (value) / sqrt(length) ;
   }
-}
-
-double psi_sphere_MC(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
-    double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
-    double value = r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
-    double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
-    if(length < ZERO) {
-        return 0;
-    }
-    else {
-        return (value) / sqrt(length) ;
-    }
 }
 
 void gauleg(double x1, double x2, double x[], double w[], int n) {
@@ -169,74 +155,8 @@ void gaulag(double *x, double *w, int n, double alf){
 		}
 		if (its > MAXIT) cout << "too many iterations in gaulag" << endl;
 		x[i]=z;
-		w[i] = -exp(gammln(alf+n)-gammln((double)n))/(pp*n*p2);
+        w[i] = -exp(gammln(alf+n)-gammln(n))/(pp*n*p2);
 	}
-}
-
-void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
-    std::random_device rd;
-    std::mt19937_64 generator(rd());
-    std::uniform_real_distribution<double> distribution(0.0,1.0);
-    double * x = new double [n];
-    double x1, x2, y1, y2, z1, z2, f;
-    double mc = 0.0;
-    double sigma = 0.0;
-    int i;
-    double jacob = pow((b-a),6);
-
-    for (i = 0; i < n; i++){
-        x1 = distribution(generator)*(b-a)+a;
-        x2 = distribution(generator)*(b-a)+a;
-        y1 = distribution(generator)*(b-a)+a;
-        y2 = distribution(generator)*(b-a)+a;
-        z1 = distribution(generator)*(b-a)+a;
-        z2 = distribution(generator)*(b-a)+a;
-        f = psi(x1, y1, z1, x2, y2, z2);
-        mc += f;
-        x[i] = f;
-    }
-    mc = mc/n;
-    for (i = 0; i < n; i++){
-        sigma += (x[i] - mc)*(x[i] - mc);
-    }
-    sigma = sigma*jacob/n;
-    std = sqrt(sigma)/sqrt(n);
-    integral = mc*jacob;
-    delete [] x;
-}
-
-void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
-    std::random_device rd;
-    std::mt19937_64 generator(rd());
-    std::uniform_real_distribution<double> distribution(0.0,1.0);
-    double * x = new double [n];
-    double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
-    double mc = 0.0;
-    double sigma = 0.0;
-    double jacob = 4*pow(M_PI,4)/16;
-    int i;
-
-    for (i = 0; i < n; i++){
-        rr1 = distribution(generator);
-        rr2 = distribution(generator);
-        r1 = -0.25*log(1-rr1);
-        r2 = -0.25*log(1-rr2);
-        t1 = distribution(generator)*M_PI;
-        t2 = distribution(generator)*M_PI;
-        p1 = distribution(generator)*2*M_PI;
-        p2 = distribution(generator)*2*M_PI;
-        f = psi_sphere_MC(r1, r2, t1, t2, p1, p2);
-        mc += f;
-        x[i] = f;
-    }
-    mc = mc/n;
-    for (i = 0; i < n; i++){
-        sigma += (x[i] - mc)*(x[i] - mc);
-    }
-    sigma = sigma*jacob/n;
-    std = sqrt(sigma)/sqrt(n);
-    integral = mc*jacob;
-    delete [] x;
 }
 
 int main(int argc, char *argv[]) {
@@ -246,30 +166,24 @@ int main(int argc, char *argv[]) {
     double *w = new double[n];
     double *x = new double[n];
 
-    // Set up the mesh points and weights
-    //gauleg(-la, la, x, w, n);
-
-    // Evaluate the integral with the Gauss-Legendre method
-    // Note that we initialize the sum. Here brute force gauss-legendre
+    gauleg(-la, la, x, w, n);
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
-    double legendre_sum = 0.0;/*
+    double legendre_sum = 0.0;
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
                 for(int l = 0; l < n; l++) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
-
                           legendre_sum += (w[i] * w[j] * w[k] * w[l] * w[o] * w[p]) * psi(x[i], x[j], x[k], x[l], x[o], x[p]);
-
                         }
                     }
                 }
             }
         }
-    }*/
+    }
 
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -287,13 +201,13 @@ int main(int argc, char *argv[]) {
     double *wthe = new double[n];
     double *wphi = new double[n];
 
-    //gaulag(r, wr, n+1, 0);
-    //gauleg(0, M_PI, the, wthe, n);
-    //gauleg(0, 2*M_PI, phi, wphi, n);
+    gaulag(r, wr, n+1, 0);
+    gauleg(0, M_PI, the, wthe, n);
+    gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
-    double laguerre_sum = 0.0;/*
+    double laguerre_sum = 0.0;
     for(int i = 1; i < n+1; i++) {
         for(int j = 1; j < n+1; j++) {
             for(int k = 0; k < n; k++) {
@@ -301,13 +215,12 @@ int main(int argc, char *argv[]) {
                     for(int o = 0; o < n; o++) {
                         for(int p = 0; p < n; p++) {
                           laguerre_sum += (wr[i] * wr[j] * wthe[k] * wthe[l] * wphi[o] * wphi[p]) * psi_sphere(r[i], r[j], the[k], the[l], phi[o], phi[p]);
-
                         }
                     }
                 }
             }
         }
-    }*/
+    }
 
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -318,71 +231,6 @@ int main(int argc, char *argv[]) {
     delete [] wr;
     delete [] wthe;
     delete [] wphi;
-
-    //-------------------------------------------------------------------------------------------
-
-    //Brute Force Monte Carlo
-    double BMC_sum;
-    double BMC_std;
-
-    start = ch::steady_clock::now();
-
-    Brute_MonteCarlo(n, -la, la, BMC_sum, BMC_std);
-
-    stop = ch::steady_clock::now();
-    ch::duration<double> time_span_BMC = ch::duration_cast<ch::nanoseconds>(stop - start);
-
-    //-------------------------------------------------------------------------------------------
-
-    //Spherical Monte Carlo w/ Imp.Sampling
-    double SMC_sum;
-    double SMC_std;
-
-    start = ch::steady_clock::now();
-
-    Polar_MonteCarlo_Importance(n, SMC_sum, SMC_std);
-
-    stop = ch::steady_clock::now();
-    ch::duration<double> time_span_SMC = ch::duration_cast<ch::nanoseconds>(stop - start);
-
-    //-------------------------------------------------------------------------------------------
-
-    //Parallelized Spherical Monte Carlo w/ Imp.Sampling
-
-    //  MPI initializations
-    int local_n, numprocs, my_rank;
-    double total_sum, total_std, local_sum, local_std;
-    double time_start, time_end, total_time;
-
-    MPI_Init (&argc, &argv);
-    MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
-    MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
-
-    
-    if(n%numprocs==0) {   //teste om man skriver inn et oddetall for n
-      // This is good
-      local_n = n/numprocs;
-    }
-    else {
-      // This is bad
-      local_n = n/numprocs-1;
-    }
-
-
-    time_start = MPI_Wtime();
-    total_sum = 0.0;
-    total_std = 0.0;
-    Polar_MonteCarlo_Importance(local_n, local_sum, local_std);
-    MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(&local_std, &total_std, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    time_end = MPI_Wtime();
-    total_time = time_end-time_start;
-    if ( my_rank == 0) {
-        cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling rule = " << total_sum << endl;
-        cout << "Time = " << total_time << " on number of processors: " << numprocs << endl;
-    }
-    MPI_Finalize();
-
 
 
     double exact = (5*M_PI*M_PI)/(16*16);
@@ -400,29 +248,19 @@ int main(int argc, char *argv[]) {
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
     std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
-    cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
-    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
-    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
-    cout << " " << "\n" ;
-    cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
-    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
-    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
-    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
-    cout << " " << "\n" ;
-    cout << "Standard deviation BMC = " << BMC_std << "\n" ;
-    cout << "Standard deviation SMC = " << SMC_std << "\n" ;
-    cout << " " << "\n" ;
 
 
-/*
+
     fstream outfile;
+
+    // her varierer du lambdaen med en fast n, f.eks. n = 20
 
     outfile.open("../../lambda.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
 
-
+    // her varierer du n med en fast lambda, f.eks. la = 3 (den som blir best fra tidligere f.eks.)
+/*
     outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
