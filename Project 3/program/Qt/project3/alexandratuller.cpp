@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <chrono>
+#include <random>
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -17,7 +18,22 @@ using namespace std;
 namespace ch = std::chrono;
 
 // Functions
-double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // This function defines the function to integrate
+double* linspace(double start,double stop, int n) { // Creates linspaced dynamic array
+    double h = (stop - start)/(n-1);
+    double* arr = new double[n];
+    for(int i = 0; i < n; i++) {
+      arr[i] = start + stop*i*h;
+    }
+    return arr;
+}
+
+minstd_rand0 generator;
+inline double ran(){
+    //return ((double) generator())/2147483647;
+    return ((double) rand()) / RAND_MAX;
+}
+
+double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // Defines the function to integrate
     double value = exp(-2*alpha*(sqrt(x1 * x1 + y1 * y1 + z1 * z1) + sqrt(x2 * x2 + y2 * y2 + z2 * z2)));
     double length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
       if(length < ZERO) {
@@ -26,9 +42,21 @@ double psi(double x1, double y1, double z1, double x2, double y2, double z2, dou
     return value / length ;
 }
 
-double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // This function defines the function to integrate
+double psi_sphere(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
     double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
     double value = exp(-3 * (r1+r2) )* r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
+    double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
+      if(length < ZERO) {
+          return 0;
+        }
+      else {
+          return (value) / sqrt(length) ;
+  }
+}
+
+double psi_sphere_MC(double r1, double r2, double t1, double t2, double p1, double p2, double alpha = 2) { // Defines the function to integrate in spherical coordinates
+    double cosb = cos(t1) * cos(t2) + sin(t1) * sin(t2) * cos(p1-p2);
+    double value = r1 * r1 * r2 * r2 * sin(t1) * sin(t2);
     double length = r1*r1 + r2*r2 - 2 * r1 * r2 * cosb;
       if(length < ZERO) {
           return 0;
@@ -150,14 +178,76 @@ void gaulag(double *x, double *w, int n, double alf){
 	}
 }
 
-double* linspace(double start,double stop, int n) {
-  double h = (stop - start)/(n-1);
-  double* arr = new double[n];
-  for(int i = 0; i < n; i++) {
-    arr[i] = start + stop*i*h;
-  }
-  return arr;
+void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    //mt19937_64 generator;
+    //uniform_real_distribution<double> distribution(a, b);
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
+    double * x = new double [n];
+    double x1, x2, y1, y2, z1, z2, f;
+    double mc = 0.0;
+    double sigma = 0.0;
+    int i;
+    double jacob = pow((b-a),6);
+
+    for (i = 0; i < n; i++){
+        x1 = distribution(generator)*(b-a)+a;
+        x2 = distribution(generator)*(b-a)+a;
+        y1 = distribution(generator)*(b-a)+a;
+        y2 = distribution(generator)*(b-a)+a;
+        z1 = distribution(generator)*(b-a)+a;
+        z2 = distribution(generator)*(b-a)+a;
+        f = psi(x1, y1, z1, x2, y2, z2);
+        mc += f;
+        x[i] = f;
+    }
+    mc = mc/((double) n );
+    for (i = 0; i < n; i++){
+        sigma += (x[i] - mc)*(x[i] - mc);
+    }
+    sigma = sigma*jacob/((double) n );
+    std = sqrt(sigma)/sqrt(n);
+    integral = mc*jacob;
+    delete [] x;
 }
+
+void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::exponential_distribution<double> distribution(4);
+    //mt19937_64 generator;
+    //exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
+    double * x = new double [n];
+    double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
+    double mc = 0.0;
+    double sigma = 0.0;
+    double jacob = 4*pow(M_PI,4)/16;
+    int i;
+
+    for (i = 0; i < n; i++){
+        rr1 = distribution(generator);
+        rr2 = distribution(generator);
+        r1 = -0.25*log(1-rr1);
+        r2 = -0.25*log(1-rr2);
+        t1 = distribution(generator)*M_PI;
+        t2 = distribution(generator)*M_PI;
+        p1 = distribution(generator)*2*M_PI;
+        p2 = distribution(generator)*2*M_PI;
+        f = psi_sphere_MC(r1, r2, t1, t2, p1, p2);
+        mc += f;
+        x[i] = f;
+    }
+    mc = mc/((double) n);
+    for (i = 0; i < n; i++){
+        sigma += (x[i] - mc)*(x[i] - mc);
+    }
+    sigma = sigma*jacob/((double) n );
+    std = sqrt(sigma)/sqrt(n);
+    integral = mc*jacob;
+    delete [] x;
+}
+
 
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
@@ -174,7 +264,7 @@ int main(int argc, char *argv[]) {
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
-    double legendre_sum = 0.0;
+    double legendre_sum = 0.0;/*
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
@@ -189,10 +279,13 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
+
+    delete [] x;
+    delete [] w;
 
     //-------------------------------------------------------------------------------------------
 
@@ -204,13 +297,13 @@ int main(int argc, char *argv[]) {
     double *wthe = new double[n];
     double *wphi = new double[n];
 
-    gaulag(r, wr, n+1, 0);
+    //gaulag(r, wr, n+1, 0);
     gauleg(0, M_PI, the, wthe, n);
     gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
-    double laguerre_sum = 0.0;
+    double laguerre_sum = 0.0;/*
     for(int i = 1; i < n+1; i++) {
         for(int j = 1; j < n+1; j++) {
             for(int k = 0; k < n; k++) {
@@ -224,10 +317,43 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
+
+    delete [] r;
+    delete [] the;
+    delete [] phi;
+    delete [] wr;
+    delete [] wthe;
+    delete [] wphi;
+
+    //-------------------------------------------------------------------------------------------
+
+    //Brute Force Monte Carlo
+    double BMC_sum;
+    double BMC_std;
+
+    start = ch::steady_clock::now();
+
+    Brute_MonteCarlo(n, -la, la, BMC_sum, BMC_std);
+
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_BMC = ch::duration_cast<ch::nanoseconds>(stop - start);
+
+    //-------------------------------------------------------------------------------------------
+
+    //Spherical Monte Carlo w/ Imp.Sampling
+    double SMC_sum;
+    double SMC_std;
+
+    start = ch::steady_clock::now();
+
+    Polar_MonteCarlo_Importance(n, SMC_sum, SMC_std);
+
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_SMC = ch::duration_cast<ch::nanoseconds>(stop - start);
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
@@ -244,8 +370,22 @@ int main(int argc, char *argv[]) {
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
     std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
-    delete [] x;
-    delete [] w;
+    cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
+    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
+    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
+    cout << " " << "\n" ;
+    cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
+    cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
+    cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
+    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
+    cout << " " << "\n" ;
+    cout << "Standard deviation BMC = " << BMC_std << "\n" ;
+    cout << "Standard deviation uniform = 0.2886 " << "\n" ;
+    cout << "Standard deviation SMC = " << SMC_std << "\n" ;
+    cout << "Standard deviation exponential = 0.25 " << "\n" ;
+    cout << " " << "\n" ;
+
 
 /*
     fstream outfile;

@@ -1,5 +1,5 @@
 /*
-  Last edited: 17.10.2019 17:50 by Alexandra Jahr Kolstad
+  Last edited: 18.10.2019 14:12 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -25,6 +25,12 @@ double* linspace(double start,double stop, int n) { // Creates linspaced dynamic
       arr[i] = start + stop*i*h;
     }
     return arr;
+}
+
+minstd_rand0 generator;
+inline double ran(){
+    //return ((double) generator())/2147483647;
+    return ((double) rand()) / RAND_MAX;
 }
 
 double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // Defines the function to integrate
@@ -173,8 +179,11 @@ void gaulag(double *x, double *w, int n, double alf){
 }
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
-   mt19937_64 generator;
-    uniform_real_distribution<double> distribution(a, b);
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    //mt19937_64 generator;
+    //uniform_real_distribution<double> distribution(a, b);
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
     double mc = 0.0;
@@ -193,19 +202,22 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
         mc += f;
         x[i] = f;
     }
-    mc = mc/n;
+    mc = mc/((double) n );
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/n;
+    sigma = sigma*jacob/((double) n );
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
 }
 
 void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
-    mt19937_64 generator;
-    exponential_distribution<double> distribution(4);   // 2*alpha
+    std::random_device rd;
+    std::mt19937_64 gen(rd());
+    std::exponential_distribution<double> distribution(4);
+    //mt19937_64 generator;
+    //exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
     double * x = new double [n];
     double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
     double mc = 0.0;
@@ -226,29 +238,29 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
         mc += f;
         x[i] = f;
     }
-    mc = mc/n;
+    mc = mc/((double) n);
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/n;
+    sigma = sigma*jacob/((double) n );
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
 }
 
+
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     double la = atof(argv[2]);
 
-    //-------------------------------------------------------------------------------------------
-
-    //Laguerre
     double *w = new double[n];
     double *x = new double[n];
 
     // Set up the mesh points and weights
     gauleg(-la, la, x, w, n);
 
+    // Evaluate the integral with the Gauss-Legendre method
+    // Note that we initialize the sum. Here brute force gauss-legendre
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
@@ -367,6 +379,11 @@ int main(int argc, char *argv[]) {
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
     std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
+    cout << " " << "\n" ;
+    cout << "Standard deviation BMC = " << BMC_std << "\n" ;
+    cout << "Standard deviation uniform = 0.2886 " << "\n" ;
+    cout << "Standard deviation SMC = " << SMC_std << "\n" ;
+    cout << "Standard deviation exponential = 0.25 " << "\n" ;
     cout << " " << "\n" ;
 
 
