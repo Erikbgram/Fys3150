@@ -1,5 +1,5 @@
 /*
-  Last edited: 18.10.2019 14:12 by Alexandra Jahr Kolstad
+  Last edited: 18.10.2019 15:15 by Erlend TIberg North
 */
 
 #include <cmath>
@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <chrono>
 #include <random>
+#include <mpi.h>
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -198,7 +199,7 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob*jacob/n;
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -232,7 +233,7 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob*jacob/n;
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -344,6 +345,46 @@ int main(int argc, char *argv[]) {
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_SMC = ch::duration_cast<ch::nanoseconds>(stop - start);
 
+    //-------------------------------------------------------------------------------------------
+
+    //Parallelized Spherical Monte Carlo w/ Imp.Sampling
+
+    //  MPI initializations
+    int local_n, numprocs, my_rank;
+    double total_sum, total_std, local_sum, local_std;
+    double time_start, time_end, total_time;
+
+    MPI_Init (&argc, &argv);
+    MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
+    MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
+
+    
+    if(n%numprocs==0) {   //teste om man skriver inn et oddetall for n
+      // This is good
+      local_n = n/numprocs;
+    }
+    else {
+      // This is bad
+      local_n = n/numprocs-1;
+    }
+
+
+    time_start = MPI_Wtime();
+    total_sum = 0.0;
+    total_std = 0.0;
+    Polar_MonteCarlo_Importance(local_n, local_sum, local_std);
+    MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_std, &total_std, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    time_end = MPI_Wtime();
+    total_time = time_end-time_start;
+    if ( my_rank == 0) {
+        cout << "Parallelized Spherical Monte Caro w/ Imp. Sampling rule = " << total_sum << endl;
+        cout << "Time = " << total_time << " on number of processors: " << numprocs << endl;
+    }
+    MPI_Finalize();
+
+
+
     double exact = (5*M_PI*M_PI)/(16*16);
 
     // Final output
@@ -352,22 +393,22 @@ int main(int argc, char *argv[]) {
     cout << "Gauss-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(26) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(33) << setprecision(15) << fabs(exact-legendre_sum) << endl;
-    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << "s" << std::endl;
+    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Gauss-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
-    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << "s" << std::endl;
+    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
-    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << "s" << std::endl;
+    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
-    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << "s" << std::endl;
+    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
     cout << " " << "\n" ;
     cout << "Standard deviation BMC = " << BMC_std << "\n" ;
     cout << "Standard deviation SMC = " << SMC_std << "\n" ;
