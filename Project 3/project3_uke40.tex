@@ -155,7 +155,9 @@ In this project we will compute an integral with different numerical methods of 
 
 which is not normalized. The answer to the integral is $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The numerical integration methods we will use in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallization. \\
 
-In this numerical study we are going to use different numerical integration methods to approximate the ground state correlation energy between two electrons in a helium atom. The main interest and the goal of this study is to look at how the different methods compare and
+In this numerical study we are going to use different numerical integration methods to approximate the ground state correlation energy between two electrons in a helium atom. The main interest and the goal of this study is to look at how the methods compare with different amount of mesh points and integration limits. The methods in question are Gauss-Legendre Quadrature, Gauss-Laguerre Quadrature, and some variations of the Monte Carlo Method.
+The study was a success and proved Monte Carlo to be the fastest and most accurate method. Being based on big data, it required many more sampling points. However, as it did not manually calculate the integral, it was much more efficient.\\
+SETT INN NOEN TALL HER
 
 \begin{verbatim}
 
@@ -242,6 +244,8 @@ Standard deviation SMC = 0.000216150932593955
 
 \end{verbatim}
 
+All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
+
 %\end{abstract}
 
 %\end{center}
@@ -261,9 +265,16 @@ Standard deviation SMC = 0.000216150932593955
 
 \section{Introduction} \label{sec:Introduction}
 
-All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
+The integral we are evaluating comes from the solution of schrödinger's equation for a simplified case of determining the ground state correlation energy between two electrons in a helium atom.
 
+\begin{equation}
+    \left\langle \frac{1}{| \vec{r_1} - \vec{r_2} |} \right\rangle = \int_{-\infty} ^\infty d \vec{r_1} d \vec{r_2} \hspace{1mm} e^{- 2 \alpha (r_1 + r_2)} \hspace{1mm} \frac{1}{| \vec{r_1} - \vec{r_2} |}
+\end{equation}
 
+The integral is not properly normalized. However, that is not important for the study.
+If you are interested in how the integral is found, see \cite{task}.\\
+Our aim is, as written in abstract, to approximate this integral using two types of Gaussian Quadrature, and some variations of Monte Carlo. We have created a code that evaluates the integral using each method and compares them. Alongside the actual value we get the absolute value, and time used. Using this we present our data showing that Monte Carlo massively outperforms the other methods.\\
+The report will go through the theory and methods behind our study and following that we will present our results and discuss them.
 
 %-------------------- Theory ------------------------------------
 \vspace{1cm}
@@ -299,7 +310,7 @@ All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub
     \end{bmatrix}
   \end{equation*} \\
 
-
+HER SKAL ERIK SITT INN
 
 %--------------------- Method ------------------------------------
 \vspace{1cm}
@@ -314,7 +325,7 @@ This method is excepted to give to worst approximation to the integral. This is 
 
 integrand diverges.
 
-
+THIS SHOULD ALSO BE ERIK SITT
 
 %--------------------- Results ----------------------------------
 \vspace{1cm}
@@ -417,6 +428,13 @@ integrand diverges.
 
 \href{https://journals.aps.org/pra/pdf/10.1103/PhysRevA.48.3561}{Analytical results for specific oscillator frequencies}. \\
 
+\begin{thebibliography}{}
+\bibitem{task}
+Morten H. Jensen (2019) \emph{\href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Projects/2019/Project3/pdf/Project3.pdf}{Project 3}}, Departement of Physics, University of Oslo, Norway
+
+\bibitem{github}
+Erik B. Grammeltvedt, Alexandra Jahr Kolstad, Erlend T. North (2019) \emph{\href{https://github.com/Erikbgram/Fys3150}{GitHub}}, Students of Departement of Physics, University of Oslo, Norway
+\end{thebibliography}
 
 
 
