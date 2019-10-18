@@ -27,12 +27,6 @@ double* linspace(double start,double stop, int n) { // Creates linspaced dynamic
     return arr;
 }
 
-minstd_rand0 generator;
-inline double ran(){
-    //return ((double) generator())/2147483647;
-    return ((double) rand()) / RAND_MAX;
-}
-
 double psi(double x1, double y1, double z1, double x2, double y2, double z2, double alpha = 2) { // Defines the function to integrate
     double value = exp(-2*alpha*(sqrt(x1 * x1 + y1 * y1 + z1 * z1) + sqrt(x2 * x2 + y2 * y2 + z2 * z2)));
     double length = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2) + (z1 - z2)*(z1 - z2));
@@ -179,7 +173,7 @@ void gaulag(double *x, double *w, int n, double alf){
 }
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
-    default_random_engine generator;
+   mt19937_64 generator;
     uniform_real_distribution<double> distribution(a, b);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
@@ -195,23 +189,23 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
         y2 = distribution(generator)*(b-a)+a;
         z1 = distribution(generator)*(b-a)+a;
         z2 = distribution(generator)*(b-a)+a;
-        f = psi(x1, x2, y1, y2, z1, z2);
+        f = psi(x1, y1, z1, x2, y2, z2);
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n );
+    mc = mc/n;
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
 }
 
 void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
-    default_random_engine generator;
-    exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
+    mt19937_64 generator;
+    exponential_distribution<double> distribution(4);   // 2*alpha
     double * x = new double [n];
     double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
     double mc = 0.0;
@@ -232,29 +226,29 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n);
+    mc = mc/n;
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
 }
 
-
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     double la = atof(argv[2]);
 
+    //-------------------------------------------------------------------------------------------
+
+    //Laguerre
     double *w = new double[n];
     double *x = new double[n];
 
     // Set up the mesh points and weights
     gauleg(-la, la, x, w, n);
 
-    // Evaluate the integral with the Gauss-Legendre method
-    // Note that we initialize the sum. Here brute force gauss-legendre
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
