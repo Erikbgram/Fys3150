@@ -1,1 +1,1 @@
-integration points , lambda , error , time_span_gauss_legendre
+integration points , lambda , error_legendre , error_laguerre , time_span_gauss_legendre , time_span_gauss_laguerre

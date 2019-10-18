@@ -456,15 +456,17 @@ int main(int argc, char *argv[]) {
 
     fstream outfile;
 /*
-    outfile.open("../../lambda.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
+    outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
 
-    outfile.open("../../integrationpoints.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
+    outfile.open("integrationpoints.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
 */
-
+    outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
+    outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << time_span_gauss_BMC.count() << " , "  << time_span_gauss_SMC.count() << endl;
+    outfile.close();
 
 
   return 0;
