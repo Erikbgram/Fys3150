@@ -198,7 +198,7 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/n;
+    sigma = sigma*jacob*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -232,7 +232,7 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/n;
+    sigma = sigma*jacob*jacob/n;
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -352,27 +352,25 @@ int main(int argc, char *argv[]) {
     cout << "Gauss-Legendre quad = " << setw(20) << setprecision(15)  << legendre_sum << endl;
     cout << "Exact answer = " << setw(26) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(33) << setprecision(15) << fabs(exact-legendre_sum) << endl;
-    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << " s" << std::endl;
+    std::cout << "Time used by Gauss-Legendre = " << time_span_gauss_legendre.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     cout << "Gauss-Laguerre quad = " << setw(20) << setprecision(15)  << laguerre_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-laguerre_sum) << endl;
-    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << " s" << std::endl;
+    std::cout << "Time used by Gauss-Laguerre = " << time_span_gauss_laguerre.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     cout << "Brute Force Monte Carlo = " << setw(20) << setprecision(15)  << BMC_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-BMC_sum) << endl;
-    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << " s" << std::endl;
+    std::cout << "Time used by Brute Force Monte Carlo = " << time_span_BMC.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     cout << "Spherical Monte Carlo w/ Imp.Sampling = " << setw(20) << setprecision(15)  << SMC_sum << endl;
     cout << "Exact answer = " << setw(27) << setprecision(15) << exact << endl;
     cout << "Error = " << setw(35) << setprecision(15) << fabs(exact-SMC_sum) << endl;
-    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << " s" << std::endl;
+    std::cout << "Time used by Spherical Monte Carlo w/ Imp.Sampling = " << time_span_SMC.count()  << "s" << std::endl;
     cout << " " << "\n" ;
     cout << "Standard deviation BMC = " << BMC_std << "\n" ;
-    cout << "Standard deviation uniform = 0.2886 " << "\n" ;
     cout << "Standard deviation SMC = " << SMC_std << "\n" ;
-    cout << "Standard deviation exponential = 0.25 " << "\n" ;
     cout << " " << "\n" ;
 
 

@@ -180,9 +180,7 @@ void gaulag(double *x, double *w, int n, double alf){
 
 void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
     std::random_device rd;
-    std::mt19937_64 gen(rd());
-    //mt19937_64 generator;
-    //uniform_real_distribution<double> distribution(a, b);
+    std::mt19937_64 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
     double * x = new double [n];
     double x1, x2, y1, y2, z1, z2, f;
@@ -202,11 +200,11 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n );
+    mc = mc/( n );
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/( n );
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -214,12 +212,10 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
 
 void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
     std::random_device rd;
-    std::mt19937_64 gen(rd());
-    std::exponential_distribution<double> distribution(4);
-    //mt19937_64 generator;
-    //exponential_distribution<double> distribution(4);   //hva er 4? 2*alpha?
+    std::mt19937_64 generator(rd());
+    std::uniform_real_distribution<double> distribution(0.0,1.0);
     double * x = new double [n];
-    double r1, r2, t1, t2, p1, p2, f,rr1,rr2;
+    double r1, r2, t1, t2, p1, p2, f, rr1, rr2;
     double mc = 0.0;
     double sigma = 0.0;
     double jacob = 4*pow(M_PI,4)/16;
@@ -238,11 +234,11 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
         mc += f;
         x[i] = f;
     }
-    mc = mc/((double) n);
+    mc = mc/(n);
     for (i = 0; i < n; i++){
         sigma += (x[i] - mc)*(x[i] - mc);
     }
-    sigma = sigma*jacob/((double) n );
+    sigma = sigma*jacob/( n );
     std = sqrt(sigma)/sqrt(n);
     integral = mc*jacob;
     delete [] x;
@@ -257,7 +253,7 @@ int main(int argc, char *argv[]) {
     double *x = new double[n];
 
     // Set up the mesh points and weights
-    gauleg(-la, la, x, w, n);
+    //gauleg(-la, la, x, w, n);
 
     // Evaluate the integral with the Gauss-Legendre method
     // Note that we initialize the sum. Here brute force gauss-legendre
@@ -298,8 +294,8 @@ int main(int argc, char *argv[]) {
     double *wphi = new double[n];
 
     //gaulag(r, wr, n+1, 0);
-    gauleg(0, M_PI, the, wthe, n);
-    gauleg(0, 2*M_PI, phi, wphi, n);
+    //gauleg(0, M_PI, the, wthe, n);
+    //gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
