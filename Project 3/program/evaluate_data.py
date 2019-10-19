@@ -128,7 +128,6 @@ def eval_montecarlo(filename):
         plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
         plt.plot(n, error_SMC, label="Spherical Monte Carlo")
         plt.plot(n, error_PSMC, label="Parallized Spherical Monte Carlo")
-        plt.title("Plot of error ($\lambda=%d$) with varying n" % la[0])
         plt.xlabel("n")
         plt.ylabel("Error")
         plt.xlim(10500, 100000000)
@@ -137,7 +136,6 @@ def eval_montecarlo(filename):
         plt.legend()
         plt.savefig("../images/error-montecarlo.png")
         plt.show()
-
 
 def eval_timings(filename1, filename2):
 
@@ -204,7 +202,6 @@ def eval_timings(filename1, filename2):
     plt.plot(time_span_BMC, error_BMC, label="Brute Force Monte Carlo")
     plt.plot(time_span_SMC, error_SMC, label="Spherical Monte Carlo")
     plt.plot(time_span_PSMC, error_PSMC, label="Parallized Spherical Monte Carlo")
-    plt.title("Plot of error ($\lambda=%d$) as function of time" % la[0])
     plt.xlabel("Time (s)")
     plt.ylabel("Error")
     plt.grid()
@@ -229,7 +226,6 @@ def eval_timings(filename1, filename2):
     plt.plot(time_span_BMC, error_BMC, label="Brute Force Monte Carlo")
     plt.plot(time_span_SMC, error_SMC, label="Spherical Monte Carlo")
     plt.plot(time_span_PSMC, error_PSMC, label="Parallized Spherical Monte Carlo")
-    plt.title("Plot of error ($\lambda=%d$) as function of time" % la[0])
     plt.xlabel("Time (s)")
     plt.ylabel("Error")
     plt.grid()
