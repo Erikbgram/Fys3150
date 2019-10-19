@@ -112,6 +112,8 @@ def eval_montecarlo(filename):
         time_span_SMC = np.array(time_span_SMC)
         time_span_PSMC = np.array(time_span_PSMC)
 
+        plt.figure(figsize = (7,8))
+
         plt.subplot(2, 1, 1)
         plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
         plt.plot(n, error_SMC, label="Spherical Monte Carlo")
@@ -186,6 +188,8 @@ def eval_timings(filename1, filename2):
     time_span_SMC = np.array(time_span_SMC)
     time_span_PSMC = np.array(time_span_PSMC)
 
+    plt.figure(figsize = (7,8))
+
     plt.subplot(2, 1, 1)
     plt.plot(time_span_gauss_legendre, error_legendre, label="Gauss-Legendre")
     plt.plot(time_span_gauss_laguerre, error_laguerre, label="Gauss-Laguerre")
@@ -196,7 +200,6 @@ def eval_timings(filename1, filename2):
     plt.legend()
     plt.xlim(-0.5, 10)
     plt.ylim(-0.001, 0.05)
-
 
     plt.subplot(2, 1, 2)
     plt.plot(time_span_BMC, error_BMC, label="Brute Force Monte Carlo")
@@ -210,6 +213,8 @@ def eval_timings(filename1, filename2):
     plt.ylim(-0.001, 0.05)
     plt.savefig("../images/method-timings-small.png")
     plt.show()
+
+    plt.figure(figsize = (7,8))
 
     plt.subplot(2, 1, 1)
     plt.plot(time_span_gauss_legendre, error_legendre, label="Gauss-Legendre")
