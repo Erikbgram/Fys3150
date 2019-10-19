@@ -247,16 +247,17 @@ int main(int argc, char *argv[]) {
 
     //---------------------------------------------------------------------------------------------
 
+
     //Legendre
 
     double *w = new double[n];
     double *x = new double[n];
 
-    gauleg(-la, la, x, w, n);
+    //gauleg(-la, la, x, w, n);
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
-    double legendre_sum = 0.0;
+    double legendre_sum = 0.0;/*
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
@@ -269,7 +270,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     ch::steady_clock::time_point stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_legendre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -277,7 +278,11 @@ int main(int argc, char *argv[]) {
     delete [] x;
     delete [] w;
 
+
+
     //-------------------------------------------------------------------------------------------
+
+
 
     //Laguerre
     double *r = new double[n+1];
@@ -287,13 +292,14 @@ int main(int argc, char *argv[]) {
     double *wthe = new double[n];
     double *wphi = new double[n];
 
-    gaulag(r, wr, n+1, 0);
-    gauleg(0, M_PI, the, wthe, n);
-    gauleg(0, 2*M_PI, phi, wphi, n);
+    //gaulag(r, wr, n+1, 0);
+    //gauleg(0, M_PI, the, wthe, n);
+    //gauleg(0, 2*M_PI, phi, wphi, n);
 
     start = ch::steady_clock::now();
 
-    double laguerre_sum = 0.0;
+
+    double laguerre_sum = 0.0;/*
     for(int i = 1; i < n+1; i++) {
         for(int j = 1; j < n+1; j++) {
             for(int k = 0; k < n; k++) {
@@ -306,7 +312,7 @@ int main(int argc, char *argv[]) {
                 }
             }
         }
-    }
+    }*/
 
     stop = ch::steady_clock::now();
     ch::duration<double> time_span_gauss_laguerre = ch::duration_cast<ch::nanoseconds>(stop - start);
@@ -317,6 +323,8 @@ int main(int argc, char *argv[]) {
     delete [] wr;
     delete [] wthe;
     delete [] wphi;
+
+
 
     //-------------------------------------------------------------------------------------------
 
@@ -351,7 +359,7 @@ int main(int argc, char *argv[]) {
     //  MPI initializations
     int local_n, numprocs, my_rank;
     double PSMC_sum, PSMC_std, local_sum, local_std;
-    double time_start, time_end, PSMC_time;
+    double time_start, time_end, time_span_PSMC;
 
     MPI_Init (&argc, &argv);
     MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
@@ -375,7 +383,7 @@ int main(int argc, char *argv[]) {
     time_end = MPI_Wtime();
     PSMC_sum = PSMC_sum/numprocs;
     PSMC_std = PSMC_std/numprocs;
-    PSMC_time = time_end-time_start;
+    time_span_PSMC = time_end-time_start;
     if ( my_rank == 0) {
 
         // Final output
@@ -404,7 +412,7 @@ int main(int argc, char *argv[]) {
         cout << "PSMC = " <<  setw(30) << setprecision(15) << defaultfloat << PSMC_sum << endl;
         cout << "Exact answer = " << setw(20) << setprecision(15) << defaultfloat << exact << endl;
         cout << "Error = " << setw(30) << setprecision(15) << defaultfloat << fabs(exact-PSMC_sum) << endl;
-        cout << "Time used by PSMC  = " << scientific << PSMC_time << "s" << endl ;
+        cout << "Time used by PSMC  = " << scientific << time_span_PSMC << "s" << endl ;
         cout << "on number of processors: " << defaultfloat << numprocs << endl;
         cout << " " << "\n" ;
         cout << "Standard deviation BMC = " << defaultfloat << BMC_std << "\n" ;
@@ -412,24 +420,6 @@ int main(int argc, char *argv[]) {
         cout << "Standard deviation PSMC = " << defaultfloat << PSMC_std << endl;
         cout << " " << "\n" ;
 
-        /*
-        fstream outfile;
-
-        outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
-        outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
-        outfile.close();
-
-
-        outfile.open("integrationpoints.txt", std::fstream::out | std::ofstream::app);
-        outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
-        outfile.close();
-
-
-
-        outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
-        outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << time_span_gauss_BMC.count() << " , "  << time_span_gauss_SMC.count() << endl;
-        outfile.close();
-        */
     }
     MPI_Finalize();
 
@@ -438,18 +428,18 @@ int main(int argc, char *argv[]) {
     outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
-*/
+
 
     outfile.open("integrationpoints.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
     outfile.close();
+*/
 
 
-    /*
     outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_gauss_BMC.count() << " , "  << time_span_gauss_SMC.count() << " , "  << time_span_gauss_PSMC.count() << endl;
+    outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
     outfile.close();
-    */
+
 
 
   return 0;
