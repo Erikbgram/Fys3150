@@ -1,5 +1,5 @@
 """
-Last changed: 19.10.2019 XX:YY by Erlend Tiberg North
+Last changed: 19.10.2019 19:31 by Alexandra Jahr Kolstad
 """
 # Imports
 import os
