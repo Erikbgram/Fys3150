@@ -235,7 +235,7 @@ def eval_timings(filename1, filename2):
     plt.ylabel("Error")
     plt.grid()
     plt.legend()
-    plt.xlim(10, 800)
+    plt.xlim(10, 450)
     plt.ylim(-0.001, 0.008)
     plt.savefig("../images/method-timings-large.png")
     plt.show()
