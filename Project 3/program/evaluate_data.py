@@ -80,7 +80,64 @@ def eval_integrationpoints(filename):
     plt.show()
 
 def eval_montecarlo(filename):
-    pass
+
+    n = []
+    la = []
+    error_BMC = []
+    error_SMC = []
+    error_PSMC = []
+    time_span_BMC = []
+    time_span_SMC = []
+    time_span_PSMC = []
+
+    with open(filename) as infile:
+        infile.readline()
+        lines = infile.readlines()
+        for line in lines:
+            words = line.split(" , ")
+            n.append(int(words[0]))
+            la.append(float(words[1]))
+            error_BMC.append(float(words[2]))
+            error_SMC.append(float(words[3]))
+            error_PSMC.append(float(words[4]))
+            time_span_BMC.append(float(words[5]))
+            time_span_SMC.append(float(words[6]))
+            time_span_PSMC.append(float(words[7]))
+
+        la = np.array(la)
+        error_BMC = np.array(error_BMC)
+        error_SMC = np.array(error_SMC)
+        error_PSMC = np.array(error_PSMC)
+        time_span_BMC = np.array(time_span_BMC)
+        time_span_SMC = np.array(time_span_SMC)
+        time_span_PSMC = np.array(time_span_PSMC)
+
+        plt.subplot(2, 1, 1)
+        plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
+        plt.plot(n, error_SMC, label="Spherical Monte Carlo")
+        plt.plot(n, error_PSMC, label="Parallized Spherical Monte Carlo")
+        plt.title("Plot of error ($\lambda=%d$) with varying n" % la[0])
+        plt.xlabel("n")
+        plt.ylabel("Error")
+        plt.xlim(-0.5, 10500)
+        plt.ylim(-0.01, 0.2)
+        plt.grid()
+        plt.legend()
+
+        plt.subplot(2, 1, 2)
+        plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
+        plt.plot(n, error_SMC, label="Spherical Monte Carlo")
+        plt.plot(n, error_PSMC, label="Parallized Spherical Monte Carlo")
+        plt.title("Plot of error ($\lambda=%d$) with varying n" % la[0])
+        plt.xlabel("n")
+        plt.ylabel("Error")
+        plt.xlim(10500, 100000000)
+        plt.ylim(-0.0001, 0.001)
+        plt.grid()
+        plt.legend()
+        plt.savefig("../images/error-montecarlo.png")
+        plt.show()
+
 
 def eval_timings(filename1, filename2):
 
@@ -131,8 +188,6 @@ def eval_timings(filename1, filename2):
     time_span_SMC = np.array(time_span_SMC)
     time_span_PSMC = np.array(time_span_PSMC)
 
-    #fig = plt.figure()
-
     plt.subplot(2, 1, 1)
     plt.plot(time_span_gauss_legendre, error_legendre, label="Gauss-Legendre")
     plt.plot(time_span_gauss_laguerre, error_laguerre, label="Gauss-Laguerre")
@@ -156,7 +211,7 @@ def eval_timings(filename1, filename2):
     plt.legend()
     plt.xlim(-0.5, 10)
     plt.ylim(-0.001, 0.05)
-    plt.savefig("../images/method-timings.png")
+    plt.savefig("../images/method-timings-small.png")
     plt.show()
 
     plt.subplot(2, 1, 1)
@@ -181,7 +236,7 @@ def eval_timings(filename1, filename2):
     plt.legend()
     plt.xlim(10, 800)
     plt.ylim(-0.001, 0.008)
-    plt.savefig("../images/method-timings.png")
+    plt.savefig("../images/method-timings-large.png")
     plt.show()
 
 def main():
