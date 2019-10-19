@@ -371,7 +371,7 @@ int main(int argc, char *argv[]) {
     }
     else {
       // This is bad
-      local_n = n/numprocs-1;
+      local_n = (n-1)/numprocs;
     }
 
     time_start = MPI_Wtime();
@@ -385,6 +385,12 @@ int main(int argc, char *argv[]) {
     PSMC_std = PSMC_std/numprocs;
     time_span_PSMC = time_end-time_start;
     if ( my_rank == 0) {
+
+          fstream outfile;
+
+          outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
+          outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
+          outfile.close();
 
         // Final output
         cout << setiosflags(ios::showpoint | ios::uppercase);
@@ -435,11 +441,11 @@ int main(int argc, char *argv[]) {
     outfile.close();
 */
 
-
+/*
     outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
     outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
     outfile.close();
-
+*/
 
 
   return 0;
