@@ -54,10 +54,11 @@
 %------------------------------------
 
 \setlength{\parindent}{0pt}
-\setlength{\columnsep}{5mm} %column separation
+\setlength{\columnsep}{2mm} %column separation
 \setlength{\columnsep}{10mm}
 
-\setlength{\tabcolsep}{18pt}
+%\setlength{\arrayrulewidth}{1mm}
+\setlength{\tabcolsep}{5mm}
 \renewcommand{\arraystretch}{1.5}
 
 \iffalse
@@ -96,6 +97,10 @@ And then later you can call:
 
 \newpage
 \clearpage
+
+\textbf{\Large HETER DET PARALLIZED ELLER PARALLILIZED ?????????} \\
+
+\vspace{3cm}
 
 \textbf{Kommentarer fra project 1 på devilry:}
 
@@ -170,7 +175,7 @@ In this scientific study we will compute an integral with different numerical me
 
 SETT INN NOEN TALL SOM BEVIS HER
 
-All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
+%All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
 
 \newpage
@@ -293,25 +298,60 @@ THIS SHOULD ALSO BE ERIK SITT?
 
 %\vspace{3cm}
 
-\iffalse
 
-  \begin{table}[ht] \label{tab:lambda}
+
+  \begin{table}[ht] \label{tab:error-Gauss}
     \centering
-      \caption{Execution time for the two methods.}
+      \caption{Error and execution time for Gauss-Legendre and Gauss-Laguerre.}
       \vspace{2mm}
-      \begin{tabular}{|c|c|c|}
+      \begin{tabular}{|c|c|c|c|}
         \hline
-        Lambda      &     \\
+        Legendre error & Laguerre error & Legendre time & Laguerre time   \\
         \hline \hline
-        10   & verdier & $3.17\cdot10^{-4}$ \\
-        100  & $1,40\cdot10^{-6}$ & $1.40\cdot10^{-3}$ \\
-        1000 & $1.44\cdot10^{-5}$ & $3.36\cdot10^{-2}$ \\
+        0.161836 & 0.0437248 & 0.00082727 & 0.0022169 \\
+        0.0629315 & 0.0115411 & 0.0520311 & 0.150486 \\
+        0.00670907 & 0.000476827 & 0.609131 & 1.69456 \\
+        0.0157005 & 0.00167232 & 3.35013 & 9.3416 \\
+        0.00365618 & 0.00181852 & 12.8663 & 35.5266 \\
+        0.00697009 & 0.00186703 & 38.0615 & 105.708 \\
+        0.00337855 & 0.00186074 & 95.5971 & 264.104 \\
+        0.00409558 & 0.00181934 & 214.105 & 608.182 \\
+        0.00263748 & 0.00176034 & 433.725 & 1191.8 \\
+        0.00281127 & 0.00169433 & 831.449 & 2314.1 \\
         \hline
       \end{tabular} \\
       \hspace{0pt}\\
   \end{table}
 
- \fi
+    \begin{table}[ht] \label{tab:error-MonteCarlo}
+    \centering
+      \caption{Error and execution time for brute force Monte Carlo, spherical Monte Carlo with importance sampling, and parallized spherical Monte Carlo with importance sampling.}
+      \vspace{2mm}
+      \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        BMC error & SMC error & PSMC error & BMC time & SMC time & PSMC time  \\
+        \hline \hline
+        0.138417 & 0.251552 & 0.131809 & 0.00011814 & 8.7853e-05 & 0.00038 \\
+        0.157825 & 0.156198 & 0.0071997 & 0.00014777 & 0.0001193 & 0.00037 \\
+        0.113224 & 0.012164 & 0.00302251 & 0.0003764 & 0.0003822 & 0.00051 \\
+        0.079204 & 0.0168798 & 0.022215 & 0.00066215 & 0.0007048 & 0.00098 \\
+        0.029304 & 0.011712 & 0.013536 & 0.0029481 & 0.00338986 & 0.002612 \\
+        0.0457817 & 0.00027297 & 0.018113 & 0.005808 & 0.006558 & 0.005258 \\
+        0.0096648 & 0.0038374 & 0.0012646 & 0.029013 & 0.032508 & 0.025366 \\
+        0.024003 & 0.0043587 & 0.00030587 & 0.056982 & 0.067961 & 0.047938 \\
+        0.0137398 & 0.0046188 & 0.00356363 & 0.287352 & 0.328019 & 0.18964 \\
+        0.0161491 & 0.00049579 & 0.0005530 & 0.57400 & 0.654257 & 0.354581 \\
+        0.00311977 & 0.00048176 & 0.00026134 & 2.85616 & 3.27695 & 1.82245 \\
+        0.00481115 & 0.00012881 & 2.40583e-05 & 5.70269 & 6.54182 & 3.3623 \\
+        0.00265522 & 9.08138e-05 & 5.988e-05 & 29.7091 & 33.0613 & 16.5097 \\
+        0.00117823 & 0.0001726 & 7.16594e-05 & 58.8054 & 67.2903 & 33.4236 \\
+        6.0793e-05 & 2.5923e-05 & 1.6625e-05 & 415.953 & 448.229 & 208.211 \\
+        \hline
+      \end{tabular} \\
+      \hspace{0pt}\\
+  \end{table}
+
+
 
 
 %--------------- Discussion ---------------------------------------
@@ -321,7 +361,8 @@ THIS SHOULD ALSO BE ERIK SITT?
 
 diskutere resultatetene: altså hvilke metoder som brukte lengst tid, hvilke som var mest nøyaktig osv \\
 koble dette til teori for hvorfor resultatene ble slik som de er \\
-
+\\
+The results show that the parallized code actually isn't better than the non-parallized code. This is strang. However, it can be from the fact that the computer running the code only has two cores so there is less of an effect.
 
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
@@ -338,6 +379,7 @@ legge inn mer her som knytter det opp til teorien.
 
 \section{Appendix} \label{sec:Appendix}
 
+Figure (\ref{fig:timingslargepng}) does not include all larger data points from our \texttt{.txt}-files. These can be found in table (???????)
 
 \begin{figure}[ht]
 \centering
