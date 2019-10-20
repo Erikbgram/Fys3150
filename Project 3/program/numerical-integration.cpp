@@ -1,5 +1,5 @@
 /*
-  Last edited: 18.10.2019 15:15 by Erlend TIberg North
+  Last edited: 20.10.2019 18:16 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -386,11 +386,26 @@ int main(int argc, char *argv[]) {
     time_span_PSMC = time_end-time_start;
     if ( my_rank == 0) {
 
-          fstream outfile;
+        fstream outfile;
 
-          outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
-          outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
-          outfile.close();
+      /*
+        outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
+        outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
+        outfile.close();
+
+        outfile.open("integrationpoints.txt", std::fstream::out | std::ofstream::app);
+        outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
+        outfile.close();
+
+        outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
+        outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
+        outfile.close();
+
+        */
+
+        outfile.open("variance.txt", std::fstream::out | std::ofstream::app);
+        outfile << n << " , " << la << " , " << BMC_std*BMC_std*n << " , " << SMC_std*SMC_std*n << " , " << PSMC_std*PSMC_std*n << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
+        outfile.close();
 
         // Final output
         cout << setiosflags(ios::showpoint | ios::uppercase);
@@ -421,6 +436,10 @@ int main(int argc, char *argv[]) {
         cout << "Time used by PSMC  = " << scientific << time_span_PSMC << "s" << endl ;
         cout << "on number of processors: " << defaultfloat << numprocs << endl;
         cout << " " << "\n" ;
+        cout << "Variance BMC = " << defaultfloat << BMC_std*BMC_std*n << "\n" ;
+        cout << "Variance SMC = " << defaultfloat << SMC_std*SMC_std*n << "\n" ;
+        cout << "Variance PSMC = " << defaultfloat << PSMC_std*PSMC_std*n << endl;
+        cout << " " << "\n" ;
         cout << "Standard deviation BMC = " << defaultfloat << BMC_std << "\n" ;
         cout << "Standard deviation SMC = " << defaultfloat << SMC_std << "\n" ;
         cout << "Standard deviation PSMC = " << defaultfloat << PSMC_std << endl;
@@ -428,24 +447,6 @@ int main(int argc, char *argv[]) {
 
     }
     MPI_Finalize();
-
-    fstream outfile;
-/*
-    outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
-    outfile.close();
-
-
-    outfile.open("integrationpoints.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
-    outfile.close();
-*/
-
-/*
-    outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
-    outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
-    outfile.close();
-*/
 
 
   return 0;

@@ -144,7 +144,6 @@ Ting å gjøre for de ulike oppgavene:
 \textbf{Det som mangler:}
 
 \begin{itemize}
-    \item må se gjennom abstract \\
     \item skrive mer på introduction \\
     \item lime inn theory \\
     \item skrive noe på method \\
@@ -168,7 +167,7 @@ Ting å gjøre for de ulike oppgavene:
 
 \vspace{5mm}
 
-In this scientific study we will compute an integral with different numerical methods of integration to approximate the ground state correlation energy between two electrons in a helium atom. Our integral is given by equation (\ref{eq:integral}), which is not normalized. The integral has the analytical answer $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The main interest and the goal of this study is to look at how the methods compare with different amount of mesh points and integration limits. The numerical integration methods we will use in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallelization. The study was a success and proved Monte Carlo to be the fastest and most accurate method. In fact, the improved Monte Carlo was $3572\times$ faster than Gauss-Laguerre in achieving an $abs( error)<0.001$. Being based on big data, it required many more sampling points. However, as it did not manually calculate the integral, it was astronomically much more efficient. \\
+In this scientific study we will compute an integral with different numerical methods of integration to approximate the ground state correlation energy between two electrons in a helium atom. Our integral is given by equation (\ref{eq:integral}). The integral has the analytical answer $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The main interest and the goal of this study is to look at how the methods compare with different amount of mesh points and integration limits. The numerical integration methods we will use are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, spherical Monte Carlo with importance sampling, and spherical Monte Carlo with parallelization. The study was a success and proved Monte Carlo to be the fastest and most accurate method. In fact, the improved spherical Monte Carlo was $3572\times$ faster than Gauss-Laguerre in achieving an error $|\varepsilon|<0.001$. Being based on big data, it required many more sampling points. However, as it did not manually calculate the integral, it was astronomically much more efficient. \\
 
 %All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
@@ -192,12 +191,16 @@ The integral we are evaluating comes from the solution of Schrödinger's equatio
 
 \begin{equation} \label{eq:integral}
     \left\langle \frac{1}{| \vec{r_1} - \vec{r_2} |} \right\rangle = \int_{-\infty} ^\infty d \vec{r_1} d \vec{r_2} \hspace{1mm} e^{- 2 \alpha (r_1 + r_2)} \hspace{1mm} \frac{1}{| \vec{r_1} - \vec{r_2} |}
-\end{equation}
+\end{equation} \\
 
-The integral is not properly normalized. However, that is not important for the study.
-If you are interested in how the integral is found, see \cite{task}.\\
-Our aim is, as written in the abstract, to approximate this integral using two types of Gaussian Quadrature, and some variations of Monte Carlo. We have created a code that evaluates the integral using each method and compares them. Alongside the actual value we get the absolute value, and time used. Using this we present our data showing that Monte Carlo massively outperforms the other methods.\\
-The report will go through the theory and methods behind our study and following that we will present our results and discuss them.
+The integral is not properly normalized. However, that is not important for the study. If you are interested in how the integral is found, see \cite{task}.\\
+
+Numerical integration methods can be used to numerically solve this integral. For instance Gaussian quadrature uses orthogonal polynomials to compute weights and uses Taylor series to approximate an integral. The Gauss-Legendre method implements the theory without further thought to effectiveness. Therefore this method is called brute force Gauss-Legendre, and uses the cartesian coordinate system. An improved Gaussian quadrature rule would be based on spherical coordinates, to
+
+Our aim is to approximate this integral using two types of Gaussian quadrature, and some variations of Monte Carlo. We have created a code that evaluates the integral using each method and compares them. Alongside the actual value we get the absolute value and time used. Using this we present our data showing that Monte Carlo massively outperforms the Gaussian quadrature rules, and especially the superiorness of the parallelized spherical Monte Carlo in computation time. \\
+
+The study will go through the theory and methods behind our study and following that we will present our results and discuss them. Lastly we have a conclusion to briefly summarise our findings. Other findings which we deemed to not be as important are found in the appendix, for instance some calculations. Sources of different academic materials we used are given in references. \\
+
 
 %-------------------- Theory ------------------------------------
 \vspace{1cm}
@@ -206,7 +209,7 @@ The report will go through the theory and methods behind our study and following
 
 \subsection{Theory of Gaussian quadrature and the Gauss-Legendre method}
 
-The Gauss-Legendre method is based on the more general Gaussian quadrature rule which uses Taylor series to solve an integral. The main idea is to generate weights, by solving sets of linear equations. For $N$ points in the Taylor series we get $N$ weights. These weights are used in a weight function in order to approximate the integral. The theory behind Gaussian quadrature is to obtain the weights by using orthogonal polynomials. These polynomials are orthogonal at certain intervals. For instance for $[3,7]$, we can use these orthogonal polynomials in order to ensure a smooth integral for our graph. The $x_i$ values are chosen arbitrary within the given interval. Together with the weights this gives us $2N$ parameters that can be used to solve the integral. \\
+The Gauss-Legendre method is based on the more general Gaussian quadrature rule which uses Taylor series to solve an integral. The main idea is to generate weights, by solving sets of linear equations. For $N$ points in the Taylor series we get $N$ weights. These weights are used in a weight function in order to approximate the integral. The theory behind Gaussian quadrature is to obtain the weights by using orthogonal polynomials. These polynomials are orthogonal in certain intervals. For instance for $[3,7]$, we can use these orthogonal polynomials in order to ensure a smooth integral for our graph. The $x_i$ values are chosen arbitrary within the given interval. Together with the weights this gives us $2N$ parameters that can be used to solve the integral. \\
 
 \begin{equation} \label{eq:integralgauleg}
     I = \int_{a}^{b} f(x) = \int_{a}^{b}W(x)g(x) \hspace{1mm} dx \approx  \sum_{n=1}^{N}  \omega_i g(x_i)
@@ -234,13 +237,6 @@ Now inserting this new integral, (\ref{eq:tchangeintegralgauleg}), into the Gaus
 
 \section{Method} \label{sec:Method}
 
-The methods used in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallelization.
-
-\subsection{Gauss-Legendre}
-
-This method is excepted to give to worst approximation to the integral. This is because it uses approximations and other short cuts to more easily compute the integral. For instance the limits are originally given by $\pm \infty$ and in this method they have to be approximated to finite numbers.
-
-integrand diverges.
 
 THIS SHOULD ALSO BE ERIK SITT?
 
@@ -378,23 +374,20 @@ THIS SHOULD ALSO BE ERIK SITT?
 diskutere resultatetene: altså hvilke metoder som brukte lengst tid, hvilke som var mest nøyaktig osv \\
 koble dette til teori for hvorfor resultatene ble slik som de er \\
 
-Both Gauss-Legendre and Brute Force Monte Carlo use $\lambda$ as a parameter for the integration limits. Looking at table (\ref{tab:lambda}) we can see how the accuracy of Gauss-Legendre depends on the value of $\lambda$. We see that the time is more or less constant (as it should be), and that $\lambda=2$ works best. A too small $\lambda$ will give an evaluation of a too small area of the wave-function. A too large $\lambda$ won't give a large improvement (since the wave-function goes to zero after a certain length). In fact, since $\lambda$ increases the distance between the mesh points will increase, resulting in reduced accuracy.
+Both Gauss-Legendre and brute force Monte Carlo use $\lambda$ as a parameter for the integration limits. Looking at table (\ref{tab:lambda}) we can see how the accuracy of Gauss-Legendre depends on the value of $\lambda$. We see that the time is more or less constant (as it should be), and that $\lambda=2$ works best. A too small $\lambda$ will give an evaluation of a too small area of the wave-function. A too large $\lambda$ won't give a large improvement (since the wave-function goes to zero after a certain length). In fact, since $\lambda$ increases the distance between the mesh points will increase, resulting in reduced accuracy.
 
-By looking at table (\ref{tab:error-gauss}) we see that Gaussian quadrature improves greatly by increasing the amount of mesh points, at least for smaller $n$. When we pass an $n$ of about $30$ we start getting diminishing returns. The calculation starts taking a very long time, and the improvement in error is not as great as it was for smaller values. \\
+By looking at table (\ref{tab:error-gauss}) we see that Gaussian quadrature improves greatly by increasing the amount of mesh points, at least for smaller $n$. When we pass about $n=30$ we start getting diminishing returns. The calculation starts taking a very long time, and the improvement in error is not as great as it was for smaller values. \\
 
-Monte Carlo is a data-hungry method, and as such, it requires a lot of data points. Looking at table (\ref{tab:error-montecarlo}) we see that it is not great at the same values of $n$ as Gaussian Quadrature. At the same time, it is easy to see that Monte Carlo is much faster. Only on values for $n=50000000$ and beyond, Monte Carlo starts struggling. After implementing parallelization this will also Monte Carlo starts struggling. After implementing parallelization this will also speed up the code by a factor of the amount of cores the machine has available.
+Monte Carlo is a data-hungry method, and as such, it requires a lot of data points. Looking at table (\ref{tab:error-montecarlo}) we see that it is not great at the same values of $n$ as Gaussian quadrature. At the same time, it is easy to see that Monte Carlo is much faster. Only on values for $n=50000000$ and beyond, Monte Carlo starts struggling. After implementing parallelization the code also also sped up  by a factor of the machine's available cores (2 in our case).\\
 
-
-
-
-The results show that the parallelized code actually isn't better than the non-parallelized code. This is strang. However, it can be from the fact that the computer running the code only has two cores so there is less of an effect.
+The results show that the parallelized code actually isn't better than the non-parallelized code. This is strange. However, it can be attributed to the fact that the computer running the code only has two cores, meaning there is less of an effect. In addition, there is always the possibility of some mistake in the code. We also divided the element of each sum by took the average of the to cores results, instead of dividing each element in the sum by $n_{total}$
 
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
 
 \section{Conclusion and perspective} \label{sec:Conclusion}
 
-To conclude the Monte Carlo integration methods exceeded the Gauss quadrature methods for both computation time and accuracy of the answer to the integral. As expected the parallelized spherical Monte Carlo with importance sampling is the fastest method with the highest degree of accuracy. This is mainly because ... \\
+To conclude the Monte Carlo integration methods exceeded the Gaussian quadrature methods for both computation time and accuracy of the answer to the integral. As expected the parallelized spherical Monte Carlo with importance sampling is the fastest method with the highest degree of accuracy. This is mainly because ... \\
 
 legge inn mer her som knytter det opp til teorien.
 
@@ -405,9 +398,12 @@ legge inn mer her som knytter det opp til teorien.
 \section{Appendix} \label{sec:Appendix}
 
 \subsection{Calculation of Monte Carlo's speed over Gauss-Laguerre}
-We imported the error as function of time for SMC and Gauss-Laguerre into Geogebra and did a simple regression analysis. For both data-sets, the $f(x)=Cx^p$ was the best fit. By extrapolating to $error=0.001$ we found SMC to intersect at $0.639487186$ and Gauss-Laguerre to intersect at $2284.1372326374$. Dividing Laugerre with SMC, we found SMC to be $3571.82643$ times faster. Approximately $3572$ times faster. This seems crazy high, so we have also included the calculation for the actual time for the 1st run where Laugerre and SMC went below $error=0.001$. See below.\\
+We imported the error as function of time for SMC and Gauss-Laguerre into Geogebra and did a simple regression analysis. For both data-sets, the $f(x)=Cx^p$ was the best fit. By extrapolating to $error=0.001$ we found SMC to intersect at $0.639487186$ and Gauss-Laguerre to intersect at
+$2284.1372326374$. Dividing Laugerre with SMC, we found SMC to be $3571.82643$ times faster. Approximately $3572$ times faster. This seems crazy high, so we
+have also included the calculation for the actual time for the 1st run where Laugerre and SMC went below $error=0.001$. See below.\\
 
-The 1st time Improved Monte Carlo (Spherical) achieved an absolute error below $0.001$ was with $n=10000$. The error was $0.000272967$ and it took $0.00655811$ seconds. The 1st time Gauss-Laguerre (Improved Gaussian Quadrature) achieved an absolute error below $0.001$ was with $n=15$. The error was $0.000476827$ and it took $1.69456$ seconds. \\
+The 1st time improved Monte Carlo (spherical) achieved an absolute error below $0.001$ was with $n=10000$. The error was $0.000272967$ and it took
+$0.00655811$ seconds. The 1st time Gauss-Laguerre (improved Gaussian quadrature) achieved an absolute error below $0.001$ was with $n=15$. The error was $0.000476827$ and it took $1.69456$ seconds. \\
 
 Calculation follows: \\
 
@@ -415,7 +411,7 @@ $$\frac{time_{Laguerre}}{time_{SMC}} = \frac{1.69456}{0.00655811} = 258.3915183$
 
 Spherical Monte Carlo was approximately $258$ times faster than Gauss-Laguerre.\\
 
-Figure (\ref{fig:timingslargepng}) does not include all larger data points from our \texttt{.txt}-files. These can be found in table (\nameref{tab:error-montecarlo}) (noe feil med refereringen her??????????) for the latter rows. These values can also be found in the file \texttt{montecarlo.txt} on our GitHub, \cite{github}.
+Figure (\ref{fig:timingslargepng}) does not include all larger data points from our \texttt{.txt}-files. These can be found in table (\ref{tab:error-montecarlo}) for the latter rows. These values can also be found in the file \texttt{montecarlo.txt} on our GitHub, \cite{github}.
 
 \begin{figure}[ht]
     \centering
@@ -449,6 +445,9 @@ Erik B. Grammeltvedt, Alexandra Jahr Kolstad, Erlend T. North (2019), \href{http
 
 \bibitem{lecture_slides}
 Morten H. Jensen (2015), \href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Lectures/lectures2015.pdf}{Lecture slides for FYS3150}, Department of Physics, University of Oslo, Norway
+
+\bibitem{laguerre_polynomial}
+Weisstein, Eric W. \href{http://mathworld.wolfram.com/LaguerrePolynomial.html}{"Laguerre Polynomial."}, From MathWorld--A Wolfram Web Resource. 
 
 \end{thebibliography}
 
