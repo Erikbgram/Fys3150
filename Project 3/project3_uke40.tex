@@ -2,13 +2,13 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[norsk,english]{babel}   %norsk først så engelsk, så engelsk blir prioritert
+\usepackage[norsk,english]{babel}   %Norsk først så engelsk, så engelsk blir prioritert
 \usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{listings}
-\usepackage{multicol}
-\usepackage[margin=2.54cm]{geometry}
-\usepackage{wrapfig}
+\usepackage{amsmath}        %For å kunne skrive matte
+\usepackage{listings}       %?????????
+\usepackage{multicol}       %Importerer pakken for multikolonner til teksten
+\usepackage[margin=2.54cm]{geometry}    %Definerer hva bredden til teksten er
+\usepackage{wrapfig}    %Importerer pakken for å ha bildene i teksten
 
 %Definerer hyperlinker og dens farger
 \usepackage{hyperref}
@@ -53,15 +53,14 @@
 
 %------------------------------------
 
-\setlength{\parindent}{0pt}
-\setlength{\columnsep}{2mm} %column separation
-\setlength{\columnsep}{10mm}
+\setlength{\parindent}{0pt} %Ingen indent automaisk for nye linjer
+\setlength{\columnsep}{2mm} %Column separation - til multicolumn
 
-%\setlength{\arrayrulewidth}{1mm}
-\setlength{\tabcolsep}{5mm}
-\renewcommand{\arraystretch}{1.5}
+%\setlength{\arrayrulewidth}{1mm}   %Hvilken tykkelse tabellene skal ha
+\setlength{\tabcolsep}{5mm}     %Lengden mellom hver kolonne
+\renewcommand{\arraystretch}{1.5}   %Hvor stor avstand det skal være mellom radene
 
-\iffalse
+\iffalse    %midlertidig endre bredden på teksten
 If you want to change this temporarily, you can write:
 \savegeometry{mydefaultgeometry}
 \newgeometry{margin=3in}
@@ -97,6 +96,10 @@ And then later you can call:
 
 \newpage
 \clearpage
+
+\textbf{\Large DET er PARALLELIZED ?????????} \\
+
+\vspace{3cm}
 
 \textbf{Kommentarer fra project 1 på devilry:}
 
@@ -149,7 +152,7 @@ Ting å gjøre for de ulike oppgavene:
     \item skrive discussion \\
     \item skrive conclusion and perspective \\
     \item sjekke om vi skal ha noe i appendix \\
-    \item sjekke references (den er skrevet dobbelt, er dette mulig å fjerne ? ) \\
+    \item sjekke references \\
 \end{itemize}
 
 
@@ -165,11 +168,7 @@ Ting å gjøre for de ulike oppgavene:
 
 \vspace{5mm}
 
-hensikt: tilnærme løsningen til integralet så best som mulig 5 pi**2 / 16**2 . \\
-
-In this scientific study we will compute an integral with different numerical methods of integration to approximate the ground state correlation energy between two electrons in a helium atom. Our integral is given by equation (\ref{eq:integral}), which is not normalized. The integral has the analytical answer $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The main interest and the goal of this study is to look at how the methods compare with different amount of mesh points and integration limits. The numerical integration methods we will use in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallization. The study was a success and proved Monte Carlo to be the fastest and most accurate method. Being based on big data, it required many more sampling points. However, as it did not manually calculate the integral, it was much more efficient. \\
-
-SETT INN NOEN TALL SOM BEVIS HER
+In this scientific study we will compute an integral with different numerical methods of integration to approximate the ground state correlation energy between two electrons in a helium atom. Our integral is given by equation (\ref{eq:integral}), which is not normalized. The integral has the analytical answer $\frac{5 \pi^2}{16^2} \approx 0.192765710958777$. The main interest and the goal of this study is to look at how the methods compare with different amount of mesh points and integration limits. The numerical integration methods we will use in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallelization. The study was a success and proved Monte Carlo to be the fastest and most accurate method. In fact, the improved Monte Carlo was $3572\times$ faster than Gauss-Laguerre in achieving an $abs( error)<0.001$. Being based on big data, it required many more sampling points. However, as it did not manually calculate the integral, it was astronomically much more efficient. \\
 
 %All programs are found at our \href{https://github.com/Erikbgram/Fys3150}{GitHub-repository}. \\
 
@@ -205,73 +204,29 @@ The report will go through the theory and methods behind our study and following
 
 \section{Theory} \label{sec:Theory}
 
-\iffalse
-  \begin{equation*} \label{eq:fullmatrixeq}
-    \begin{bmatrix}
-        d & a & 0 & \dots & 0 & 0 \\
-        a & d & a & \dots & 0 & 0 \\
-        0 & a & d & \dots & 0 & 0 \\
-        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-        0 & 0 & 0 & a & d & a \\
-        0 & 0 & 0 & 0 & a & d \\
-    \end{bmatrix}
-    \begin{bmatrix}
-        u_1 \\
-        u_2 \\
-        u_3 \\
-        \vdots \\
-        u_{N-2} \\
-        u_{N-1} \\
-    \end{bmatrix}
-      = \lambda
-    \begin{bmatrix}
-        u_1 \\
-        u_2 \\
-        u_3 \\
-        \vdots \\
-        u_{N-2} \\
-        u_{N-1} \\
-    \end{bmatrix}
-  \end{equation*} \\
-\fi
-HER SKAL ERIK SITT INN\\
-\\
-\subsection{Theory of Gaussian Quadrature and the Gauss-Legendre- method}
+\subsection{Theory of Gaussian quadrature and the Gauss-Legendre method}
 
-The Gauss-Legendre method is based on the more general Gaussian Quadrature method witch uses Taylor series to solve an integral. The main idea is to generate weights, by solving sets of linear equations. For N pints in the Taylor series we get N weights. This weights are used in a weight function in order to approximate the integral.The theory behind Gaussian Quadrature is to obtain the weights by using orthogonal polynomials. This polynomials are orthogonal at certain intervals. For instance from [3,7] as an example. we can use these orthogonal polynomials in order to insure a smooth integral for are graph. The $x_i$ values are chosen arbitrary within the given interval. Together with the weights this gives us 2N parameters that can be used to solve the integral.
-\newline
-\newline
+The Gauss-Legendre method is based on the more general Gaussian quadrature rule which uses Taylor series to solve an integral. The main idea is to generate weights, by solving sets of linear equations. For $N$ points in the Taylor series we get $N$ weights. These weights are used in a weight function in order to approximate the integral. The theory behind Gaussian quadrature is to obtain the weights by using orthogonal polynomials. These polynomials are orthogonal at certain intervals. For instance for $[3,7]$, we can use these orthogonal polynomials in order to ensure a smooth integral for our graph. The $x_i$ values are chosen arbitrary within the given interval. Together with the weights this gives us $2N$ parameters that can be used to solve the integral. \\
 
-$I = \int_{a}^{b} f(x) = \int_{a}^{b}W(x)g(x)dx \approx  \sum_{n=1}^{N}  \omega_i g(x_i) $ (1)
-\newline
-\newline
+\begin{equation} \label{eq:integralgauleg}
+    I = \int_{a}^{b} f(x) = \int_{a}^{b}W(x)g(x) \hspace{1mm} dx \approx  \sum_{n=1}^{N}  \omega_i g(x_i)
+\end{equation} \\
 
-In equation (1) we have the weight function W(x) and g(x) is a orthogonal polynomial that gives a smooths graph. Then we have the sum the weights, $\omega_i$, and the orthogonal polynomial $g(x_i)$ with a number of $x_i$ values within the given interval.
-\newline
-\newline
+In equation (\ref{eq:integralgauleg}) we have the weight function $W(x)$ and $g(x)$ is an orthogonal polynomial that gives a smooth graph. Then we have the sum of the weights, $\omega_i$, and the orthogonal polynomial $g(x_i)$ with a number of $x_i$ values within the given interval. \\
 
-In order to go from Gaussian Quadrature to the Gauss-Legendre method a unit change is needed. Because the Gauss-Legendre method uses only the integral from [-1,1] and later apply the Gaussian Quadrature. A unit change is needed in order to use the Gauss-Legendre method.
-\newline
-\newline
+In order to go from Gaussian quadrature to the Gauss-Legendre method a unit change is needed. Because the Gauss-Legendre method uses only the integral from $[-1,1]$ and later apply the Gaussian quadrature, we have to implement a unit change. The unit change is given by the change of $t$ to $t = \frac{b-a}{2}x + \frac{a+b}{2}$. Our integral can now be written as \\
 
-Want to change t too $t = \frac{b-a}{2}x + \frac{a+b}{2}$
-\newline
-\newline
+\begin{equation} \label{eq:tchangeintegralgauleg}
+    \int_{a}^{b} f(t) \hspace{1mm} dt = \frac{b-a}{2}\int_{-1}^{1} f \left( \frac{b-a}{2}x + \frac{a+b}{2} \right) \hspace{1mm} dx
+\end{equation} \\
 
-$\int_{a}^{b} f(t) dt = \frac{b-a}{2}\int_{-1}^{1} f(\frac{b-a}{2}x + \frac{a+b}{2}) dx$ (2)
-\newline
-\newline
+Now inserting this new integral, (\ref{eq:tchangeintegralgauleg}), into the Gaussian quadrature, (\ref{eq:integralgauleg}), the following estimate of the integral becomes equation (\ref{eq:finalintegralgauleg}). \\
 
-Now exchanging this new integral, (2), into the Gaussian Quadrature, (1), the following estimate of the integral becomes,(3).
-\newline
-\newline
-
-$\int_{a}^{b} f(t) dt \approx \frac{b-a}{2} \sum_{n=1}^{N} \omega_i f(\frac{b-a}{2}x + \frac{a+b}{2}) dx$ (3)
-
+\begin{equation} \label{eq:finalintegralgauleg}
+    \int_{a}^{b} f(t) \hspace{1mm} dt \approx \frac{b-a}{2} \sum_{n=1}^{N} \omega_i f \left( \frac{b-a}{2}x + \frac{a+b}{2} \right) \hspace{1mm} dx
+\end{equation} \\
 
 \subsection{Theory of the Montecarlo Method}
-
-
 
 
 %--------------------- Method ------------------------------------
@@ -279,7 +234,7 @@ $\int_{a}^{b} f(t) dt \approx \frac{b-a}{2} \sum_{n=1}^{N} \omega_i f(\frac{b-a}
 
 \section{Method} \label{sec:Method}
 
-The methods used in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallization.
+The methods used in this project are Gauss-Legendre quadrature, Gauss-Laguerre quadrature, brute force Monte Carlo, Monte Carlo with importance sampling, and Monte Carlo with parallelization.
 
 \subsection{Gauss-Legendre}
 
@@ -323,14 +278,42 @@ THIS SHOULD ALSO BE ERIK SITT?
     \label{fig:integrationpointspng}
   \end{figure}
 
-    \begin{figure}[ht]
+  \begin{figure}[ht]
     \centering
     \includegraphics[width = 11cm]{images/error-montecarlo.png}
-    \caption{The plot of error as a function of integration points $n$ for brute force Monte Carlo, spherical Monte Carlo with importance sampling, and parallized spherical Monte Carlo with importance sampling. }
+    \caption{The plot of error as a function of integration points $n$ for brute force Monte Carlo, spherical Monte Carlo with importance sampling, and parallelized spherical Monte Carlo with importance sampling. }
     \label{fig:montecarlopng}
   \end{figure}
 
-%\vspace{3cm}
+
+\begin{table}[ht] \label{tab:error-MonteCarlo}
+    \centering
+      \caption{Error and execution time for brute force Monte Carlo, spherical Monte Carlo with importance sampling, and parallelized spherical Monte Carlo with importance sampling.}
+      \vspace{2mm}
+      \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        $n$ & $\lambda$ & PSMC error & BMC time & SMC time & PSMC time  \\
+        \hline \hline
+            20 , 1 , 0.0313459 , 3.35521 , 9.26022
+            20 , 2 , 0.0157005 , 3.32988 , 9.24924
+            20 , 3 , 0.0366263 , 3.33241 , 9.33118
+            20 , 4 , 0.0652528 , 3.34317 , 9.35219
+            20 , 5 , 0.0959769 , 0.00167232 , 3.33531 , 9.53888
+            20 , 6 , 0.124165 , 0.00167232 , 3.33762 , 9.30394
+            20 , 7 , 0.147104 , 0.00167232 , 3.33286 , 9.28868
+            20 , 8 , 0.164053 , 0.00167232 , 3.34689 , 9.51324
+            20 , 9 , 0.175608 , 0.00167232 , 3.33201 , 9.1755
+            20 , 10 , 0.182966 , 0.00167232 , 3.33199 , 9.24163
+            20 , 11 , 0.187388 , 0.00167232 , 3.3834 , 9.33558
+            20 , 12 , 0.189917 , 0.00167232 , 3.41952 , 9.21138
+            20 , 13 , 0.191303 , 0.00167232 , 3.33239 , 9.39255
+            20 , 14 , 0.192035 , 0.00167232 , 3.32912 , 9.17791
+            20 , 15 , 0.192409 , 0.00167232 , 3.47462 , 9.31402
+        \hline
+      \end{tabular} \\
+      \hspace{0pt}\\
+  \end{table}
+
 
 
 
@@ -359,7 +342,7 @@ THIS SHOULD ALSO BE ERIK SITT?
 
     \begin{table}[ht] \label{tab:error-MonteCarlo}
     \centering
-      \caption{Error and execution time for Gauss-Legendre and Gauss-Laguerre.}
+      \caption{Error and execution time for brute force Monte Carlo, spherical Monte Carlo with importance sampling, and parallelized spherical Monte Carlo with importance sampling.}
       \vspace{2mm}
       \begin{tabular}{|c|c|c|c|c|c|}
         \hline
@@ -395,15 +378,20 @@ THIS SHOULD ALSO BE ERIK SITT?
 
 diskutere resultatetene: altså hvilke metoder som brukte lengst tid, hvilke som var mest nøyaktig osv \\
 koble dette til teori for hvorfor resultatene ble slik som de er \\
-\\
-The results show that the parallized code actually isn't better than the non-parallized code. This is strang. However, it can be from the fact that the computer running the code only has two cores so there is less of an effect.
+
+Gaussian Quadrature improves greatly by increasing the amount of mesh points, at least for smaller $n$. When we pass an $n$ of about 30 we start getting diminishing returns. The calculation starts taking a very long time, and the improvement in error is not as great as it was for smaller values. This can be seen in \ref{tab:integrationpoints}.
+
+As we can see in \cref{fig:integrationpointspng} increasing the amount of mesh points for Gaussian Quadrature we gain an increased accuracy. This however, as shown in \ref{tab:error-Gauss}, takes a lot of time.
+
+
+The results show that the parallelized code actually isn't better than the non-parallelized code. This is strang. However, it can be from the fact that the computer running the code only has two cores so there is less of an effect.
 
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
 
 \section{Conclusion and perspective} \label{sec:Conclusion}
 
-To conclude the Monte Carlo integration methods exceeded the Gauss quadrature methods for both computation time and accuracy of the answer to the integral. As expected the parallized spherical Monte Carlo with importance sampling is the fastest method with the highest degree of accuracy. This is mainly because ... \\
+To conclude the Monte Carlo integration methods exceeded the Gauss quadrature methods for both computation time and accuracy of the answer to the integral. As expected the parallelized spherical Monte Carlo with importance sampling is the fastest method with the highest degree of accuracy. This is mainly because ... \\
 
 legge inn mer her som knytter det opp til teorien.
 
@@ -413,7 +401,18 @@ legge inn mer her som knytter det opp til teorien.
 
 \section{Appendix} \label{sec:Appendix}
 
-Figure (\ref{fig:timingslargepng}) does not include all larger data points from our \texttt{.txt}-files. These can be found in table (???????)
+\subsection{Calculation of Monte Carlo's speed over Gauss-Laguerre}
+We imported the error as function of time for SMC and Gauss-Laguerre into Geogebra and did a simple regression analysis. For both data-sets, the $f(x)=Cx^p$ was the best fit. By extrapolating to $error=0.001$ we found SMC to intersect at $0.639487186$ and Gauss-Laguerre to intersect at $2284.1372326374$. Dividing Laugerre with SMC, we found SMC to be $3571.82643$ times faster. Approximately $3572$ times faster. This seems crazy high, so we have also included the calculation for the actual time for the 1st run where Laugerre and SMC went below $error=0.001$. See below.\\
+
+The 1st time Improved Monte Carlo (Spherical) achieved an absolute error below $0.001$ was with $n=10000$. The error was $0.000272967$ and it took $0.00655811$ seconds. The 1st time Gauss-Laguerre (Improved Gaussian Quadrature) achieved an absolute error below $0.001$ was with $n=15$. The error was $0.000476827$ and it took $1.69456$ seconds. \\
+
+Calculation follows: \\
+
+$$\frac{time_{Laguerre}}{time_{SMC}} = \frac{1.69456}{0.00655811} = 258.3915183$$ \\
+
+Spherical Monte Carlo was approximately $258$ times faster than Gauss-Laguerre.\\
+
+Figure (\ref{fig:timingslargepng}) does not include all larger data points from our \texttt{.txt}-files. These can be found in table (\ref{tab:error-MonteCarlo}) (noe feil med refereringen her??????????) for the latter rows. These values can also be found in the file \texttt{montecarlo.txt} on our GitHub, \cite{github}.
 
 \begin{figure}[ht]
 \centering
