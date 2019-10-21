@@ -1,5 +1,5 @@
 /*
-  Last edited: 20.10.2019 18:16 by Alexandra Jahr Kolstad
+  Last edited: 21.10.2019 20:50 by Alexandra Jahr Kolstad
 */
 
 #include <cmath>
@@ -61,7 +61,7 @@ double psi_sphere_MC(double r1, double r2, double t1, double t2, double p1, doub
     }
 }
 
-void gauleg(double x1, double x2, double x[], double w[], int n) {
+void gauleg(double x1, double x2, double x[], double w[], int n) { // Morten's code
     /*
     This  function takes the lower and upper limits of integration x1, x2
     calculates and returns the abcissas in x[0, ..., n-1] and the weights
@@ -124,7 +124,7 @@ void gauleg(double x1, double x2, double x[], double w[], int n) {
     }
 }
 
-double gammln( double xx){
+double gammln( double xx){ //Morten's code
 	double x,y,tmp,ser;
 	static double cof[6]={76.18009172947146,-86.50532032941677,
 		24.01409824083091,-1.231739572450155,
@@ -139,7 +139,7 @@ double gammln( double xx){
 	return -tmp+log(2.5066282746310005*ser/x);
 }
 
-void gaulag(double *x, double *w, int n, double alf){
+void gaulag(double *x, double *w, int n, double alf){ //Morten's code
 	int i,its,j;
 	double ai;
 	double p1,p2,p3,pp,z,z1;
@@ -173,7 +173,7 @@ void gaulag(double *x, double *w, int n, double alf){
 	}
 }
 
-void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){
+void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std){ //Morten's code with minor adjustments
     std::random_device rd;
     std::mt19937_64 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
@@ -205,7 +205,7 @@ void Brute_MonteCarlo(int n, double a, double b, double  &integral, double  &std
     delete [] x;
 }
 
-void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
+void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){ //Morten's code with minor adjustments
     std::random_device rd;
     std::mt19937_64 generator(rd());
     std::uniform_real_distribution<double> distribution(0.0,1.0);
@@ -240,15 +240,15 @@ void Polar_MonteCarlo_Importance(int n, double  &integral, double  &std){
 }
 
 int main(int argc, char *argv[]) {
-    int n = atoi(argv[1]);
+
+    int n = atoi(argv[1]);      //Command line arguments
     double la = atof(argv[2]);
 
     double exact = (5*M_PI*M_PI)/(16*16);
 
     //---------------------------------------------------------------------------------------------
 
-
-    //Legendre
+    // Gauss-Legendre method
 
     double *w = new double[n];
     double *x = new double[n];
@@ -257,7 +257,9 @@ int main(int argc, char *argv[]) {
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
-    double legendre_sum = 0.0;/*
+    double legendre_sum = 0.0;
+    // Calculating the approximation of the integral with six dimensions for Gauss-Legendre
+    /*
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             for(int k = 0; k < n; k++) {
@@ -282,9 +284,8 @@ int main(int argc, char *argv[]) {
 
     //-------------------------------------------------------------------------------------------
 
+    // Gauss-Laguerre method
 
-
-    //Laguerre
     double *r = new double[n+1];
     double *the = new double[n];
     double *phi = new double[n];
@@ -299,7 +300,9 @@ int main(int argc, char *argv[]) {
     start = ch::steady_clock::now();
 
 
-    double laguerre_sum = 0.0;/*
+    double laguerre_sum = 0.0;
+    // Calculating the approximation of the integral with six dimensions for Gauss-Laguerre
+    /*
     for(int i = 1; i < n+1; i++) {
         for(int j = 1; j < n+1; j++) {
             for(int k = 0; k < n; k++) {
@@ -329,6 +332,7 @@ int main(int argc, char *argv[]) {
     //-------------------------------------------------------------------------------------------
 
     //Brute Force Monte Carlo
+
     double BMC_sum;
     double BMC_std;
 
@@ -341,7 +345,8 @@ int main(int argc, char *argv[]) {
 
     //-------------------------------------------------------------------------------------------
 
-    //Spherical Monte Carlo w/ Imp.Sampling
+    //Spherical Monte Carlo
+
     double SMC_sum;
     double SMC_std;
 
@@ -354,7 +359,7 @@ int main(int argc, char *argv[]) {
 
     //-------------------------------------------------------------------------------------------
 
-    //Parallelized Spherical Monte Carlo w/ Imp.Sampling
+    //Parallelized Spherical Monte Carlo
 
     //  MPI initializations
     int local_n, numprocs, my_rank;
@@ -365,7 +370,7 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
 
-    if(n%numprocs==0) {   //teste om man skriver inn et oddetall for n
+    if(n%numprocs==0) {   // To test if n is an odd number or an even number
       // This is good
       local_n = n/numprocs;
     }
@@ -388,7 +393,7 @@ int main(int argc, char *argv[]) {
 
         fstream outfile;
 
-      /*
+    /*
         outfile.open("lambda.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << fabs(exact-legendre_sum) << " , " << fabs(exact-laguerre_sum) << " , " << time_span_gauss_legendre.count() << " , " << time_span_gauss_laguerre.count() << endl;
         outfile.close();
@@ -400,18 +405,15 @@ int main(int argc, char *argv[]) {
         outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
         outfile.close();
-        */
 
         outfile.open("montecarlooptimized.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
         outfile.close();
 
-
-        /*
         outfile.open("variance.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << BMC_std*BMC_std*n << " , " << SMC_std*SMC_std*n << " , " << PSMC_std*PSMC_std*n << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
         outfile.close();
-        */
+    */
 
         // Final output
         cout << setiosflags(ios::showpoint | ios::uppercase);
