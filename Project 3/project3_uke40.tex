@@ -195,11 +195,11 @@ The integral we are evaluating comes from the solution of Schrödinger's equatio
 
 The integral is not properly normalized. However, that is not important for the study. If you are interested in how the integral is found, see \cite{task}.\\
 
-Numerical integration methods can be used to numerically solve this integral. For instance Gaussian quadrature uses orthogonal polynomials to compute weights and uses Taylor series to approximate an integral. The Gauss-Legendre method implements the theory without further thought to effectiveness. Therefore this method is called brute force Gauss-Legendre, and uses the cartesian coordinate system. An improved Gaussian quadrature rule would be based on spherical coordinates, to
+Numerical integration methods can be used to numerically solve this integral. For instance Gaussian quadrature uses orthogonal polynomials to compute weights and then Taylor series to approximate the integral. The Gauss-Legendre method implements the theory without further thought to effectiveness. Therefore this method is called brute force Gauss-Legendre, and uses the cartesian coordinate system. An improved Gaussian quadrature rule would be based on a set of polynomials fitting to the integral. In this case, spherical coordinates. This leads to an increase in accuracy, but by that same token, can lead to a longer run-time.
 
-Our aim is to approximate this integral using two types of Gaussian quadrature, and some variations of Monte Carlo. We have created a code that evaluates the integral using each method and compares them. Alongside the actual value we get the absolute value and time used. Using this we present our data showing that Monte Carlo massively outperforms the Gaussian quadrature rules, and especially the superiorness of the parallelized spherical Monte Carlo in computation time. \\
+Our aim is to approximate this integral using two types of Gaussian quadrature, and some variations of Monte Carlo. We have created a code that evaluates the integral using each method and compares them. Alongside the actual value we get the absolute error, $|\varepsilon|$, and time used. Using this we present our data and show that Monte Carlo massively outperforms the Gaussian quadrature rules, even further so after implementing parallelization for the Importance Sampled Monte Carlo method.\\
 
-The study will go through the theory and methods behind our study and following that we will present our results and discuss them. Lastly we have a conclusion to briefly summarise our findings. Other findings which we deemed to not be as important are found in the appendix, for instance some calculations. Sources of different academic materials we used are given in references. \\
+The study will go through the theory and methods behind our study and following that we will present our results and discuss them. Lastly we have a conclusion to briefly summarise our findings. Other findings which we deemed to not be as important are found in the appendix, for instance calculations for proving Importance Sampled Monte Carlo Method's superiorness over improved Guassian Quadrature (\ref{MC>GQ}). Sources of different academic materials we used are given in references. \\
 
 
 %-------------------- Theory ------------------------------------
@@ -397,7 +397,7 @@ legge inn mer her som knytter det opp til teorien.
 
 \section{Appendix} \label{sec:Appendix}
 
-\subsection{Calculation of Monte Carlo's speed over Gauss-Laguerre}
+\subsection{Calculation of Monte Carlo's speed over Gauss-Laguerre}  \label{MC>GQ}
 We imported the error as function of time for SMC and Gauss-Laguerre into Geogebra and did a simple regression analysis. For both data-sets, the $f(x)=Cx^p$ was the best fit. By extrapolating to $error=0.001$ we found SMC to intersect at $0.639487186$ and Gauss-Laguerre to intersect at
 $2284.1372326374$. Dividing Laugerre with SMC, we found SMC to be $3571.82643$ times faster. Approximately $3572$ times faster. This seems crazy high, so we
 have also included the calculation for the actual time for the 1st run where Laugerre and SMC went below $error=0.001$. See below.\\
@@ -447,7 +447,7 @@ Erik B. Grammeltvedt, Alexandra Jahr Kolstad, Erlend T. North (2019), \href{http
 Morten H. Jensen (2015), \href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Lectures/lectures2015.pdf}{Lecture slides for FYS3150}, Department of Physics, University of Oslo, Norway
 
 \bibitem{laguerre_polynomial}
-Weisstein, Eric W. \href{http://mathworld.wolfram.com/LaguerrePolynomial.html}{"Laguerre Polynomial."}, From MathWorld--A Wolfram Web Resource. 
+Weisstein, Eric W. \href{http://mathworld.wolfram.com/LaguerrePolynomial.html}{"Laguerre Polynomial."}, From MathWorld--A Wolfram Web Resource.
 
 \end{thebibliography}
 
