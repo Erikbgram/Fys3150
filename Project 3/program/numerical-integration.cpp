@@ -400,12 +400,18 @@ int main(int argc, char *argv[]) {
         outfile.open("montecarlo.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
         outfile.close();
-
         */
 
+        outfile.open("montecarlooptimized.txt", std::fstream::out | std::ofstream::app);
+        outfile << n << " , " << la << " , " << fabs(exact-BMC_sum) << " , " << fabs(exact-SMC_sum) << " , " << fabs(exact-PSMC_sum) << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
+        outfile.close();
+
+
+        /*
         outfile.open("variance.txt", std::fstream::out | std::ofstream::app);
         outfile << n << " , " << la << " , " << BMC_std*BMC_std*n << " , " << SMC_std*SMC_std*n << " , " << PSMC_std*PSMC_std*n << " , " << time_span_BMC.count() << " , "  << time_span_SMC.count() << " , "  << time_span_PSMC << endl;
         outfile.close();
+        */
 
         // Final output
         cout << setiosflags(ios::showpoint | ios::uppercase);
