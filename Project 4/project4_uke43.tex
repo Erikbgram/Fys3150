@@ -142,22 +142,133 @@ And then later you can call:
 
 \subsection{Analytical solution for \texorpdfstring{ $2 \times 2$ }{text} lattice}
 
-a): gjort ferdig alle beregningene. ikke gjort beregningen for E og M for alle 16 mikrotilstandene, men har gjort for en av dem og kan bruke dette som eksempel
+The energies in this study is given by the set $E_i = \{- 8 J, -4J, 0 , 4J, 8J \}$.
 
-må skrive det inn fra boken til Alexandra.
+\subsubsection{Partition function}
 
+The partition function is given by the equation below.
+
+\begin{equation} \label{eq:partitionfunction}
+    Z = \sum_{i=1} ^{M} e^{- \beta E_i}
+\end{equation} \\
+
+The sum runs from 1 to $M$, which is 16 because of the $ 2 \times 2 $ lattice. To calculate the partition function we need to know that
+
+\begin{equation*}
+    2 \cosh (x) = e^x + e^{-x}
+\end{equation*} \\
+
+Calculating the partition function.
+
+\begin{align*}
+  Z &= \sum_{i=1} ^{M} e^{- \beta E_i} = \sum_{i=1} ^{16} e^{- \beta E_i} \\
+  &= 1 \cdot e^{- \beta (-8J)} + 4 \cdot e^{- \beta (0J)} + 2 \cdot e^{- \beta (8J)} + 4 \cdot e^{- \beta (0J)}
+  + 4 \cdot e^{- \beta (0J)} + 1 \cdot e^{- \beta (-8J)} \\
+  &= e^{8 \beta J} + 4 + 2 \cdot e^{-8 \beta J} + 4 + 4 + e^{8 \beta J} \\
+  &= 2 e^{8 \beta J } + 2 e^{-8 \beta J} + 12 \\
+  &= 2 \left( e^{8 \beta J} + e^{- 8 \beta J} \right) + 12 \\
+  &= 2 \left( 2 \cosh(8 \beta J) \right) + 12 \\
+  &= 4 \cosh(8 \beta J) + 12
+\end{align*} \\
+
+The partition function for this system is therefore given by $Z = 4 \cosh(8 \beta J) + 12$.
 
 \subsubsection{Energy and mean magnetization}
 
+The expectation value of the energy is
 
-\subsubsection{Partition function}
+\begin{equation}    \label{eq:expectationenergy}
+    \langle E \rangle = \frac{1}{Z} \sum _{i=1} ^M E_i e^{- \beta E_i} \\
+\end{equation} \\
+
+In addition we need to know that
+
+\begin{equation*}
+    2 \sinh (x) = e^x - e^{-x}
+\end{equation*} \\
+
+The expectation value of the energy is
+
+\begin{align*}
+  \langle E \rangle &= \frac{1}{Z} \sum _{i=1} ^M E_i e^{- \beta E_i} \\
+  &= \frac{1}{Z} \left[ 1 \cdot (-8J) e^{- \beta (-8J)} + 4 \cdot 0 + 2 \cdot (8J) e^{- \beta (8J)} + 4 \cdot 0 + 1 \cdot (-8J) e^{- \beta (-8J)} \right] \\
+  &= \frac{1}{Z} \left[ - 8J e^{\beta 8J} + 2 \cdot 8J e^{- \beta 8J} - 8J e^{ \beta 8J} \right] \\
+  &= \frac{2}{Z} \left[ - 8J e^{\beta 8 J} + 8 J e^{- \beta 8 J} \right] \\
+  &= - \frac{16 J}{Z} \left( e^{8 \beta J} - e^{- 8 \beta J} \right) \\
+  &= - \frac{16 J}{Z} (2 \sinh(8 \beta J) ) \\
+  &= - \frac{32 J}{Z} \sinh(8 \beta J)
+\end{align*} \\
+
+The expectation value of the mean magnetization is
+
+\begin{equation}    \label{eq:meanmagnetization}
+    \langle M \rangle = \frac{1}{Z} \sum _{i=1} ^M M_i e^{- \beta E_i} \\
+\end{equation} \\
+
+For this system it is
+
+\begin{align*}
+  \langle M \rangle &= \frac{1}{Z} \sum _{i=1} ^M M_i e^{- \beta E_i} \\
+  &= \frac{1}{Z} \left[1 \cdot 4 e^{- \beta (-8J)} + 4 \cdot 2 e^{- \beta (0J)} + 2 \cdot 0 + 4 \cdot 0 + 4 \cdot (-2) e^{- \beta (0J)} + 1 \cdot (-4) e^{- \beta (-8J)} \right] \\
+  &= \frac{1}{Z} \left[ 4 e^{\beta 8J} + 8 - 8 - 4 e^{ \beta 8J} \right] \\
+  &= \frac{1}{Z} \cdot 0 \\
+  &= 0
+\end{align*} \\
 
 
 \subsubsection{Specific heat}
 
+The specific heat is given by the equation
+
+\begin{equation}    \label{eq:specificheat}
+    C_V = \frac{1}{k_B T^2} \left( \langle E^2 \rangle - \langle E \rangle ^2 \right)
+\end{equation} \\
+
+Therefore the expectation value of the energy squared has to be calculated.
+
+\begin{align*}
+  \langle E^2 \rangle &= \frac{1}{Z} \sum _{i=1} ^M E_i^2 e^{- \beta E_i} \\
+  &= \frac{1}{Z} \left[ 1 \cdot (-8J)^2 e^{- \beta (-8J)} + 4 \cdot 0 + 2 \cdot (8J)^2 e^{- \beta (8J)} + 4 \cdot 0 + 1 \cdot (-8J)^2 e^{- \beta (-8J)} \right] \\
+  &= \frac{1}{Z} \left[ 16 J^2 e^{\beta 8J} + 2 \cdot 16 J^2 e^{- \beta 8J} + 16 J^2 e^{ \beta 8J} \right] \\
+  &= \frac{2 \cdot 16 J^2}{Z} \left[ e^{\beta 8 J} + e^{- \beta 8 J} \right] \\
+  &= \frac{32 J^2}{Z} (2 \cosh(8 \beta J) ) \\
+  &= \frac{64 J^2}{Z} \cosh(8 \beta J)
+\end{align*} \\
+
+Now the specific heat can be calculated.
+
+\begin{align*}
+    C_V = \frac{1}{k_B T^2} \left( \langle E^2 \rangle - \langle E \rangle ^2 \right)
+    &= \frac{1}{k_B T^2} \left( \frac{64 J^2}{Z} \cosh (8 \beta J) - \left( - \frac{32 J}{Z} \sinh(8 \beta J ) \right) ^2 \right)
+\end{align*} \\
+
 
 \subsubsection{Susceptibility}
 
+The susceptibility is given by
+
+\begin{equation}    \label{eq:susceptibility}
+    \chi = \frac{1}{k_B T^2} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right)
+\end{equation} \\
+
+The expectation value of the mean magnetization squared therefore has to be calculated.
+
+\begin{align*}
+  \langle M^2 \rangle &= \frac{1}{Z} \sum _{i=1} ^M M_i^2 e^{- \beta E_i} \\
+  &= \frac{1}{Z} \left[1 \cdot 4^2 e^{- \beta (-8J)} + 4 \cdot 2^2 e^{- \beta (0J)} + 2 \cdot 0 + 4 \cdot 0 + 4 \cdot (-2)^2 e^{- \beta (0J)} + 1 \cdot (-4)^2 e^{- \beta (-8J)} \right] \\
+  &= \frac{1}{Z} \left[ 16 e^{\beta 8J} + 16 + 16 + 16 e^{ \beta 8J} \right] \\
+  &= \frac{1}{Z} \left[ 2 e^{8 \beta J} + 2 \right] \\
+  &= \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) \\
+  &= 0 \\
+\end{align*}
+
+Now calculating the susceptibility of the system.
+
+\begin{align*}
+    \chi &= \frac{1}{k_B T^2} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right) \\
+    &= \frac{1}{k_B T^2} \left[ \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) - 0^2 \right] \\
+    &= \frac{1}{k_B T^2} \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) \\
+\end{align*}
 
 
 
