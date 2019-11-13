@@ -13,13 +13,13 @@ using namespace std;
 namespace ch = std::chrono;
 
 // Functions
-void initLattice(arma::Mat<int> &M,int n,int L) {
+void initLattice(arma::Mat<int> &M,int L) { // Initializes the lattice
   random_device rd;
   mt19937_64 generator(rd());
-  uniform_int_distribution<int> distribution(1,L);
+  uniform_int_distribution<int> distribution(0,1);
 
-  for(int i = 0; i < n; i++) {
-    for(int j = 0; j < n; j++) {
+  for(int i = 0; i < L; i++) {
+    for(int j = 0; j < L; j++) {
       M(i,j) = distribution(generator);
       cout << M(i,j) << " "; // For checking the distribution
     }
@@ -27,10 +27,10 @@ void initLattice(arma::Mat<int> &M,int n,int L) {
   }
 }
 
-void flip(int &spin,int L) { // Generates a random spin-value
+void flip(int &spin) { // Generates a random spin-value
   random_device rd;
   mt19937_64 generator(rd());
-  uniform_int_distribution<int> distribution(1,L);
+  uniform_int_distribution<int> distribution(0,1);
   spin = distribution(generator);
 }
 
@@ -56,13 +56,12 @@ int Metropolis(double delE,double T=1.0) {
 }
 
 int main(int argc, char *argv[]) { // Main function
-  int n = atoi(argv[1]);
-  int L = atoi(argv[2]);
-  int MC_cycles = atoi(argv[3]);
+  int L = atoi(argv[1]);
+  int n = atoi(argv[2]);
 
   // Initialize lattice
-  arma::Mat<int> lattice(n,n,arma::fill::zeros);
-  initLattice(lattice, n, L);
+  arma::Mat<int> lattice(L,L,arma::fill::zeros);
+  initLattice(lattice, L);
 
   // Choose and flip spin
 
@@ -76,14 +75,21 @@ int main(int argc, char *argv[]) { // Main function
   random_device rd;
   mt19937_64 generator(rd());
   uniform_int_distribution<int> distribution(0,n-1);
-  for(int i = 0; i < MC_cycles; i++) {
+  for(int i = 0; i < n; i++) {
     int k = distribution(generator);
     int l = distribution(generator);
-    flip(lattice(k,l), L);
+    flip(lattice(k,l));
     Ej = 0; // CALCULATE
     Metropolis(delE(k,l));
     // Update averages
   }
   cout << "Test" << endl;
+
+  /// THINGS WE NEED
+  ///
+  /// mean energy E
+  /// mean magnetization |M|
+  /// specific heat Cv
+  /// susceptibility chi (X)
 
 }
