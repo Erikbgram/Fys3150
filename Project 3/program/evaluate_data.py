@@ -1,5 +1,5 @@
 """
-Last changed: 19.10.2019 19:31 by Alexandra Jahr Kolstad
+Last changed: 20.10.2019 18:44 by Alexandra Jahr Kolstad
 """
 # Imports
 import os
@@ -13,13 +13,14 @@ def options():
     print("1:   lambda.txt")
     print("2:   integrationpoints.txt")
     print("3:   montecarlo.txt")
-    print("4:   Timings")
+    print("4:   variance.txt")
+    print("5:   Timings")
     print()
     print("-1:   Quit Program")
 
     while True:
         try:
-            filenum = int(input("\nWhat filename do you want to evaluate? "))
+            filenum = int(input("\n What filename do you want to evaluate? "))
             break
         except ValueError:
             print("\nCould not convert your input to int")
@@ -46,7 +47,7 @@ def eval_lambda(filename):
     error_legendre = np.array(error_legendre)
 
     plt.plot(la,error_legendre)
-    plt.title("Plot of error ($n=%d$) with varying $\lambda$" % n[0])
+    plt.title("Plot of error ($n=%d$) with varying $\lambda$ for Gauss-Legendre" % n[0])
     plt.xlabel("$\lambda$")
     plt.ylabel("Error")
     plt.grid()
@@ -71,10 +72,11 @@ def eval_integrationpoints(filename):
             error_laguerre.append(float(words[3]))
 
     plt.plot(n, error_legendre, label="Gauss-Legendre")
-    plt.plot(n, error_laguerre, label="Gauss-Legendre")
+    plt.plot(n, error_laguerre, label="Gauss-Laguerre")
     plt.title("Plot of error ($\lambda=%d$) with varying n" % la[0])
     plt.xlabel("n")
     plt.ylabel("Error")
+    plt.legend()
     plt.grid()
     plt.savefig("../images/error-" + filename[:-4] + ".png")
     plt.show()
@@ -117,7 +119,7 @@ def eval_montecarlo(filename):
         plt.subplot(2, 1, 1)
         plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
         plt.plot(n, error_SMC, label="Spherical Monte Carlo")
-        plt.plot(n, error_PSMC, label="Parallized Spherical Monte Carlo")
+        plt.plot(n, error_PSMC, label="Parallelized Spherical Monte Carlo")
         plt.title("Plot of error ($\lambda=%d$) with varying n" % la[0])
         plt.xlabel("n")
         plt.ylabel("Error")
@@ -129,7 +131,7 @@ def eval_montecarlo(filename):
         plt.subplot(2, 1, 2)
         plt.plot(n, error_BMC, label="Brute Force Monte Carlo")
         plt.plot(n, error_SMC, label="Spherical Monte Carlo")
-        plt.plot(n, error_PSMC, label="Parallized Spherical Monte Carlo")
+        plt.plot(n, error_PSMC, label="Parallelized Spherical Monte Carlo")
         plt.xlabel("n")
         plt.ylabel("Error")
         plt.xlim(10500, 100000000)
@@ -137,6 +139,52 @@ def eval_montecarlo(filename):
         plt.grid()
         plt.legend()
         plt.savefig("../images/error-montecarlo.png")
+        plt.show()
+
+def eval_variance(filename):
+
+    n = []
+    la = []
+    variance_BMC = []
+    variance_SMC = []
+    variance_PSMC = []
+    time_span_BMC = []
+    time_span_SMC = []
+    time_span_PSMC = []
+
+    with open(filename) as infile:
+        infile.readline()
+        lines = infile.readlines()
+        for line in lines:
+            words = line.split(" , ")
+            n.append(int(words[0]))
+            la.append(float(words[1]))
+            variance_BMC.append(float(words[2]))
+            variance_SMC.append(float(words[3]))
+            variance_PSMC.append(float(words[4]))
+            time_span_BMC.append(float(words[5]))
+            time_span_SMC.append(float(words[6]))
+            time_span_PSMC.append(float(words[7]))
+
+        la = np.array(la)
+        variance_BMC = np.array(variance_BMC)
+        variance_SMC = np.array(variance_SMC)
+        variance_PSMC = np.array(variance_PSMC)
+        time_span_BMC = np.array(time_span_BMC)
+        time_span_SMC = np.array(time_span_SMC)
+        time_span_PSMC = np.array(time_span_PSMC)
+
+        plt.figure(figsize = (7,8))
+
+        plt.plot(np.log(n), variance_BMC, label="Brute Force Monte Carlo")
+        plt.plot(np.log(n), variance_SMC, label="Spherical Monte Carlo")
+        plt.plot(np.log(n), variance_PSMC, label="Parallelized Spherical Monte Carlo")
+        plt.title("Plot of variance ($\lambda=%d$) with varying n" % la[0])
+        plt.xlabel("log(n)")
+        plt.ylabel("Variance")
+        plt.grid()
+        plt.legend()
+        plt.savefig("../images/variance-montecarlo.png")
         plt.show()
 
 def eval_timings(filename1, filename2):
@@ -204,7 +252,7 @@ def eval_timings(filename1, filename2):
     plt.subplot(2, 1, 2)
     plt.plot(time_span_BMC, error_BMC, label="Brute Force Monte Carlo")
     plt.plot(time_span_SMC, error_SMC, label="Spherical Monte Carlo")
-    plt.plot(time_span_PSMC, error_PSMC, label="Parallized Spherical Monte Carlo")
+    plt.plot(time_span_PSMC, error_PSMC, label="Parallelized Spherical Monte Carlo")
     plt.xlabel("Time (s)")
     plt.ylabel("Error")
     plt.grid()
@@ -230,7 +278,7 @@ def eval_timings(filename1, filename2):
     plt.subplot(2, 1, 2)
     plt.plot(time_span_BMC, error_BMC, label="Brute Force Monte Carlo")
     plt.plot(time_span_SMC, error_SMC, label="Spherical Monte Carlo")
-    plt.plot(time_span_PSMC, error_PSMC, label="Parallized Spherical Monte Carlo")
+    plt.plot(time_span_PSMC, error_PSMC, label="Parallelized Spherical Monte Carlo")
     plt.xlabel("Time (s)")
     plt.ylabel("Error")
     plt.grid()
@@ -247,7 +295,8 @@ def main():
         1: "lambda.txt",
         2: "integrationpoints.txt",
         3: "montecarlo.txt",
-        4: "timings",
+        4: "variance.txt",
+        5: "timings",
         -1: "quit"
     }
 
@@ -292,6 +341,8 @@ def main():
             # EVALUATE FOR MONTECARLO
             eval_montecarlo(case)
         elif case == cases.get(4):
+            eval_variance(case)
+        elif case == cases.get(5):
             eval_timings("integrationpoints.txt", "montecarlo.txt")
         elif case == "quit":
             print("Quitting program..")

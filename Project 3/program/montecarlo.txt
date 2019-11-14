@@ -1,4 +1,4 @@
-integration points , lambda , error_BMC , error_SMC , error_PSMC , time_span_BMC , time_span_SMC , time_span_PSMC
+integration_points , lambda , error_BMC , error_SMC , error_PSMC , time_span_BMC , time_span_SMC , time_span_PSMC
 50 , 2 , 0.138417 , 0.251552 , 0.131809 , 0.000118142 , 8.7853e-05 , 0.00038
 100 , 2 , 0.157825 , 0.156198 , 0.00719969 , 0.00014777 , 0.00011932 , 0.00037
 500 , 2 , 0.113224 , 0.012164 , 0.00302251 , 0.000376404 , 0.00038224 , 0.00051

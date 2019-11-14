@@ -1,4 +1,4 @@
-integration points , lambda , error_legendre , error_laguerre , time_span_gauss_legendre , time_span_gauss_laguerre
+integration_points , lambda , error_legendre , error_laguerre , time_span_legendre , time_span_laguerre
 5 , 2 , 0.161836 , 0.0437248 , 0.00082727 , 0.0022169
 10 , 2 , 0.0629315 , 0.0115411 , 0.0520311 , 0.150486
 15 , 2 , 0.00670907 , 0.000476827 , 0.609131 , 1.69456

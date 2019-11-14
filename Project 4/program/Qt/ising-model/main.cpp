@@ -1,0 +1,95 @@
+/*
+  Last edited: 01.11.2019 14:50 by Erlend T. North
+*/
+
+#include <iostream>
+#include <cmath>
+#include <random>
+#include <armadillo>
+#include <chrono>
+//#include <mpi.h>
+#define kB 1
+using namespace std;
+namespace ch = std::chrono;
+
+// Functions
+void initLattice(arma::Mat<int> &M,int L) { // Initializes the lattice
+  random_device rd;
+  mt19937_64 generator(rd());
+  uniform_int_distribution<int> distribution(0,1);
+
+  for(int i = 0; i < L; i++) {
+    for(int j = 0; j < L; j++) {
+      M(i,j) = distribution(generator);
+      cout << M(i,j) << " "; // For checking the distribution
+    }
+    cout << endl; // For checking the distribution
+  }
+}
+
+void flip(int &spin) { // Generates a random spin-value
+  random_device rd;
+  mt19937_64 generator(rd());
+  uniform_int_distribution<int> distribution(0,1);
+  spin = distribution(generator);
+}
+
+double delE(int k,int l) {
+  // Do Stuff
+  return 0;
+}
+
+void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
+  // Do stuff
+}
+
+int Metropolis(double delE,double T=1.0) {
+  random_device rd;
+  mt19937_64 generator(rd());
+  uniform_real_distribution<double> distribution(0.0,1.0);
+
+  double r = distribution(generator);
+  if(r <= exp(delE/(kB*T))) {
+  return 1;
+  }
+  return 0;
+}
+
+int main(int argc, char *argv[]) { // Main function
+  int L = atoi(argv[1]);
+  int n = atoi(argv[2]);
+
+  // Initialize lattice
+  arma::Mat<int> lattice(L,L,arma::fill::zeros);
+  initLattice(lattice, L);
+
+  // Choose and flip spin
+
+
+
+
+  //----------------------------------------------------------------------------
+  // Initiate Monte Carlo Markov Chain
+  int Ei = 8;
+  int Ej = 0;
+  random_device rd;
+  mt19937_64 generator(rd());
+  uniform_int_distribution<int> distribution(0,n-1);
+  for(int i = 0; i < n; i++) {
+    int k = distribution(generator);
+    int l = distribution(generator);
+    flip(lattice(k,l));
+    Ej = 0; // CALCULATE
+    Metropolis(delE(k,l));
+    // Update averages
+  }
+  cout << "Test" << endl;
+
+  /// THINGS WE NEED
+  ///
+  /// mean energy E
+  /// mean magnetization |M|
+  /// specific heat Cv
+  /// susceptibility chi (X)
+
+}
