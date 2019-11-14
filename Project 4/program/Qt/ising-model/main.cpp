@@ -39,7 +39,7 @@ void flip(int &spin) { // Flips spin-value
   }
 }
 
-int E(arma::Mat<int> M, int L, int k, int l) { // Calculates energy
+int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy
   int sum = 0;
   for(int i = -1; i < 2; i++) {
     // k
@@ -65,7 +65,6 @@ int E(arma::Mat<int> M, int L, int k, int l) { // Calculates energy
   }
   return sum;
 }
-
 
 void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
   // Do stuff
@@ -100,6 +99,7 @@ int main(int argc, char *argv[]) { // Main function
   // Initiate Monte Carlo Markov Chain
   int Ei = 8;
   int Ej = 0;
+  int delE = 0;
   random_device rd;
   mt19937_64 generator(rd());
   uniform_int_distribution<int> distribution(0,L-1);
@@ -112,14 +112,15 @@ int main(int argc, char *argv[]) { // Main function
     // Choose and flip spin
     int k = distribution(generator);
     int l = distribution(generator);
-    Ej = E(lattice, L, k, l); // Energy pre-flip
+    Ej = localE(lattice, L, k, l); // Energy pre-flip
     flip(lattice(k,l)); // Flipping
-    Ei = E(lattice, L, k, l); // Energy post-flip
+    Ei = localE(lattice, L, k, l); // Energy post-flip
+    delE = Ei-Ej;
     //Metropolis(delE(k,l));
-    bool temp = Metropolis(Ei-Ej);
+    bool temp = Metropolis(delE);
     cout << "Metropolis: " << temp << endl;
     // Update averages
-    outfile << Ei << endl;
+    outfile << exp(delE/(kB*1.0)) << endl;
     //lattice.print();
   }
   cout << "Test" << endl;
