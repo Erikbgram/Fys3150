@@ -40,7 +40,7 @@ void flip(int &spin) { // Flips spin-value
   }
 }
 
-int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy
+int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy around <kl>
   int sum = 0;
   for(int i = -1; i < 2; i++) {
     // k
@@ -62,6 +62,37 @@ int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy
     }
     else {
       sum += M(k,l+i)*M(k,l);
+    }
+  }
+  return sum;
+}
+
+int globalE(arma::Mat<int> M, int L) {
+  int sum = 0;
+  for(int k = 0; k < L; k++) {
+    for(int l = 0; l < L; l++) {
+      for(int i = -1; i < 2; i++) {
+        // k
+        if(k==0) {
+          sum += M(k+abs(i),l)*M(k,l); // Periodic boundary condition.  abs(i) makes k-1 into k+1
+        }
+        else if(k==L-1) {
+          sum += M(k-abs(i),l)*M(k,l); // Periodic boundary condition. -abs(i) makes k+1 into k-1
+        }
+        else {
+          sum += M(k+i,l)*M(k,l);
+        }
+        // l
+        if(l==0) {
+          sum += M(k,l+abs(l))*M(k,l); // Periodic boundary condition.  abs(i) makes l-1 into l+1
+        }
+        else if(l==L-1) {
+          sum += M(k,l-abs(l))*M(k,l); // Periodic boundary condition. -abs(i) makes l+1 into l-1
+        }
+        else {
+          sum += M(k,l+i)*M(k,l);
+        }
+      }
     }
   }
   return sum;
@@ -119,13 +150,18 @@ int main(int argc, char *argv[]) { // Main function
     Ei = localE(lattice, L, k, l); // Energy post-flip
     delE = Ei-Ej;
     //Metropolis(delE(k,l));
-    bool temp = Metropolis(delE);
-    cout << "Metropolis: " << temp << endl;
+    if(Metropolis(delE)) {
+      //cout << "Accepted" << endl;
+    }
+    else {
+      flip(lattice(k,l)); // Flip back
+      //cout << "Rejected" << endl;
+    }
     // Update averages
     outfile << exp(delE/(kB*1.0)) << endl;
-    //lattice.print();
+    lattice.print();
   }
-  cout << "Test" << endl;
+  //cout << "Test" << endl;
 
   /// THINGS WE NEED
   ///
