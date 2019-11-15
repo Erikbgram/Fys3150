@@ -175,7 +175,9 @@ int main(int argc, char *argv[]) { // Main function
   int* M = new int[n];
   int* X = new int[n];
 
-
+  double* T = linspace(-2, 2, L*L*L*L) ;
+  //double* beta = arrayy(L*L*L*L) ;
+  double* beta = new double[L*L*L*L] ;
 
   //----------------------------------------------------------------------------
   // Initialize lattice
@@ -188,7 +190,7 @@ int main(int argc, char *argv[]) { // Main function
 
   //----------------------------------------------------------------------------
   // Initiate Monte Carlo Markov Chain
-  double T = 1.0;
+  //double T = 1.0;
   bool metropolis_bool = 0;
   int Ei = 8;
   int Ej = 0;
@@ -209,10 +211,6 @@ int main(int argc, char *argv[]) { // Main function
     // Choose random spin to flip
     int k = distribution(generator);
     int l = distribution(generator);
-
-    double* T = linspace(-2, 2, L*L*L*L) ;
-    double* beta = arrayy(L*L*L*L) ;
-
 
     Ej = localE(lattice, L, k, l); // Energy pre-flip
 
@@ -250,7 +248,7 @@ int main(int argc, char *argv[]) { // Main function
     cout << endl;
     lattice.print();
 
-    outfile << exp(deltaE/(kB*1.0)) << " , " << partitionFunction(lattice, L, k, l, n, T, beta) << endl;
+    outfile << deltaE/(kB*1.0) << " , " << partitionFunction(lattice, L, k, l, n, T, beta) << endl;
     //cout << endl;
 
     std::cout << "Z = " << partitionFunction(lattice, L, k, l, n, T, beta) << "\n" ;
