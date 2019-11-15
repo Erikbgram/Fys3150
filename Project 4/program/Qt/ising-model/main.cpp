@@ -108,6 +108,14 @@ int magnetization(arma::Mat<int> lattice, int L) {
   return abs(M);
 }
 
+double partitionFunction(int *E, L) {
+  double Z;
+  for(int i = 0; i < L*L, i++) {
+    Z += 0;
+  }
+  return Z;
+}
+
 void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
   // Do stuff
 }
