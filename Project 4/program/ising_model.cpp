@@ -116,6 +116,16 @@ int globalE(arma::Mat<int> M, int L) {
   return sum;
 }
 
+int sumNeighbours(arma::Mat<int> lattice, int L) {
+
+  return 0;
+}
+
+int moro(arma::Mat<int> lattice, int L) {
+  //int *energies = new double[-8, 0, 0, -4, 0, 0, 0, 0, 0, 4, 0, 0, 8];
+  return 0;
+}
+
 int magnetization(arma::Mat<int> lattice, int L) {
   int M = 0;
   for(int k = 0; k < L; k++) {
@@ -125,6 +135,12 @@ int magnetization(arma::Mat<int> lattice, int L) {
   }
   return abs(M);
 }
+
+/*
+int excpectMagnetization(arma::Mat<int> lattice, int L) {
+
+}
+*/
 
 double partitionFunction(arma::Mat<int> lattice, int L, int k, int l, int n, double* T, double* beta) {
   double Z = 0;
@@ -136,6 +152,10 @@ double partitionFunction(arma::Mat<int> lattice, int L, int k, int l, int n, dou
   return Z;
 }
 
+double susceptibility() {
+  return 1;
+}
+
 void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
   // Do stuff
 }
@@ -145,83 +165,98 @@ bool Metropolis(double delE,double T=1.0) {
   mt19937_64 generator(rd());
   uniform_real_distribution<double> distribution(0.0,1.0);
 
-  double r = distribution(generator);
-  cout << r << ", " << exp(delE/(kB*T)) << endl;
-  if(r <= exp(delE/(kB*T))) {
-    return 1;
-  }
-  else  {
-    return 0;
-  }
+  return 0;
 }
 
 int main(int argc, char *argv[]) { // Main function
   int L = atoi(argv[1]);
   int n = atoi(argv[2]);
+  int* E = new int[n];
+  int* M = new int[n];
+  int* X = new int[n];
 
-  double* T = linspace(-2, 2, L*L*L*L) ;
-  double* beta = arrayy(L*L*L*L) ;
 
-/*
-  for (int i = 0; i < 10 ; i++){
-      //double beta = 0 ;
-      beta[i] = 1 / (1 * T[i]) ;
-      std::cout << beta ;
-}
-*/
 
   //----------------------------------------------------------------------------
   // Initialize lattice
   arma::Mat<int> lattice(L,L,arma::fill::zeros);
   initLattice(lattice, L);
 
+  /// PRECALCULATE E AND M
+  E[0] = globalE(lattice, L);
+  M[0] = magnetization(lattice, L);
+
   //----------------------------------------------------------------------------
   // Initiate Monte Carlo Markov Chain
+  double T = 1.0;
+  bool metropolis_bool = 0;
   int Ei = 8;
   int Ej = 0;
-  int delE = 0;
-  int* E = new int[n];
+  int deltaE = 0;
   random_device rd;
   mt19937_64 generator(rd());
   uniform_int_distribution<int> distribution(0,L-1);
+  uniform_real_distribution<double> Metro(0,1);
 
   fstream outfile;
   outfile.open("../../energy2.txt", fstream::out);
   outfile << "Energy , partitionfunction" << endl;
-  //outfile << "Energy" << endl;
 
   //----------------------------------------------------------------------------
   // Monte Carlo Markov Chain
-  for(int i = 0; i < n; i++) {
-    // Choose and flip spin
+  for(int i = 1; i < n; i++) {
+
+    // Choose random spin to flip
     int k = distribution(generator);
     int l = distribution(generator);
-    if(i==0) {
-     E[i] = localE(lattice, L, k, l); // Energy pre-flip
-     //Ej = globalE(lattice, L); // Energy pre-flip
-    }
+
+    double* T = linspace(-2, 2, L*L*L*L) ;
+    double* beta = arrayy(L*L*L*L) ;
+
+
+    Ej = localE(lattice, L, k, l); // Energy pre-flip
+
     flip(lattice(k,l)); // Flipping
-    E[i] = localE(lattice, L, k, l); // Energy post-flip
-    //Ei = globalE(lattice, L); // Energy post-flip
-    delE = E[i]-E[0];
-    //Metropolis(delE(k,l));
-    if(Metropolis(delE)) {
+
+    Ei = localE(lattice, L, k, l); // Energy post-flip
+
+    deltaE = Ei-Ej; // Energy difference
+
+    // Metropolis
+    double r = Metro(generator);
+    cout << r << ", " << exp(deltaE/(kB*T[i])) << endl;
+    if(r <= exp(deltaE/(kB*T[i]))) {
+      metropolis_bool = 1;
+    }
+    else  {
+      metropolis_bool = 0;
+    }
+
+    if(metropolis_bool) {
       cout << "Accepted" << endl;
     }
     else {
       flip(lattice(k,l)); // Flip back
       cout << "Rejected" << endl;
     }
-    // Update averages
-    cout << "delE = " << delE << endl;
-    //outfile << exp(delE/ (kB*1.0)) << endl;
-    outfile << exp(delE/(kB*1.0)) << " , " << partitionFunction(lattice, L, k, l, n, T, beta) << endl;
+
+    // Calculating averages
+    E[i] = globalE(lattice, L);
+    M[i] = magnetization(lattice, L);
+
+
+    cout << "delE=" << deltaE << endl;
+    //outfile << deltaE << endl;
+    cout << endl;
+    lattice.print();
+
+    outfile << exp(deltaE/(kB*1.0)) << " , " << partitionFunction(lattice, L, k, l, n, T, beta) << endl;
     //cout << endl;
 
     std::cout << "Z = " << partitionFunction(lattice, L, k, l, n, T, beta) << "\n" ;
     std::cout << "\n" ;
 
-    //lattice.print();
+    std::cout << "-------------------------------------------------------------------------" "\n" ;
   }
   //cout << "Test" << endl;
 
