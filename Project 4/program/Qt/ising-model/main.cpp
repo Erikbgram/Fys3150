@@ -1,5 +1,5 @@
 /*
-  Last edited: 15.11.2019 12:46 by Erlend T. North
+  Last edited: 15.11.2019 13:04 by Erlend T. North
 */
 
 #include <iostream>
@@ -105,7 +105,7 @@ int magnetization(arma::Mat<int> lattice, int L) {
       M += lattice(k,l);
     }
   }
-  return M;
+  return abs(M);
 }
 
 void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
@@ -141,6 +141,7 @@ int main(int argc, char *argv[]) { // Main function
   int Ei = 8;
   int Ej = 0;
   int delE = 0;
+  int* E = new int[n];
   random_device rd;
   mt19937_64 generator(rd());
   uniform_int_distribution<int> distribution(0,L-1);
@@ -155,12 +156,14 @@ int main(int argc, char *argv[]) { // Main function
     // Choose and flip spin
     int k = distribution(generator);
     int l = distribution(generator);
-    //Ej = localE(lattice, L, k, l); // Energy pre-flip
-    Ej = globalE(lattice, L); // Energy pre-flip
+    if(i==0) {
+     E[i] = localE(lattice, L, k, l); // Energy pre-flip
+     //Ej = globalE(lattice, L); // Energy pre-flip
+    }
     flip(lattice(k,l)); // Flipping
-    //Ei = localE(lattice, L, k, l); // Energy post-flip
-    Ei = globalE(lattice, L); // Energy post-flip
-    delE = Ei-Ej;
+    E[i] = localE(lattice, L, k, l); // Energy post-flip
+    //Ei = globalE(lattice, L); // Energy post-flip
+    delE = E[i]-E[0];
     //Metropolis(delE(k,l));
     if(Metropolis(delE)) {
       cout << "Accepted" << endl;
@@ -172,7 +175,8 @@ int main(int argc, char *argv[]) { // Main function
     // Update averages
     cout << "delE=" << delE << endl;
     outfile << exp(delE/(kB*1.0)) << endl;
-    lattice.print();
+    cout << endl;
+    //lattice.print();
   }
   //cout << "Test" << endl;
 
