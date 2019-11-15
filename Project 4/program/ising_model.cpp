@@ -136,20 +136,55 @@ int magnetization(arma::Mat<int> lattice, int L) {
   return abs(M);
 }
 
-/*
-int excpectMagnetization(arma::Mat<int> lattice, int L) {
-
-}
-*/
-
-double partitionFunction(arma::Mat<int> lattice, int L, int k, int l, int n, double* T, double* beta) {
+double Z(arma::Mat<int> lattice, int L, int k, int l, double* T, double* beta) {
   double Z = 0;
   int N = L*L*L*L ;
   for(int i = 0; i < N; i++) {
     beta[i] = 1 / (kB * T[i]) ;
+    //Z = exp(- beta[i] * localE(lattice, L, k, l));
     Z += exp(- beta[i] * localE(lattice, L, k, l));
   }
   return Z;
+}
+
+double expectEnergy(arma::Mat<int> lattice, int L, int k, int l, double* T, double* beta){
+    double expectE = 0;
+    int N = L*L*L*L ;
+    for(int i = 0; i < N; i++){
+        expectE += localE(lattice, L, k, l) * exp(- beta[i] * localE(lattice, L, k, l)) ;
+    }
+    return expectE *  1 / Z(lattice, L, k , l, T, beta);
+}
+
+double expectEnergy2(arma::Mat<int> lattice, int L, int k, int l, double* T, double* beta){
+    double expectE2 = 0;
+    int N = L*L*L*L ;
+    for(int i = 0; i < N; i++){
+        expectE2 += (localE(lattice, L, k, l)*localE(lattice, L, k, l)) * exp(- beta[i] * localE(lattice, L, k, l)) ;
+    }
+    return expectE2 * 1 / Z(lattice, L, k, l, T, beta);
+}
+
+double excpectMagnetization(arma::Mat<int> lattice, int L, int k, int l, double* T, double* beta) {
+    double expectM = 0;
+    int N = L*L*L*L ;
+    for (int i = 0; i < N; i++){
+        expectM +=  magnetization(lattice, L) * exp(- beta[i] * localE(lattice, L, k , l)) ;
+    }
+    return expectM * 1 / Z(lattice, L, k, l, T, beta);
+}
+
+double excpectMagnetization2(arma::Mat<int> lattice, int L, int k, int l, double* T, double* beta) {
+    double expectM2 = 0;
+    int N = L*L*L*L ;
+    for (int i = 0; i < N; i++){
+        expectM2 += (magnetization(lattice, L) * magnetization(lattice, L)) * exp(- beta[i] * localE(lattice, L, k , l)) ;
+    }
+    return expectM2 *  1 / Z(lattice, L, k, l, T, beta);
+}
+
+double heatcapacity() {
+    return 1; 
 }
 
 double susceptibility() {
@@ -248,10 +283,10 @@ int main(int argc, char *argv[]) { // Main function
     cout << endl;
     lattice.print();
 
-    outfile << deltaE/(kB*1.0) << " , " << partitionFunction(lattice, L, k, l, n, T, beta) << endl;
+    outfile << deltaE/(kB*1.0) << " , " << Z(lattice, L, k, l, T, beta) << endl;
     //cout << endl;
 
-    std::cout << "Z = " << partitionFunction(lattice, L, k, l, n, T, beta) << "\n" ;
+    std::cout << "Z = " << Z(lattice, L, k, l, T, beta) << "\n" ;
     std::cout << "\n" ;
 
     std::cout << "-------------------------------------------------------------------------" "\n" ;
