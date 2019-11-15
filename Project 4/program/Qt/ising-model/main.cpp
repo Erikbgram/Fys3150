@@ -86,35 +86,14 @@ int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy around 
       }
     }
   }
-  return sum;
+  return 2*sum;
 }
 
-int globalE(arma::Mat<int> M, int L) { // Calculates the total energy
+int globalE(arma::Mat<int> lattice, int L) { // Calculates the total energy
   int sum = 0;
   for(int k = 0; k < L; k++) {
     for(int l = 0; l < L; l++) {
-      for(int i = -1; i < 2; i++) {
-        // k
-        if(k==0) {
-          sum += M(k+abs(i),l)*M(k,l); // Periodic boundary condition.  abs(i) makes k-1 into k+1
-        }
-        else if(k==L-1) {
-          sum += M(k-abs(i),l)*M(k,l); // Periodic boundary condition. -abs(i) makes k+1 into k-1
-        }
-        else {
-          sum += M(k+i,l)*M(k,l);
-        }
-        // l
-        if(l==0) {
-          sum += M(k,l+abs(l))*M(k,l); // Periodic boundary condition.  abs(i) makes l-1 into l+1
-        }
-        else if(l==L-1) {
-          sum += M(k,l-abs(l))*M(k,l); // Periodic boundary condition. -abs(i) makes l+1 into l-1
-        }
-        else {
-          sum += M(k,l+i)*M(k,l);
-        }
-      }
+      sum += localE(lattice, L, k, l);
     }
   }
   return sum;
