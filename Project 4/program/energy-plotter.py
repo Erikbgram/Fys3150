@@ -7,13 +7,13 @@ with open("energy.txt") as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
-        Ei.append(line[0])
+        words = line.split()
+        Ei.append(float(words[0]))
 
 Ei = np.array(Ei)
 
-x = np.linspace(0,len(Ei),len(Ei))
-plt.plot(x,Ei)
+plt.plot(Ei)
 plt.xlabel("iterations")
-plt.ylabel("Energy")
+plt.ylabel("globalE")
 plt.grid()
 plt.show()

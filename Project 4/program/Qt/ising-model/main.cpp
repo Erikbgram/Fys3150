@@ -1,5 +1,5 @@
 /*
-  Last edited: 15.11.2019 13:04 by Erlend T. North
+  Last edited: 15.11.2019 17:46 by Erlend T. North
 */
 
 #include <iostream>
@@ -44,8 +44,6 @@ void initLattice(arma::Mat<int> &M, int L, int order) { // Initializes the latti
       }
     }
   }
-
-  M.print();
 }
 
 void flip(int &spin) { // Flips spin-value
@@ -55,6 +53,10 @@ void flip(int &spin) { // Flips spin-value
   else {
     spin = 1;
   }
+}
+
+int periodic(int i, int limit, int add) {
+  return (i+limit+add) % limit;
 }
 
 int localE(arma::Mat<int> M, int L, int k, int l) { // Calculates energy around <kl>
@@ -159,6 +161,7 @@ int main(int argc, char *argv[]) { // Main function
   arma::Mat<int> lattice(L,L,arma::fill::zeros);
   initLattice(lattice, L, 0);
 
+  lattice.print();
   cout << "The local energy is: " << localE(lattice, L, 0, 0) << endl;
   flip(lattice(0,0));
   cout << "Spin flipped" << endl;
@@ -166,8 +169,11 @@ int main(int argc, char *argv[]) { // Main function
   lattice.print();
   flip(lattice(0,0)); // Flip-back
 
+
   /// PRECALCULATE E AND M
+  lattice.print("Intitially");
   E[0] = globalE(lattice, L);
+  cout << "init=" << E[0] << endl;
   M[0] = magnetization(lattice, L);
 
   //----------------------------------------------------------------------------
@@ -223,8 +229,9 @@ int main(int argc, char *argv[]) { // Main function
     E[i] = globalE(lattice, L);
     M[i] = magnetization(lattice, L);
 
+    cout << "globalE=" << E[i] << endl;
     cout << "Ei=" << Ei << endl;
-    outfile << Ei << endl;
+    //outfile << Ei << endl;
     lattice.print();
     cout << endl;
   }
