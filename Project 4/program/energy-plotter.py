@@ -13,4 +13,7 @@ Ei = np.array(Ei)
 
 x = np.linspace(0,len(Ei),len(Ei))
 plt.plot(x,Ei)
+plt.xlabel("iterations")
+plt.ylabel("Energy")
+plt.grid()
 plt.show()

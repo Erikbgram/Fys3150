@@ -1,5 +1,5 @@
 /*
-  Last edited: 15.11.2019 11:02 by Erlend T. North
+  Last edited: 15.11.2019 12:46 by Erlend T. North
 */
 
 #include <iostream>
@@ -98,6 +98,16 @@ int globalE(arma::Mat<int> M, int L) {
   return sum;
 }
 
+int magnetization(arma::Mat<int> lattice, int L) {
+  int M = 0;
+  for(int k = 0; k < L; k++) {
+    for(int l = 0; l < L; l++) {
+      M += lattice(k,l);
+    }
+  }
+  return M;
+}
+
 void MonteCarlo(int n, double a, double b, double  &integral, double  &std) {
   // Do stuff
 }
@@ -145,19 +155,22 @@ int main(int argc, char *argv[]) { // Main function
     // Choose and flip spin
     int k = distribution(generator);
     int l = distribution(generator);
-    Ej = localE(lattice, L, k, l); // Energy pre-flip
+    //Ej = localE(lattice, L, k, l); // Energy pre-flip
+    Ej = globalE(lattice, L); // Energy pre-flip
     flip(lattice(k,l)); // Flipping
-    Ei = localE(lattice, L, k, l); // Energy post-flip
+    //Ei = localE(lattice, L, k, l); // Energy post-flip
+    Ei = globalE(lattice, L); // Energy post-flip
     delE = Ei-Ej;
     //Metropolis(delE(k,l));
     if(Metropolis(delE)) {
-      //cout << "Accepted" << endl;
+      cout << "Accepted" << endl;
     }
     else {
       flip(lattice(k,l)); // Flip back
-      //cout << "Rejected" << endl;
+      cout << "Rejected" << endl;
     }
     // Update averages
+    cout << "delE=" << delE << endl;
     outfile << exp(delE/(kB*1.0)) << endl;
     lattice.print();
   }
