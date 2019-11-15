@@ -1,5 +1,5 @@
 /*
-  Last edited: 01.11.2019 14:50 by Erlend T. North
+  Last edited: 15.11.2019 11:02 by Erlend T. North
 */
 
 #include <iostream>
@@ -10,6 +10,7 @@
 #include <fstream>
 //#include <mpi.h>
 #define kB 1
+#define J 1
 using namespace std;
 namespace ch = std::chrono;
 
@@ -89,11 +90,10 @@ int main(int argc, char *argv[]) { // Main function
   int L = atoi(argv[1]);
   int n = atoi(argv[2]);
 
+  //----------------------------------------------------------------------------
   // Initialize lattice
   arma::Mat<int> lattice(L,L,arma::fill::zeros);
   initLattice(lattice, L);
-
-
 
   //----------------------------------------------------------------------------
   // Initiate Monte Carlo Markov Chain
@@ -108,6 +108,8 @@ int main(int argc, char *argv[]) { // Main function
   outfile.open("../../energy.txt", fstream::out);
   outfile << "Energy" << endl;
 
+  //----------------------------------------------------------------------------
+  // Monte Carlo Markov Chain
   for(int i = 0; i < n; i++) {
     // Choose and flip spin
     int k = distribution(generator);

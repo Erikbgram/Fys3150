@@ -12,6 +12,5 @@ with open("energy.txt") as infile:
 Ei = np.array(Ei)
 
 x = np.linspace(0,len(Ei),len(Ei))
-
 plt.plot(x,Ei)
 plt.show()
