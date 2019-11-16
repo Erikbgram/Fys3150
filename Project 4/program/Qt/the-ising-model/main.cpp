@@ -13,10 +13,12 @@
 // kB = 1, J = 1
 
 using namespace std;
+namespace ch = std::chrono;
+
 ofstream outfile;
 
-random_device rd;
-mt19937_64 mt_gen(rd());
+auto seed = ch::high_resolution_clock::now().time_since_epoch().count(); //random_device did not work (always made the same sequence)
+mt19937_64 mt_gen(seed);
 uniform_real_distribution<double> rand_frac(0,1);
 
 int periodic(int i, int limit, int add) { // Periodic Boundary Conditions
@@ -25,11 +27,11 @@ int periodic(int i, int limit, int add) { // Periodic Boundary Conditions
 
 void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M) {  // Initialize energy and magnetization
     // Setup lattice and initial magnetization
+    double spin;
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
 
-            double spin = rand_frac(mt_gen);
-            cout << "Spin: " << spin << endl;
+            spin = rand_frac(mt_gen);
             if(spin<0.5) {
                 lattice(x,y) = -1;
             }
