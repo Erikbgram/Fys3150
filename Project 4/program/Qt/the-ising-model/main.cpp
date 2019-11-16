@@ -103,11 +103,11 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
     double Evariance = (E2average- Eaverage*Eaverage)/L/L;
     double Mvariance = (M2average - Maverage*Maverage)/L/L;
     double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L;
-    outfile << temperature << ", ";
-    outfile << Eaverage/L/L << ", ";
-    outfile << Evariance/temperature/temperature << ", ";
+    outfile << temperature << " , ";
+    outfile << Eaverage/L/L << " , ";
+    outfile << Evariance/temperature/temperature << " , ";
     // outfile << setw(15) << setprecision(8) << Maverage/L/L;
-    outfile << Mabsvariance/temperature << ", ";
+    outfile << Mabsvariance/temperature << " , ";
     outfile << Mabsaverage/L/L << endl;
 }
 
@@ -142,9 +142,11 @@ int main(int argc, char *argv[]) { // Main function
         initialize(L, temp, lattice, E, M);
         lattice.print();
 
-        // Start Monte Carlo Computation
+
         outfile.open("../../output.txt");
-        outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L1" << endl;
+        outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L" << endl;
+
+        // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
             cout << "cycle = " << cycles << endl;
             Metropolis(L, lattice, E, M, w);
@@ -159,11 +161,10 @@ int main(int argc, char *argv[]) { // Main function
             average[2] += M;
             average[3] += M*M;
             average[4] += fabs(M);
-            output(L, n, temp, average);
         }
 
         // Print results
-
+        output(L, n, temp, average);
         outfile.close();
         lattice.print();
     }
