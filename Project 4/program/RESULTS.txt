@@ -1,0 +1,7 @@
+1a) Alexandra
+
+1b) Alexandra?
+
+1c) 17 iterations for unordered spin (varies depending on initial state)
+     0 iterations for   ordered spin (ordered spin is equilibrium)
+

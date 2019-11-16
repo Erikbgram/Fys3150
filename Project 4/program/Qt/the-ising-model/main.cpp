@@ -147,12 +147,16 @@ int main(int argc, char *argv[]) { // Main function
         initialize(L, temp, lattice, E, M, ordered);
         lattice.print();
 
-        outfile.open("../../output.txt");
+        outfile.open("../../outputL" + to_string(L) + "n" + to_string(n) + "ordered" + to_string(ordered) + ".txt");
         outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L" << endl;
 
         ofstream energyfile;
-        energyfile.open("../../energy.txt");
+        energyfile.open("../../energyL" + to_string(L) + "n" + to_string(n) + "temp" + to_string(initial_temp) + "ordered" + to_string(ordered) + ".txt");
         energyfile << "E" << endl;
+
+        ofstream magnetfile;
+        magnetfile.open("../../magnetL" + to_string(L) + "n" + to_string(n) + "ordered" + to_string(ordered) + ".txt");
+        magnetfile << "M" << endl;
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
@@ -170,6 +174,7 @@ int main(int argc, char *argv[]) { // Main function
             average[3] += M*M;
             average[4] += fabs(M);
             energyfile << E/L/L << endl;
+            magnetfile << M/L/L << endl;
         }
 
         // Print results
