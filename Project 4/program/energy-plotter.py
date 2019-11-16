@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 Ei = []
 
-with open("energy.txt") as infile:
+
+
+with open(sys.argv[1]) as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
@@ -13,6 +16,7 @@ with open("energy.txt") as infile:
 Ei = np.array(Ei)
 
 plt.plot(Ei)
+plt.title("Energy plot of " + sys.argv[1])
 plt.xlabel("iterations")
 plt.ylabel("globalE")
 plt.grid()

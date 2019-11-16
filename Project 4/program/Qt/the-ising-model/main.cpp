@@ -25,18 +25,22 @@ int periodic(int i, int limit, int add) { // Periodic Boundary Conditions
     return (i+limit+add) % (limit);
 }
 
-void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M) {  // Initialize energy and magnetization
+void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M, bool ordered) {  // Initialize energy and magnetization
     // Setup lattice and initial magnetization
     double spin;
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
-
-            spin = rand_frac(mt_gen);
-            if(spin<0.5) {
-                lattice(x,y) = -1;
+            if(ordered) {
+                lattice(x,y) = 1;
             }
             else {
-                lattice(x,y) = 1;
+                spin = rand_frac(mt_gen);
+                if(spin<0.5) {
+                    lattice(x,y) = -1;
+                }
+                else {
+                    lattice(x,y) = 1;
+                }
             }
 
             /*
@@ -119,6 +123,7 @@ int main(int argc, char *argv[]) { // Main function
     double initial_temp = atof(argv[3]);
     double final_temp = atof(argv[4]);
     double temp_step = atof(argv[5]);
+    bool ordered = atoi(argv[6]);
 
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
@@ -139,12 +144,15 @@ int main(int argc, char *argv[]) { // Main function
         for(int i = 0; i < 5; i++) {
             average[i] = 0;
         }
-        initialize(L, temp, lattice, E, M);
+        initialize(L, temp, lattice, E, M, ordered);
         lattice.print();
-
 
         outfile.open("../../output.txt");
         outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L" << endl;
+
+        ofstream energyfile;
+        energyfile.open("../../energy.txt");
+        energyfile << "E" << endl;
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
@@ -161,11 +169,13 @@ int main(int argc, char *argv[]) { // Main function
             average[2] += M;
             average[3] += M*M;
             average[4] += fabs(M);
+            energyfile << E/L/L << endl;
         }
 
         // Print results
         output(L, n, temp, average);
         outfile.close();
+        energyfile.close();
         lattice.print();
     }
     return 0;
