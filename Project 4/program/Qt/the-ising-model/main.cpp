@@ -17,7 +17,7 @@ namespace ch = std::chrono;
 
 ofstream outfile;
 
-auto seed = ch::high_resolution_clock::now().time_since_epoch().count(); //random_device did not work (always made the same sequence)
+long long seed = ch::high_resolution_clock::now().time_since_epoch().count(); //random_device did not work (always made the same sequence)
 mt19937_64 mt_gen(seed);
 uniform_real_distribution<double> rand_frac(0,1);
 
@@ -113,7 +113,7 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
 
 int main(int argc, char *argv[]) { // Main function
     // Read in initial values
-    double w[17], average[5], E, M;
+    double w[17], average[5], E, M, E2, M2;
     int L = atoi(argv[1]);
     int n = atoi(argv[2]);
     double initial_temp = atof(argv[3]);
@@ -159,11 +159,11 @@ int main(int argc, char *argv[]) { // Main function
             average[3] += M*M;
             average[4] += fabs(M);
         }
+
         // Print results
         outfile.open("../../output.txt");
         output(L, n, temp, average);
         outfile.close();
     }
-    outfile.close(); // Close output file
     return 0;
 }
