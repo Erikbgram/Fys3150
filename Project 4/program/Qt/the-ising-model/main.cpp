@@ -117,13 +117,23 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
 
 int main(int argc, char *argv[]) { // Main function
     // Read in initial values
+    string outfilename;
     double w[17], average[5], E, M, E2, M2;
-    int L = atoi(argv[1]);
-    int n = atoi(argv[2]);
-    double initial_temp = atof(argv[3]);
-    double final_temp = atof(argv[4]);
-    double temp_step = atof(argv[5]);
-    bool ordered = atoi(argv[6]);
+    int L = atoi(argv[2]);
+    int n = atoi(argv[3]);
+    double initial_temp = atof(argv[4]);
+    double final_temp = atof(argv[5]);
+    double temp_step = atof(argv[6]);
+    bool ordered = atoi(argv[7]);
+
+    // Read in output file, abort if there are too few command-line arguments
+    if( argc <= 1 ){
+        cout << "Bad Usage: " << argv[0] << " read also output file on same line" << endl;
+        exit(1);
+    }
+        else{
+        outfilename = argv[1];
+    }
 
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
@@ -147,15 +157,15 @@ int main(int argc, char *argv[]) { // Main function
         initialize(L, temp, lattice, E, M, ordered);
         lattice.print();
 
-        outfile.open("../../outputL" + to_string(L) + "n" + to_string(n) + "ordered" + to_string(ordered) + ".txt");
+        outfile.open("../../output" + outfilename + ".txt");
         outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L" << endl;
 
         ofstream energyfile;
-        energyfile.open("../../energyL" + to_string(L) + "n" + to_string(n) + "temp" + to_string(initial_temp) + "ordered" + to_string(ordered) + ".txt");
+        energyfile.open("../../energy" + outfilename + ".txt");
         energyfile << "E" << endl;
 
         ofstream magnetfile;
-        magnetfile.open("../../magnetL" + to_string(L) + "n" + to_string(n) + "ordered" + to_string(ordered) + ".txt");
+        magnetfile.open("../../magnet" + outfilename + ".txt");
         magnetfile << "M" << endl;
 
         // Start Monte Carlo Computation

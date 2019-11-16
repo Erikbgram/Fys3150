@@ -1,2 +1,0 @@
-final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L
-2.4 , -1.23897 , 1.57609 , 9.71542 , 0.457582
