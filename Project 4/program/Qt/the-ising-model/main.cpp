@@ -140,16 +140,17 @@ int main(int argc, char *argv[]) { // Main function
             average[i] = 0;
         }
         initialize(L, temp, lattice, E, M);
-        lattice.print("Before cycles");
+        lattice.print();
 
         // Start Monte Carlo Computation
+        outfile.open("../../output.txt");
+        outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L1" << endl;
         for(int cycles = 1; cycles <= n; cycles++) {
             cout << "cycle = " << cycles << endl;
             Metropolis(L, lattice, E, M, w);
 
             // Print to console
-            lattice.print();
-            cout << "E = " << E << ", M = " << M << endl;
+            cout << "E = " << E/L/L << ", M = " << M/L/L << endl;
             cout << endl;
 
             // Update expectation values
@@ -158,12 +159,13 @@ int main(int argc, char *argv[]) { // Main function
             average[2] += M;
             average[3] += M*M;
             average[4] += fabs(M);
+            output(L, n, temp, average);
         }
 
         // Print results
-        outfile.open("../../output.txt", fstream::app);
-        output(L, n, temp, average);
+
         outfile.close();
+        lattice.print();
     }
     return 0;
 }
