@@ -10,6 +10,7 @@
 #include <armadillo>
 #include <iomanip>
 #include <sstream>
+#include <mpi.h>
 
 // kB = 1, J = 1
 
@@ -123,21 +124,71 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
 
 int main(int argc, char *argv[]) { // Main function
     // Read in initial values
-    double w[17], average[5], E, M, E2, M2;
-    int L = atoi(argv[1]);
-    int n = atoi(argv[2]);
-    double initial_temp = atof(argv[3]);
-    double final_temp = atof(argv[4]);
-    double temp_step = atof(argv[5]);
-    bool ordered = atoi(argv[6]);
-    int acc = 0;
+    double w[17], average[5], total_average[5], E, M, E2, M2;
+    int L;
+    int n;
+    double initial_temp;
+    double final_temp;
+    double temp_step;
+    bool ordered;
+    int acc;
+    string outfilename;
+    long long seed;
+
+    // MPI initializations
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+    MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
+    if(my_rank == 0 && argc <= 1) {
+        cout << "Bad usage: " << argv[0] << " read output file" << endl;
+    }
+    if(my_rank == 0 && argc > 1) {
+        outfilename = argv[0];
+
+        outfile.open("../../output/" + outfilename + ".txt");
+        outfile << "T , <E> , Cv , X , <|M|>" << endl;
+    }
+
+    L = 20;
+    n = 1000000;
+    initial_temp = 1.0;
+    final_temp = 2.4;
+    temp_step = 0.1;
+
+    /*
+    Determine number of interval which are used by all processes
+    myloop_begin gives the staring point on process my_rank
+    myloop_end gives the end point of summation on process my_rank
+    */
+    int no_intervals = n/numprocs;
+    int myloop_begin = my_rank*no_intervals + 1;
+    int myloop_end = (my_rank+1)*no_intervals;
+    if((my_rank == numprocs-1) && (myloop_end < n)) {
+        myloop_end = n;
+    }
+
+    // Broadcast to all nodes common variables
+    MPI_Bcast(&L, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&initial_temp, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&final_temp, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&temp_step, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
 
+    // Every node has its own seed for the random numbers, this is
+    // important else if one starts with the same seed, one ends
+    // with the same random numbers
+    seed = ch::high_resolution_clock::now().time_since_epoch().count() + my_rank;
+    mt19937_64 mt_gen(seed);
+
+
     for(double temp = initial_temp; temp <= final_temp; temp += temp_step) {
         // Initialize energy and magnetization
         E = M = 0;
+
+        // Initialize lattice and expectation values
+        initialize(L, temp, lattice, E, M, ordered);
 
         // setup array for possible energy changes
         for(int de = -8; de <= 8; de++) {
@@ -151,57 +202,31 @@ int main(int argc, char *argv[]) { // Main function
         for(int i = 0; i < 5; i++) {
             average[i] = 0;
         }
-        initialize(L, temp, lattice, E, M, ordered);
-
-        // Output files
-
-        stringstream tempstream;
-        tempstream << fixed << setprecision(1) << temp;
-        string tempstring = tempstream.str();
-
-        string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_T" + tempstring + "_ord" + to_string(ordered);
-
-        outfile.open("../../output/" + outfilename + ".txt");
-        outfile << "T , <E> , Cv , X , <|M|>" << endl;
-
-        ofstream energyfile;
-        energyfile.open("../../energy/" + outfilename + ".txt");
-        energyfile << "E" << endl;
-
-        ofstream magnetfile;
-        magnetfile.open("../../magnet/" + outfilename + ".txt");
-        magnetfile << "M" << endl;
-
-        ofstream acceptfile;
-        acceptfile.open("../../accept/" + outfilename + ".txt");
-        acceptfile << "Acceptance" << endl;
-
-        // Initial values to files
-        energyfile << setprecision(8) << E/L/L << endl;
-        magnetfile << setprecision(8) << M/L/L << endl;
-        acceptfile << setprecision(8) << acc/L/L << endl;
+        for(int i = 0; i < 5; i++) {
+          total_average[i] = 0;
+        }
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
             Metropolis(L, lattice, E, M, w, acc);
 
-            // Update expectation values
+            // Update expectation values for local node
             average[0] += E;
             average[1] += E*E;
             average[2] += M;
             average[3] += M*M;
             average[4] += fabs(M);
-            energyfile << E/L/L << endl;
-            magnetfile << M/L/L << endl;
-            acceptfile << acc/L/L << endl;
         }
-
+        for(int i = 0; i < 5; i++) {
+          MPI_Reduce(&average[i], &total_average[i], i, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        }
         // Print results
-        output(L, n, temp, average);
-        outfile.close();
-        energyfile.close();
-        magnetfile.close();
-        acceptfile.close();
+        if(my_rank == 0){
+          output(L, n, temp, average);
+        }
     }
+    outfile.close();
+    // End MPI
+    MPI_Finalize();
     return 0;
 }
