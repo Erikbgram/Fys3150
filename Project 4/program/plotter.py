@@ -8,7 +8,7 @@ file = sys.argv[1]
 
 if file[0:6] == "energy":
 
-    outputfile = "output" + file[6:]
+    outputfile = "output/" + file[7:]
 
     with open(outputfile) as infile: # Reads in the expectation value and std of E
         infile.readline()
@@ -43,9 +43,10 @@ else:
 
     values = np.array(values)
 
-plt.plot(values)
+plt.plot(np.cumsum(values))
+plt.xscale("log")
 plt.title("Plot of " + sys.argv[1])
-plt.xlabel("iterations")
+plt.xlabel("MC cycles")
 plt.ylabel("Value")
 plt.grid()
 plt.show()

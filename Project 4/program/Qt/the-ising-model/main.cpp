@@ -10,6 +10,7 @@
 #include <armadillo>
 #include <iomanip>
 #include <sstream>
+#include <mpi.h>
 
 // kB = 1, J = 1
 
@@ -152,10 +153,14 @@ int main(int argc, char *argv[]) { // Main function
             average[i] = 0;
         }
         initialize(L, temp, lattice, E, M, ordered);
-        lattice.print();
 
         // Output files
-        string outfilename = "L" + to_string(L) + "n" + to_string(n) + "T" + to_string(temp);
+
+        stringstream tempstream;
+        tempstream << fixed << setprecision(1) << temp;
+        string tempstring = tempstream.str();
+
+        string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_T" + tempstring + "_ord" + to_string(ordered);
 
         outfile.open("../../output/" + outfilename + ".txt");
         outfile << "T , <E> , Cv , X , <|M|>" << endl;
@@ -179,12 +184,7 @@ int main(int argc, char *argv[]) { // Main function
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
-            cout << "cycle = " << cycles << endl;
             Metropolis(L, lattice, E, M, w, acc);
-
-            // Print to console
-            cout << "E = " << E/L/L << ", M = " << M/L/L << endl;
-            cout << endl;
 
             // Update expectation values
             average[0] += E;
@@ -201,7 +201,8 @@ int main(int argc, char *argv[]) { // Main function
         output(L, n, temp, average);
         outfile.close();
         energyfile.close();
-        lattice.print();
+        magnetfile.close();
+        acceptfile.close();
     }
     return 0;
 }
