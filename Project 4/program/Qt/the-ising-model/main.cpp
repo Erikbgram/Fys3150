@@ -9,6 +9,7 @@
 #include <random>
 #include <armadillo>
 #include <iomanip>
+#include <sstream>
 
 // kB = 1, J = 1
 
@@ -64,7 +65,9 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
     }
 }
 
-void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w) { // The Metropolis algorithm
+void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w, int &acc) { // The Metropolis algorithm
+    acc = 0;
+
     // Loop over all spins
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
@@ -87,6 +90,8 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w)
             if(r <= E_) {
                 lattice(ix,iy) *= -1; // Flip one spin and accept new spin config
 
+                acc += 1;
+
                 // Update energy and magnetization
                 M += 2*lattice(ix,iy);
                 E += deltaE;
@@ -107,6 +112,7 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
     double Evariance = (E2average- Eaverage*Eaverage)/L/L;
     double Mvariance = (M2average - Maverage*Maverage)/L/L;
     double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L;
+    outfile << setprecision(8);
     outfile << temperature << " , ";
     outfile << Eaverage/L/L << " , ";
     outfile << Evariance/temperature/temperature << " , ";
@@ -117,23 +123,14 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
 
 int main(int argc, char *argv[]) { // Main function
     // Read in initial values
-    string outfilename;
     double w[17], average[5], E, M, E2, M2;
-    int L = atoi(argv[2]);
-    int n = atoi(argv[3]);
-    double initial_temp = atof(argv[4]);
-    double final_temp = atof(argv[5]);
-    double temp_step = atof(argv[6]);
-    bool ordered = atoi(argv[7]);
-
-    // Read in output file, abort if there are too few command-line arguments
-    if( argc <= 1 ){
-        cout << "Bad Usage: " << argv[0] << " read also output file on same line" << endl;
-        exit(1);
-    }
-        else{
-        outfilename = argv[1];
-    }
+    int L = atoi(argv[1]);
+    int n = atoi(argv[2]);
+    double initial_temp = atof(argv[3]);
+    double final_temp = atof(argv[4]);
+    double temp_step = atof(argv[5]);
+    bool ordered = atoi(argv[6]);
+    int acc = 0;
 
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
@@ -157,21 +154,33 @@ int main(int argc, char *argv[]) { // Main function
         initialize(L, temp, lattice, E, M, ordered);
         lattice.print();
 
-        outfile.open("../../output" + outfilename + ".txt");
-        outfile << "final_temp , Eaverage/L/L , Evariance/final_temp/final_temp , Mabsvariance/final_temp , Mabsvariance/L/L" << endl;
+        // Output files
+        string outfilename = "L" + to_string(L) + "n" + to_string(n) + "T" + to_string(temp);
+
+        outfile.open("../../output/" + outfilename + ".txt");
+        outfile << "T , <E> , Cv , X , <|M|>" << endl;
 
         ofstream energyfile;
-        energyfile.open("../../energy" + outfilename + ".txt");
+        energyfile.open("../../energy/" + outfilename + ".txt");
         energyfile << "E" << endl;
 
         ofstream magnetfile;
-        magnetfile.open("../../magnet" + outfilename + ".txt");
+        magnetfile.open("../../magnet/" + outfilename + ".txt");
         magnetfile << "M" << endl;
+
+        ofstream acceptfile;
+        acceptfile.open("../../accept/" + outfilename + ".txt");
+        acceptfile << "Acceptance" << endl;
+
+        // Initial values to files
+        energyfile << setprecision(8) << E/L/L << endl;
+        magnetfile << setprecision(8) << M/L/L << endl;
+        acceptfile << setprecision(8) << acc/L/L << endl;
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
             cout << "cycle = " << cycles << endl;
-            Metropolis(L, lattice, E, M, w);
+            Metropolis(L, lattice, E, M, w, acc);
 
             // Print to console
             cout << "E = " << E/L/L << ", M = " << M/L/L << endl;
@@ -185,6 +194,7 @@ int main(int argc, char *argv[]) { // Main function
             average[4] += fabs(M);
             energyfile << E/L/L << endl;
             magnetfile << M/L/L << endl;
+            acceptfile << acc/L/L << endl;
         }
 
         // Print results

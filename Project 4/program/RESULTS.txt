@@ -2,6 +2,12 @@
 
 1b) Alexandra?
 
-1c) 17 iterations for unordered spin (varies depending on initial state)
-     0 iterations for   ordered spin (ordered spin is equilibrium)
-
+1c) 
+    T=1.0
+    <50 iterations for unordered spin (varies depending on initial state)
+      0 iterations for   ordered spin (ordered spin is equilibrium)
+    1.79  accepted configurations on average (unordered)
+    T=2.4
+        iterations for unordered spin (Hard to say, but reaches proximity quickly)
+        iterations for   ordered spin (Hard to say, but reaches proximity quickly)
+    96.26 accepted configurations on average (unordered)
