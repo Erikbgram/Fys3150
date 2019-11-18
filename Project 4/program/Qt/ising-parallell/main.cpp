@@ -66,7 +66,7 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
     }
 }
 
-void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w, int &acc) { // The Metropolis algorithm
+void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w, int &acc, uniform_real_distribution<double> &rand_frac) { // The Metropolis algorithm
     acc = 0;
 
     // Loop over all spins
