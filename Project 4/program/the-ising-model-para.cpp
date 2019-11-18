@@ -73,8 +73,8 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
             //Find random position
-            int ix = rand_frac(mt_gen)*L; // If problem put "(int)" in front of rand_frac
-            int iy = rand_frac(mt_gen)*L;
+            int ix = rand_frac(mt_gen)*(L-1); // If problem put "(int)" in front of rand_frac
+            int iy = rand_frac(mt_gen)*(L-1); // L-1 is test
             int deltaE = 2*lattice(ix,iy) * (
                         lattice(ix,periodic(iy,L,-1)) +
                         lattice(periodic(ix,L,-1),iy) +
