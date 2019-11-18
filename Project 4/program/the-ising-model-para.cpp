@@ -27,13 +27,13 @@ int periodic(int i, int limit, int add) { // Periodic Boundary Conditions
     return (i+limit+add) % (limit);
 }
 
-void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M, bool ordered) {  // Initialize energy and magnetization
+void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M) {  // Initialize energy and magnetization
     // Setup lattice and initial magnetization
     double spin;
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
-            if(ordered) {
-                lattice(x,y) = 1;
+            if(temp < 1.5) {
+                lattice(x,y) = 1;  // Spin orientation for the ground state
             }
             else {
                 spin = rand_frac(mt_gen);
@@ -44,13 +44,6 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
                     lattice(x,y) = 1;
                 }
             }
-
-            /*
-            if(temp < 1.5) {
-                lattice(x,y) = 1; // Spin orientation for the ground state
-            }
-            */
-
             M += lattice(x,y);
         }
     }
@@ -130,7 +123,6 @@ int main(int argc, char *argv[]) { // Main function
     double initial_temp;
     double final_temp;
     double temp_step;
-    bool ordered;
     int acc;
     string outfilename;
     long long seed;
@@ -191,7 +183,7 @@ int main(int argc, char *argv[]) { // Main function
         E = M = 0;
 
         // Initialize lattice and expectation values
-        initialize(L, temp, lattice, E, M, ordered);
+        initialize(L, temp, lattice, E, M);
 
         // setup array for possible energy changes
         for(int de = -8; de <= 8; de++) {
