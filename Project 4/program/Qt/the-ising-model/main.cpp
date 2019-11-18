@@ -135,6 +135,13 @@ int main(int argc, char *argv[]) { // Main function
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
 
+    string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_Tvar_ord" + to_string(ordered);
+
+    outfile.open("../../output/" + outfilename + ".txt", fstream::app);
+    outfile << "T , <E> , Cv , X , <|M|>" << endl;
+    outfile.close();
+
+
     for(double temp = initial_temp; temp <= final_temp; temp += temp_step) {
         // Initialize energy and magnetization
         E = M = 0;
@@ -155,15 +162,19 @@ int main(int argc, char *argv[]) { // Main function
 
         // Output files
 
+        /*
         stringstream tempstream;
         tempstream << fixed << setprecision(1) << temp;
         string tempstring = tempstream.str();
+        */
 
-        string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_T" + tempstring + "_ord" + to_string(ordered);
+        //string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_T" + tempstring + "_ord" + to_string(ordered);
+        outfile.open("../../output/" + outfilename + ".txt", fstream::app);
 
-        outfile.open("../../output/" + outfilename + ".txt");
-        outfile << "T , <E> , Cv , X , <|M|>" << endl;
+        //outfile.open("../../output/" + outfilename + ".txt");
+        // WAS HERE
 
+        /*
         ofstream energyfile;
         energyfile.open("../../energy/" + outfilename + ".txt");
         energyfile << "E" << endl;
@@ -180,6 +191,7 @@ int main(int argc, char *argv[]) { // Main function
         energyfile << setprecision(8) << E/L/L << endl;
         magnetfile << setprecision(8) << M/L/L << endl;
         acceptfile << setprecision(8) << acc/L/L << endl;
+        */
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
@@ -191,17 +203,22 @@ int main(int argc, char *argv[]) { // Main function
             average[2] += M;
             average[3] += M*M;
             average[4] += fabs(M);
+            /*
             energyfile << E/L/L << endl;
             magnetfile << M/L/L << endl;
             acceptfile << acc/L/L << endl;
+            */
         }
 
         // Print results
         output(L, n, temp, average);
         outfile.close();
+        /*
         energyfile.close();
         magnetfile.close();
         acceptfile.close();
+        */
+        cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
     }
     return 0;
 }

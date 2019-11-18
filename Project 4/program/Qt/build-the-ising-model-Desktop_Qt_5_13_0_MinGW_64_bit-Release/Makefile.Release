@@ -16,7 +16,7 @@ CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -W -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -I..\the-ising-model -I. -IC:\armadillo-9.600.6\include -IC:\opencv\build\install\include -IC:\Program -IFiles -I(x86)\OpenMPI_v1.6.2-win32\include -IC:\Qt\5.13.0\mingw73_64\mkspecs\win32-g++ 
+INCPATH       = -I..\the-ising-model -I. -IC:\armadillo-9.600.6\include -IC:\Qt\5.13.0\mingw73_64\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,console -mthreads
 LIBS        =        -LC:\armadillo-9.600.6\examples\lib_win64 -llapack_win64_MT -lblas_win64_MT   

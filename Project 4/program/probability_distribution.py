@@ -17,6 +17,7 @@ with open(outputfile) as infile: # Reads in the expectation value and std of E
     lines = infile.readlines()
     for line in lines:
         words = line.split(" , ")
+        temp = float(words[0])
         avg = float(words[1])
         expect = float(words[2])
 
@@ -41,13 +42,13 @@ print(avg-std)
 for i in range(len(complete_energylist)):
     # skal være AND under
     # as it is now it's broken and helps nothing
-    if (complete_energylist[i] < (avg+std)) or (complete_energylist[i] > (avg-std)): # If E is less than std off from the expectation value
+    if (complete_energylist[i] < (avg+std*temp*temp)) and (complete_energylist[i] > (avg-std*temp*temp)): # If E is less than std off from the expectation value
         energylist.append(complete_energylist[i])
 
 energy = np.array(energylist)
 
-plt.axhline(y=avg+std, color="r", label="<E>+std")
-plt.axhline(y=avg-std, color="g", label="<E>-std")
+plt.axhline(y=avg+std*temp*temp, color="r", label="<E>+var")
+plt.axhline(y=avg-std*temp*temp, color="g", label="<E>-var")
 plt.legend()
 plt.plot(complete_energylist)
 plt.title("Plot of " + sys.argv[1])
@@ -58,8 +59,6 @@ plt.show()
 
 
 plt.hist(energy)
-plt.axvline(x=avg+std, color="r", label="<E>+std")
-plt.axvline(x=avg-std, color="g", label="<E>-std")
 plt.title("Probability of " + sys.argv[1])
 plt.xlabel("Energy")
 plt.ylabel("P(E)")
