@@ -136,6 +136,9 @@ int main(int argc, char *argv[]) { // Main function
     long long seed;
 
     // MPI initializations
+
+    int numprocs, my_rank;
+
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);

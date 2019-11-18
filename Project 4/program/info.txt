@@ -1,0 +1,9 @@
+40x40 with 1 000 000 MC cycles
+start 20:53:00
+end   22:30:00
+
+again:
+
+40x40 with 1 000 000 MC cycles
+start 22:45:00
+end   00:20:00
