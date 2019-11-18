@@ -144,6 +144,15 @@ And then later you can call:
 
 The energies in this lattice is given by the set $E_i = \{- 8 J, -4J, 0 , 4J, 8J \}$.
 
+$$ \langle E \rangle = - 7.98393 $$
+$$ \langle E^2 \rangle = 15.96786 $$
+$$ C_V = (15.96 - (-7.98)^2) = -47.77528 \hspace{1cm} ???????? $$
+
+$$ \langle M \rangle = 0 \hspace{1cm} ???????????????? $$
+$$ \langle M^2 \rangle = 15.97322$$
+$$ \chi = (15.97322 - (0)^2) = 15.97322 $$
+
+
 \subsubsection{Partition function}
 
 The partition function is given by the equation below.
@@ -229,17 +238,17 @@ Therefore the expectation value of the energy squared has to be calculated.
 \begin{align*}
   \langle E^2 \rangle &= \frac{1}{Z} \sum _{i=1} ^M E_i^2 e^{- \beta E_i} \\
   &= \frac{1}{Z} \left[ 1 \cdot (-8J)^2 e^{- \beta (-8J)} + 4 \cdot 0 + 2 \cdot (8J)^2 e^{- \beta (8J)} + 4 \cdot 0 + 1 \cdot (-8J)^2 e^{- \beta (-8J)} \right] \\
-  &= \frac{1}{Z} \left[ 16 J^2 e^{\beta 8J} + 2 \cdot 16 J^2 e^{- \beta 8J} + 16 J^2 e^{ \beta 8J} \right] \\
-  &= \frac{2 \cdot 16 J^2}{Z} \left[ e^{\beta 8 J} + e^{- \beta 8 J} \right] \\
-  &= \frac{32 J^2}{Z} (2 \cosh(8 \beta J) ) \\
-  &= \frac{64 J^2}{Z} \cosh(8 \beta J)
+  &= \frac{1}{Z} \left[ 64 J^2 e^{\beta 8J} + 2 \cdot 64 J^2 e^{- \beta 8J} + 64 J^2 e^{ \beta 8J} \right] \\
+  &= \frac{2 \cdot 64 J^2}{Z} \left[ e^{\beta 8 J} + e^{- \beta 8 J} \right] \\
+  &= \frac{128 J^2}{Z} (2 \cosh(8 \beta J) ) \\
+  &= \frac{256 J^2}{Z} \cosh(8 \beta J)
 \end{align*} \\
 
 Now the specific heat can be calculated.
 
 \begin{align*}
     C_V = \frac{1}{k_B T^2} \left( \langle E^2 \rangle - \langle E \rangle ^2 \right)
-    &= \frac{1}{k_B T^2} \left( \frac{64 J^2}{Z} \cosh (8 \beta J) - \left( - \frac{32 J}{Z} \sinh(8 \beta J ) \right) ^2 \right)
+    &= \frac{1}{k_B T^2} \left( \frac{256 J^2}{Z} \cosh (8 \beta J) - \left( - \frac{32 J}{Z} \sinh(8 \beta J ) \right) ^2 \right)
 \end{align*} \\
 
 
@@ -248,7 +257,7 @@ Now the specific heat can be calculated.
 The susceptibility is given by
 
 \begin{equation}    \label{eq:susceptibility}
-    \chi = \frac{1}{k_B T^2} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right)
+    \chi = \frac{1}{k_B T} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right)
 \end{equation} \\
 
 The expectation value of the mean magnetization squared therefore has to be calculated.
@@ -264,9 +273,9 @@ The expectation value of the mean magnetization squared therefore has to be calc
 Now calculating the susceptibility of the system.
 
 \begin{align*}
-    \chi &= \frac{1}{k_B T^2} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right) \\
-    &= \frac{1}{k_B T^2} \left[ \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) - 0^2 \right] \\
-    &= \frac{1}{k_B T^2} \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) \\
+    \chi &= \frac{1}{k_B T} \left( \langle M^2 \rangle - \langle M \rangle ^2 \right) \\
+    &= \frac{1}{k_B T} \left[ \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) - 0^2 \right] \\
+    &= \frac{1}{k_B T} \frac{32}{Z} \left( e^{8 \beta J} + 1 \right) \\
 \end{align*}
 
 
