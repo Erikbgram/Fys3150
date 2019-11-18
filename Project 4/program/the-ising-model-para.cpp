@@ -14,10 +14,10 @@
 
 // kB = 1, J = 1
 
-using namespace std;
-namespace ch = std::chrono;
+using namespace std ;
+namespace ch = std::chrono ;
 
-ofstream outfile;
+ofstream outfile ;
 
 long long seed = ch::high_resolution_clock::now().time_since_epoch().count(); //random_device did not work (always made the same sequence)
 mt19937_64 mt_gen(seed);
@@ -146,17 +146,17 @@ int main(int argc, char *argv[]) { // Main function
         cout << "Bad usage: " << argv[0] << " read output file" << endl;
     }
     if(my_rank == 0 && argc > 1) {
-        outfilename = argv[0];
+        outfilename = argv[1];
 
-        outfile.open("../../output/" + outfilename + ".txt");
+        outfile.open("output/" + outfilename + ".txt");
         outfile << "T , <E> , Cv , X , <|M|>" << endl;
     }
 
-    L = 20;
-    n = 1000000;
-    initial_temp = 1.0;
-    final_temp = 2.4;
-    temp_step = 0.1;
+    L = 2;
+    n = 1000;
+    initial_temp = 2.0;
+    final_temp = 2.3;
+    temp_step = 0.005;
 
     /*
     Determine number of interval which are used by all processes
@@ -185,8 +185,6 @@ int main(int argc, char *argv[]) { // Main function
     seed = ch::high_resolution_clock::now().time_since_epoch().count() + my_rank;
     mt19937_64 mt_gen(seed);
     uniform_real_distribution<double> rand_frac(0,1);
-
-
 
     for(double temp = initial_temp; temp <= final_temp; temp += temp_step) {
         // Initialize energy and magnetization
@@ -229,9 +227,12 @@ int main(int argc, char *argv[]) { // Main function
         if(my_rank == 0){
           output(L, n, temp, average);
           cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
+
+          //std::cout << temp << "\n" ;
         }
     }
     outfile.close();
+
     // End MPI
     MPI_Finalize();
     return 0;
