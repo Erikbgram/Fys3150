@@ -26,19 +26,14 @@ int periodic(int i, int limit, int add) { // Periodic Boundary Conditions
     return (i+limit+add) % (limit);
 }
 
-void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M) {  // Initialize energy and magnetization
+void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& M, bool ordered) {  // Initialize energy and magnetization
     // Setup lattice and initial magnetization
     double spin;
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
-            if(temp < 1.5) {
-                lattice(x,y) = 1; // Spin orientation for the ground state
-            }
-            /*
             if(ordered) {
                 lattice(x,y) = 1;
             }
-            */
             else {
                 spin = rand_frac(mt_gen);
                 if(spin<0.5) {
@@ -48,6 +43,13 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
                     lattice(x,y) = 1;
                 }
             }
+
+            /*
+            if(temp < 1.5) {
+                lattice(x,y) = 1; // Spin orientation for the ground state
+            }
+            */
+
             M += lattice(x,y);
         }
     }
@@ -127,12 +129,13 @@ int main(int argc, char *argv[]) { // Main function
     double initial_temp = atof(argv[3]);
     double final_temp = atof(argv[4]);
     double temp_step = atof(argv[5]);
+    bool ordered = atoi(argv[6]);
     int acc = 0;
 
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
 
-    string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_Tvar";
+    string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_Tvar_ord" + to_string(ordered);
 
     outfile.open("../../output/" + outfilename + ".txt", fstream::app);
     outfile << "T , <E> , Cv , X , <|M|>" << endl;
@@ -155,7 +158,7 @@ int main(int argc, char *argv[]) { // Main function
         for(int i = 0; i < 5; i++) {
             average[i] = 0;
         }
-        initialize(L, temp, lattice, E, M);
+        initialize(L, temp, lattice, E, M, ordered);
 
         // Output files
 
