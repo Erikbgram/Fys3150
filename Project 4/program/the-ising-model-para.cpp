@@ -127,6 +127,9 @@ int main(int argc, char *argv[]) { // Main function
     string outfilename;
     long long seed;
 
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+
+
     // MPI initializations
 
     int numprocs, my_rank;
@@ -213,12 +216,12 @@ int main(int argc, char *argv[]) { // Main function
             average[4] += fabs(M);
         }
         for(int i = 0; i < 5; i++) {
-          MPI_Reduce(&average[i], &total_average[i], i, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+            MPI_Reduce(&average[i], &total_average[i], i, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
         }
         // Print results
         if(my_rank == 0){
-          output(L, n, temp, average);
-          cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
+            output(L, n, temp, average);
+            cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
 
           //std::cout << temp << "\n" ;
         }
@@ -226,6 +229,12 @@ int main(int argc, char *argv[]) { // Main function
     outfile.close();
 
     // End MPI
+    if(my_rank==0) {
+        ch::steady_clock::time_point stop = ch::steady_clock::now();
+        ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+        cout << "Program used " << time_span << " seconds" << endl;
+    }
+
     MPI_Finalize();
     return 0;
 }
