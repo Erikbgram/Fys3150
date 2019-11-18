@@ -226,6 +226,7 @@ int main(int argc, char *argv[]) { // Main function
         // Print results
         if(my_rank == 0){
           output(L, n, temp, average);
+          cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
         }
     }
     outfile.close();
