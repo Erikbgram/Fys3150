@@ -1,5 +1,5 @@
 /*
-    Last edited: 19.11.2019 00:14 by Erlend T. North
+    Last edited: 20.11.2019 00:01 by Alexandra Jahr Kolstad
 */
 
 #include <iostream>
@@ -34,19 +34,10 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
             if(temp < 1.5) {
                 lattice(x,y) = 1; // Spin orientation for the ground state
             }
-            /*
-            if(ordered) {
-                lattice(x,y) = 1;
-            }
-            */
             else {
-                spin = rand_frac(mt_gen);
-                if(spin<0.5) {
-                    lattice(x,y) = -1;
-                }
-                else {
-                    lattice(x,y) = 1;
-                }
+
+            lattice(x,y) = -1;
+
             }
             M += lattice(x,y);
         }
@@ -72,6 +63,8 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
             //Find random position
             int ix = rand_frac(mt_gen)*L; // If problem put "(int)" in front of rand_frac
             int iy = rand_frac(mt_gen)*L;
+            //int ix = rand_frac(mt_gen) * (L-1) ;
+            //int iy = rand_frac(mt_gen) * (L-1) ;
             int deltaE = 2*lattice(ix,iy) * (
                         lattice(ix,periodic(iy,L,-1)) +
                         lattice(periodic(ix,L,-1),iy) +
@@ -88,11 +81,13 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
             if(r <= E_) {
                 lattice(ix,iy) *= -1; // Flip one spin and accept new spin config
 
-                acc += 1;
+                //acc += 1;   !!!!!!!!!!!!! 6
 
                 // Update energy and magnetization
                 M += 2*lattice(ix,iy);
                 E += deltaE;
+
+                acc += 1 ;
             }
         }
     }
@@ -102,13 +97,14 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
     double norm = 1.0/n; // Divided by total number of cycles
     double Eaverage = average[0]*norm;
     double E2average = average[1]*norm;
-    double Maverage = average[2]*norm;
+    //double Maverage = average[2]*norm;
     double M2average = average[3]*norm;
     double Mabsaverage = average[4]*norm;
 
     // all expectation values are per spin, divide by 1/L/L
+    /*
     double Evariance = (E2average- Eaverage*Eaverage)/L/L;
-    double Mvariance = (M2average - Maverage*Maverage)/L/L;
+    //double Mvariance = (M2average - Maverage*Maverage)/L/L;
     double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L;
     outfile << setprecision(8);
     outfile << temperature << " , ";
@@ -117,6 +113,19 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
     // outfile << setw(15) << setprecision(8) << Maverage/L/L;
     outfile << Mabsvariance/temperature << " , ";
     outfile << Mabsaverage/L/L << endl;
+    */ //OBSOBSOBSOBS 7
+
+    double Evariance = (E2average - Eaverage*Eaverage)/L/L ;
+    double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L ;
+    double Cv = Evariance/temperature/temperature ;
+    double susc = Mabsvariance/temperature ;
+
+    outfile << setprecision(8);
+    outfile << temperature << " , " ;
+    outfile << Eaverage/L/L << " , " ;
+    outfile << Cv << " , " ;
+    outfile << susc << " , " ;
+    outfile << Mabsaverage/L/L << endl ;
 }
 
 int main(int argc, char *argv[]) { // Main function
@@ -129,25 +138,29 @@ int main(int argc, char *argv[]) { // Main function
     double temp_step = atof(argv[5]);
     int acc = 0;
 
+    ch::steady_clock::time_point start = ch::steady_clock::now();
+
     // Initialize lattice
     arma::Mat<int> lattice(L,L,arma::fill::zeros);
 
-    string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_Tvar";
+    //string outfilename = "L" + to_string(L) + "_n" + to_string(n) + "_Tvar";
+    string outfilename = argv[6] ;
 
     outfile.open("../../output/" + outfilename + ".txt", fstream::app);
     outfile << "T , <E> , Cv , X , <|M|>" << endl;
     outfile.close();
-
 
     for(double temp = initial_temp; temp <= final_temp; temp += temp_step) {
         // Initialize energy and magnetization
         E = M = 0;
 
         // setup array for possible energy changes
-        for(int de = -8; de <= 8; de++) {
+        //for(int de = -8; de <= 8; de++) { OBSOBSOBSOBS 8
+        for (int de = -8 ; de <= 8 ; de+=4){
             w[de+8] = 0;
         }
-        for(int de = -8; de <= 8; de+=4) {
+        //for(int de = -8; de <= 8; de+=4) { OBSOBSOBSOBS 8
+        for (int de = -8 ; de <= 8 ; de+=4) {
             w[de+8] = exp(-de/temp);
         }
 
@@ -217,5 +230,10 @@ int main(int argc, char *argv[]) { // Main function
         */
         cout << (temp-initial_temp)/temp_step << " out of " << (final_temp-initial_temp)/temp_step << " iterations complete" << endl;
     }
+
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
+    cout << "Program used " << time_span.count() << " seconds" << endl;
+
     return 0;
 }

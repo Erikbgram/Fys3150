@@ -1,5 +1,5 @@
 /*
-    Last edited: 17.11.2019 19:41 by Erlend T. North
+    Last edited: 20.11.2019 00:00 by Alexandra Jahr Kolstad
 */
 
 #include <iostream>
@@ -66,8 +66,10 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
             //Find random position
-            int ix = rand_frac(mt_gen)*(L-1); // If problem put "(int)" in front of rand_frac
-            int iy = rand_frac(mt_gen)*(L-1); // L-1 is test
+            //int ix = rand_frac(mt_gen)*(L-1); // If problem put "(int)" in front of rand_frac
+            //int iy = rand_frac(mt_gen)*(L-1); // L-1 is test
+            int ix = rand_frac(mt_gen) * L ;
+            int iy = rand_frac(mt_gen) * L ;
             int deltaE = 2*lattice(ix,iy) * (
                         lattice(ix,periodic(iy,L,-1)) +
                         lattice(periodic(ix,L,-1),iy) +
@@ -118,14 +120,14 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
 int main(int argc, char *argv[]) { // Main function
     // Read in initial values
     double w[17], average[5], total_average[5], E, M, E2, M2;
-    int L;
-    int n;
-    double initial_temp;
-    double final_temp;
-    double temp_step;
+    int L = atoi(argv[1]);
+    int n = atoi(argv[2]);
+    double initial_temp = atof(argv[3]);
+    double final_temp = atof(argv[4]);
+    double temp_step = atof(argv[5]);
     int acc;
     string outfilename;
-    long long seed;
+    //long long seed; OBSOBSOBSOBS
 
     ch::steady_clock::time_point start = ch::steady_clock::now();
 
@@ -141,17 +143,18 @@ int main(int argc, char *argv[]) { // Main function
         cout << "Bad usage: " << argv[0] << " read output file" << endl;
     }
     if(my_rank == 0 && argc > 1) {
-        outfilename = argv[1];
+        outfilename = argv[6];
 
-        outfile.open("output/" + outfilename + ".txt");
+        outfile.open("output/" + outfilename + ".txt", fstream::app);
         outfile << "T , <E> , Cv , X , <|M|>" << endl;
     }
-
+    /*
     L = 60;
-    n = 1000000;
+    n = 10000;
     initial_temp = 2.0;
     final_temp = 2.3;
     temp_step = 0.005;
+    */
 
     /*
     Determine number of interval which are used by all processes
@@ -177,16 +180,20 @@ int main(int argc, char *argv[]) { // Main function
     // Every node has its own seed for the random numbers, this is
     // important else if one starts with the same seed, one ends
     // with the same random numbers
+    /*
     seed = ch::high_resolution_clock::now().time_since_epoch().count() + my_rank;
     mt19937_64 mt_gen(seed);
     uniform_real_distribution<double> rand_frac(0,1);
+
+    OBSOBSOBSOBS
+    */
 
     for(double temp = initial_temp; temp <= final_temp; temp += temp_step) {
         // Initialize energy and magnetization
         E = M = 0;
 
         // Initialize lattice and expectation values
-        initialize(L, temp, lattice, E, M);
+        //initialize(L, temp, lattice, E, M); OBSOBSOBSOBS
 
         // setup array for possible energy changes
         for(int de = -8; de <= 8; de++) {
@@ -201,8 +208,10 @@ int main(int argc, char *argv[]) { // Main function
             average[i] = 0;
         }
         for(int i = 0; i < 5; i++) {
-          total_average[i] = 0;
+          total_average[i] = 0; //hva gjør denne?
         }
+
+        initialize(L, temp, lattice, E, M); //!!!!!!!
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
