@@ -147,8 +147,8 @@ int main(int argc, char *argv[]) { // Main function
         outfile << "T , <E> , Cv , X , <|M|>" << endl;
     }
 
-    L = 2;
-    n = 1000;
+    L = 60;
+    n = 1000000;
     initial_temp = 2.0;
     final_temp = 2.3;
     temp_step = 0.005;
@@ -232,7 +232,7 @@ int main(int argc, char *argv[]) { // Main function
     if(my_rank==0) {
         ch::steady_clock::time_point stop = ch::steady_clock::now();
         ch::duration<double> time_span = ch::duration_cast<ch::nanoseconds>(stop - start);
-        cout << "Program used " << time_span << " seconds" << endl;
+        cout << "Program used " << time_span.count() << " seconds" << endl;
     }
 
     MPI_Finalize();
