@@ -81,7 +81,7 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
             if(r <= E_) {
                 lattice(ix,iy) *= -1; // Flip one spin and accept new spin config
 
-                //acc += 1;   !!!!!!!!!!!!! 6
+                //acc += 1;
 
                 // Update energy and magnetization
                 M += 2*lattice(ix,iy);
@@ -102,18 +102,6 @@ void output(int L, int n, double temperature, double *average) { // Prints to fi
     double Mabsaverage = average[4]*norm;
 
     // all expectation values are per spin, divide by 1/L/L
-    /*
-    double Evariance = (E2average- Eaverage*Eaverage)/L/L;
-    //double Mvariance = (M2average - Maverage*Maverage)/L/L;
-    double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L;
-    outfile << setprecision(8);
-    outfile << temperature << " , ";
-    outfile << Eaverage/L/L << " , ";
-    outfile << Evariance/temperature/temperature << " , ";
-    // outfile << setw(15) << setprecision(8) << Maverage/L/L;
-    outfile << Mabsvariance/temperature << " , ";
-    outfile << Mabsaverage/L/L << endl;
-    */ //OBSOBSOBSOBS 7
 
     double Evariance = (E2average - Eaverage*Eaverage)/L/L ;
     double Mabsvariance = (M2average - Mabsaverage*Mabsaverage)/L/L ;
@@ -155,11 +143,11 @@ int main(int argc, char *argv[]) { // Main function
         E = M = 0;
 
         // setup array for possible energy changes
-        //for(int de = -8; de <= 8; de++) { OBSOBSOBSOBS 8
+        //for(int de = -8; de <= 8; de++) {
         for (int de = -8 ; de <= 8 ; de+=4){
             w[de+8] = 0;
         }
-        //for(int de = -8; de <= 8; de+=4) { OBSOBSOBSOBS 8
+        //for(int de = -8; de <= 8; de+=4) {
         for (int de = -8 ; de <= 8 ; de+=4) {
             w[de+8] = exp(-de/temp);
         }
