@@ -1,3 +1,5 @@
+// Sist endret: 20.11.2019 12:03 av Alexandra Jahr Kolstad
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -20,15 +22,19 @@ double beta(int kB, int T){
 }
 
 double Z(int J, int kB, int T){
-    return 4 * (3 *cosh(8 * beta(kB, T) * J ) + 3 ) ;
+    return 4 * (cosh(8 * beta(kB, T) * J ) + 3 ) ;
 }
 
 double energy1(int J, int kB, int T) {
-    return - 32*J/(Z(J, kB, T)) * sinh(8 * beta(kB, T) * J) ;
+    return - (32*J/Z(J, kB, T)) * sinh(8 * beta(kB, T) * J) ;
 }
 
 double energy2 (int J, int kB, int T) {
-    return 256*J*J / (Z(J, kB, T)) * cosh(8 * beta(kB, T) * J) ;
+    return (256*J*J / Z(J, kB, T)) * cosh(8 * beta(kB, T) * J) ;
+}
+
+double absmagnetization1 (int J, int kB, int T){
+    return (8 / Z(J, kB, T)) * (exp(8 * beta(kB, T) * J) + 2) ;
 }
 
 double magnetization2(int J, int kB, int T) {
@@ -55,12 +61,13 @@ int main(int argc, char const *argv[]) {
     int T = atoi(argv[2]) ;
     int J = atoi(argv[3]) ;
 
-    std::cout << "Energy1 = " << energy1(J, kB, T) << "\n" ;
-    std::cout << "Energy2 = " << energy2(J, kB, T) << "\n" ;
-    std::cout << "Heatcapacity = " << heatcapacity(J, kB, T) << "\n" ;
-    std::cout << "Magnetization1 = " << magnetization1 << "\n" ;
-    std::cout << "Magnetization2 = " << magnetization2(J, kB, T) << "\n" ;
-    std::cout << "Susceptibility = " << susceptibility(J, kB, T, magnetization1) << "\n" ;
+    std::cout << "Energy1 = " << energy1(J, kB, T)/4 << "\n" ;
+    std::cout << "Energy2 = " << energy2(J, kB, T)/4 << "\n" ;
+    std::cout << "Heatcapacity = " << heatcapacity(J, kB, T)/4 << "\n" ;
+    std::cout << "Magnetization1 = " << magnetization1/4 << "\n" ;
+    std::cout << "Absmagnetization1 = " << absmagnetization1(J, kB, T)/4 << "\n" ;
+    std::cout << "Magnetization2 = " << magnetization2(J, kB, T)/4 << "\n" ;
+    std::cout << "Susceptibility = " << susceptibility(J, kB, T, magnetization1)/4 << "\n" ;
 
 
 
