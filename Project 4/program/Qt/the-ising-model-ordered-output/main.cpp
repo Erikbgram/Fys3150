@@ -210,6 +210,7 @@ int main(int argc, char *argv[]) { // Main function
             energyfile << E/L/L << endl;
             magnetfile << M/L/L << endl;
             acceptfile << acc << endl;
+            output(L, n, temp, average);
 
         }
 
