@@ -15,7 +15,7 @@ filenames = [filename1, filename2, filename3, filename4]
 
 temperature = [[],[],[],[]]
 energy = [[],[],[],[]]
-heatcapacity = [[],[],[],[]]
+specificheat = [[],[],[],[]]
 susceptibility = [[],[],[],[]]
 meanmagnetization = [[],[],[],[]]
 
@@ -27,7 +27,7 @@ for i in range(len(temperature)):
             words = line.split(" , ")
             temperature[i].append(float(words[0]))
             energy[i].append(float(words[1]))
-            heatcapacity[i].append(float(words[2]))
+            specificheat[i].append(float(words[2]))
             susceptibility[i].append(float(words[3]))
             meanmagnetization[i].append(float(words[4]))
 
@@ -45,7 +45,14 @@ plt.savefig("../../img/tempvsenergy2.png")
 plt.show()
 
 for i in range(len(temperature)):
-    plt.plot(temperature[i], heatcapacity[i], label = "$L$ = %d" %(40+i*20))
+    plt.plot(temperature[i], specificheat[i], label = "$L$ = %d" %(40+i*20))
+
+"""
+    print(np.argmax(specificheat[i]))
+    print(temperature[i][56])
+    print(temperature[i][55])
+"""
+
 plt.title("Specific heat as a function of temperature.")
 plt.xlabel("T [energy]")
 plt.ylabel("C$_V$ [energy/temperature]")
