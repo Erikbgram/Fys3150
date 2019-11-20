@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 valuelist = []
 
-input = sys.argv[1]
+#input = sys.argv[1]
 
-filename = input[7:]
+filename = sys.argv[1]
 
 # Energy
 with open("energy/" + filename) as infile:
@@ -30,7 +30,7 @@ plt.title("Plot of E(MC) for " + filename)
 plt.xlabel("MC cycles")
 plt.ylabel("Energy")
 plt.grid()
-#plt.savefig("../img/energy_" + filename[:-4] + ".png")
+plt.savefig("../img/energy_" + filename[:-4] + ".png")
 plt.show()
 valuelist = []
 
@@ -55,5 +55,5 @@ plt.title("Plot of M(MC) for " + filename)
 plt.xlabel("MC cycles")
 plt.ylabel("Magnetization")
 plt.grid()
-#plt.savefig("../img/magnet_" + filename[:-4] + ".png")
+plt.savefig("../img/magnet_" + filename[:-4] + ".png")
 plt.show()
