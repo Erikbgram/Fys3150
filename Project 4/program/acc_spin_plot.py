@@ -24,9 +24,10 @@ for i in range(len(values)):
 
 
 plt.plot(result)
-plt.title("Plot of Accepted spins as a function of MC-cycles for " + filename)
+plt.title("Plot of Accepted spins as a function of MC-cycles for \n" + filename)
 plt.xlabel("MC cycles")
 plt.ylabel("Accepted Spins")
 plt.grid()
-plt.savefig("../img/accept_" + filename[:-4] + ".png")
+plt.tight_layout()
+plt.savefig("../img/accept_" + filename[:-11] + filename[-10:-4] + ".png")
 plt.show()

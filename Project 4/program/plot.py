@@ -26,11 +26,12 @@ for i in range(len(values)):
 
 #plt.subplot(2,1,1)
 plt.plot(result)
-plt.title("Plot of E(MC) for " + filename)
+plt.title("Plot of E(MC) for \n" + filename)
 plt.xlabel("MC cycles")
 plt.ylabel("Energy")
 plt.grid()
-plt.savefig("../img/energy_" + filename[:-4] + ".png")
+plt.tight_layout()
+plt.savefig("../img/energy_" + filename[:-11] + filename[-10:-4] + ".png")
 plt.show()
 valuelist = []
 
@@ -51,9 +52,10 @@ for i in range(len(values)):
 
 #plt.subplot(2,1,2)
 plt.plot(result)
-plt.title("Plot of M(MC) for " + filename)
+plt.title("Plot of M(MC) for \n" + filename)
 plt.xlabel("MC cycles")
 plt.ylabel("Magnetization")
 plt.grid()
-plt.savefig("../img/magnet_" + filename[:-4] + ".png")
+plt.tight_layout()
+plt.savefig("../img/magnet_" + filename[:-11] + filename[-10:-4] + ".png")
 plt.show()
