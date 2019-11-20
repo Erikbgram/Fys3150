@@ -29,7 +29,8 @@ with open("magnet/" + file) as infile: # Reads in the energy values
 energy = np.array(energy)
 estd = energy.std()
 emean = energy.mean()
-evar = np.var(energy)
+evar = np.var(energy[10000:])
+print("Evar: ", evar)
 
 magnet = np.array(magnet)
 mstd = magnet.std()
