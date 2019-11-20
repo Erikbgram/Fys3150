@@ -147,6 +147,34 @@ The simulation consisted of a 2-dimensional lattice with spins pointing up or do
 
 \section{Theory} \label{sec:Theory}
 
+
+\subsection{Using the Ising model}
+
+The Ising model describes the interactions between the different dipoles in the system. On is most basic from  form the Ising model is given as an energy equation. (?)
+\newline
+\newline
+$E = -J \sum_{<kl>}^{N} s_i s_k - \beta \sum_{k}^{N}s_k$ (?)
+\newline
+\newline
+The J is a interaction constant that accounts for the interaction between the neighboring electrons. $s_i$ and $s_k$ represents the spin of the electrons as either minus one ore minus one. $\beta$ represents the external magnetic interaction with the overall magnetic moment sett up by the system. The kl in the first sum is to show that one only looks at the closest electrons in order calculate its energy. N is the number of spins in the system. In this project we will assume no external magnetic interaction. The last sum will therefore be discarded.
+\newline
+\newline
+kilde: "https://snl.no/Ising-modellen"
+\newline
+\newline
+\subsection{Monte Carlo method}
+\newline
+\newline
+Monte Carlo is an umbrella term for a wide range of computational methods that rely on random sampling in order to reach numerical results.
+\newline
+\newline
+In this project the Monte Carlo approach to switch different spins, given certain conditions. This is done in order to find the most likely state called the equilibrium state. In order to use Monte Carlo the probability distribution must be decided. This problem is dealing with statistical quantum mechanics and so the correct probability distribution will be given as (??).
+\newline
+\newline
+$Z = \sum_{i=1}^{M} e^{-\beta E_i}  $ (??)
+\newline
+\newline
+
 \subsection{Analytical solution for \texorpdfstring{ $2 \times 2$ }{text} lattice}
 
 The energies in this lattice is given by the set $E_i = \{- 8 J, -4J, 0 , 4J, 8J \}$.

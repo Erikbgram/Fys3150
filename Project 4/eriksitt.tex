@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Project 4}
+\author{erikbgram }
+\date{October 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Theory}
+
+
+\subsection{Using the Ising model}
+
+The Ising model describes the interactions between the different dipoles in the system. On is most basic from  form the Ising model is given as an energy equation. (?)
+\newline
+\newline
+$E = -J \sum_{<kl>}^{N} s_i s_k - \beta \sum_{k}^{N}s_k$ (?)
+\newline
+\newline
+The J is a interaction constant that accounts for the interaction between the neighboring electrons. $s_i$ and $s_k$ represents the spin of the electrons as either minus one ore minus one. $\beta$ represents the external magnetic interaction with the overall magnetic moment sett up by the system. The kl in the first sum is to show that one only looks at the closest electrons in order calculate its energy. N is the number of spins in the system. In this project we will assume no external magnetic interaction. The last sum will therefore be discarded.
+\newline
+\newline
+kilde: "https://snl.no/Ising-modellen"
+\newline
+\newline
+\subsection{Monte Carlo method}
+\newline
+\newline
+Monte Carlo is an umbrella term for a wide range of computational methods that rely on random sampling in order to reach numerical results.
+\newline
+\newline
+In this project the Monte Carlo approach to switch different spins, given certain conditions. This is done in order to find the most likely state called the equilibrium state. In order to use Monte Carlo the probability distribution must be decided. This problem is dealing with statistical quantum mechanics and so the correct probability distribution will be given as (??).
+\newline
+\newline
+$Z = \sum_{i=1}^{M} e^{-\beta E_i}  $ (??)
+\newline
+\newline
+
+
+\section{Method}
+
+
+
+
+
+
+\subsection{Metropolis algorithm}
+\newline
+\newline
+The metropolis algorithm is a way of determining the faverobillity of flipping a spin in terms of energy. The more faveroble it will be to flip the spin the more likely is metropolis to do so. Since we are using the Monte Carlo method this is decided by the probibility of finding the system in a state S which is given by (???)
+\newline
+\newline
+$P_s = \frac{e^{-\beta E_s}}{Z} $ (???)
+\newline
+\newline
+Here $E_s$ is the energy and $\beta$ is given by $1/kT$. Z is the normalization function which defines the probability distribution.
+\newline
+\newline
+Since we in this project only will be flipping on spin there will be a limited number of potential spin configurations and therefore the values of $E_s$ can be precalculated before running the program.
+\newline
+\newline
+
+\section{method}
+\newline
+\newline
+The program used to get the results for this project has been gathered from a computer program that uses the methods and information gathered in the theory in order to run computer calculations and get results. The program starts by initiating a file and setting up the timing device "Chrono". Now follows a series of functions. The
+\newline
+\newline
+The periodic function insures that one never can select a value out side the borders of the matrix. Now follows the initialize function that uses the random number generator to fill every value of the matrix with either 1 or -1. Then using the second for loop it calculates the initial $E_tot$ summing the random values just put into the matrix.
+\newline
+\newline
+Metropolis does what it was described to do in the theory. It calculates the change in energy from flipping one spin. Based on that value it assigns the chance of the change happening a percentage chance. Then it selects whether or not to change the spin. Even though there might be a higher probability for the spin to change it might not change due to the fact that the system is based on probability.
+\newline
+\newline
+Now follows the function output that gathers all the needed data from the program.
+\newline
+\newline
+this followed by the it main function that runs the program. It starts by defining the unite type of the variables that will be needed to run the program. Then the MPI is initialised. After that follows the given variables, such as final temperature, initial temperature and size of the lattice L. Then the matrix of size L x L is made.
+\newline
+\newline
+
+\section{4c}
+\subsection{results}
+In this section we will be looking at how many Monte Carlo cycles will be needed in order to reach an equilibrium state of the L = 20 system. This will be analyzed both for the energy of the system and the magnetization. First the T = 1 will be covered and later T = 2.4 as a comparison. The number of accepted spins as a function of Monte Carlo cycles will also be covered here.
+
+PRESANTER GRAFENE HER start
+
+
+
+magnet_L20_n1000000_T24_ord1.png
+
+magnet_L20_n10000_T10_ord1.png
+
+energy_L20_n1000000_T10_ord1.png
+
+energy_L20_n10000_T10_ord1.png
+
+PRESANTER GRAFENE HER slutt
+
+Looking at the graphs for the energy states with 10.000 Monte Carlo cycles we can see that the energy states quite quickly reaches an equilibrium state. between 2000 and 4000 has an extremely little variance of less than 0.0005. With the value ranging from roughly -1.997 and -1.9968. To later flatten ought an roughly -1.997. Now looking at the system withe 1000.000 Monte Carlo cycles we see that the energy equilibrium at around 400.000 cycles. The energy value of the equilibrium state is roughly -1.99725. The difference between the 1000.000 and the 10.000 is therefore quite small. This shows that for the L=20 system it is more than enough with 10.000 Monte Carlo cycles for vary accurate data.
+
+The same goes for the magnetisation. At 10.000 an equilibrium state is once again reached roughly at around 4000 cycles, with a magnetization value of roughly 0.99925. For the 1000.000 MC cycles magnetization plot, an equilibrium is observed just under 0.9993. This equilibrium lies roughly at 0.99927 magnetization.
+
+Now magnetization and the energy for T = 2.4 will be discussed.
+
+PRESANTER GRAFENE HER start
+
+magnet_L20_n10000_T24_ord1.png
+magnet_L20_n1000000_T24_ord1.png
+
+energy_L20_n10000_T24_ord1.png
+energy_L20_n1000000_T24_ord1.png
+
+PRESANTER GRAFENE HER slutt
+
+For the energies more or less the same result will be reached for 10.000 MC cycles as for 1000.000 cycles. As one can see from the graphs above. They both flatten ought at the roughly energy of -1.26. Unless extreme precision is needed 10.000 MC cycles should be enough to find the energy equilibrium state.
+\newline
+\newline
+However this is not true for the magnetization. For 10.000 MC cycles there is no real equilibrium stat reached that is observable. How ever once one comperes it to the 1000.000 MC cycle run one can observe that equilibrium is reached at about 400.000 MC cycles.
+
+
+accept_L2_n1000_T24_ord1.png
+
+\subsection{conclusion}
+In this project we have studied, among many other things, the number of Monte Carlo cycles needed to reach an equilibrium state. Based on the data acquired the number of cycles needed to reach an equilibrium state with a two decimal accuracy would be 6000 MC cycles for the temperatures tested in this project. This should allow enough cycles for the system to clearly have stabilised. For the magnetization however it seams to bee a need for more cycles. Somewhere around 400.000 cycles in order to be curtain regardless of temperature. This was how ever not the case for the T=1
+
+
+
+\subsection{Gummihatt}
+
+\newline
+GHGHGGGHGHSGHGGH
+\newline
+GHSGHGGHGGGHS
+\newline
+\newline
+GHGHGGGHGHSGHGGH
+\newline
+GHSGHGGHGGGHS
+
+
+\end{document}
