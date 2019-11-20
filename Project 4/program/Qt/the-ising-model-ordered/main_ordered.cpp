@@ -66,8 +66,6 @@ void initialize(int L, double temp, arma::Mat<int> &lattice, double& E, double& 
 }
 
 void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w, int &acc) { // The Metropolis algorithm
-    acc = 0;
-
     // Loop over all spins
     for(int x = 0; x < L; x++) {
         for(int y = 0; y < L; y++) {
@@ -90,7 +88,7 @@ void Metropolis(int L, arma::Mat<int> &lattice, double& E, double& M, double *w,
             if(r <= E_) {
                 lattice(ix,iy) *= -1; // Flip one spin and accept new spin config
 
-                acc += 1;
+                acc++;
 
                 // Update energy and magnetization
                 M += 2*lattice(ix,iy);
@@ -199,6 +197,7 @@ int main(int argc, char *argv[]) { // Main function
 
         // Start Monte Carlo Computation
         for(int cycles = 1; cycles <= n; cycles++) {
+            acc = 0;
             Metropolis(L, lattice, E, M, w, acc);
 
             // Update expectation values
@@ -210,7 +209,8 @@ int main(int argc, char *argv[]) { // Main function
 
             energyfile << E/L/L << endl;
             magnetfile << M/L/L << endl;
-            acceptfile << acc/L/L << endl;
+            cout << acc << endl;
+            acceptfile << acc << endl;
 
         }
 
