@@ -41,7 +41,7 @@ double magnetization2(int J, int kB, int T) {
     return 32 / (Z(J, kB, T)) * (exp(8 * beta(kB, T) * J) + 1) ;
 }
 
-double heatcapacity(int J, int kB, int T) {
+double specificheat(int J, int kB, int T) {
     return 1/(kB * T*T) * (energy2(J, kB, T) - energy1(J, kB, T) * energy1(J, kB, T)) ;
 }
 
@@ -63,7 +63,7 @@ int main(int argc, char const *argv[]) {
 
     std::cout << "Energy1 = " << energy1(J, kB, T)/4 << "\n" ;
     std::cout << "Energy2 = " << energy2(J, kB, T)/4 << "\n" ;
-    std::cout << "Heatcapacity = " << heatcapacity(J, kB, T)/4 << "\n" ;
+    std::cout << "Specific heat = " << specificheat(J, kB, T)/4 << "\n" ;
     std::cout << "Magnetization1 = " << magnetization1/4 << "\n" ;
     std::cout << "Absmagnetization1 = " << absmagnetization1(J, kB, T)/4 << "\n" ;
     std::cout << "Magnetization2 = " << magnetization2(J, kB, T)/4 << "\n" ;
