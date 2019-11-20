@@ -1,20 +1,14 @@
-# Sist endret: 20.11.2019 00:00 av Alexandra Jahr Kolstad
+# Sist endret: 20.11.2019 12:00 av Alexandra Jahr Kolstad
 
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-"""
-filename1 = sys.argv[1] + "_n1000000_Tvar.txt"
-filename2 = sys.argv[2] + "_n1000000_Tvar.txt"
-filename3 = sys.argv[3] + "_n1000000_Tvar.txt"
-filename4 = sys.argv[4] + "_n1000000_Tvar.txt"
-"""
 
-filename1 = sys.argv[1] + "_n1000_1.txt"
-filename2 = sys.argv[2] + "_n1000_1.txt"
-filename3 = sys.argv[3] + "_n1000_1.txt"
-filename4 = sys.argv[4] + "_n1000_1.txt"
+filename1 = sys.argv[1] + "_n1000000_Tvar_2.txt"
+filename2 = sys.argv[2] + "_n1000000_Tvar_2.txt"
+filename3 = sys.argv[3] + "_n1000000_Tvar_2.txt"
+filename4 = sys.argv[4] + "_n1000000_Tvar_2.txt"
 
 
 filenames = [filename1, filename2, filename3, filename4]
