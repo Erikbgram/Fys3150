@@ -9,7 +9,7 @@ energylist = []
 
 energyfile = sys.argv[1]
 
-outputfile = "output" + energyfile[6:]
+outputfile = "output/" + energyfile
 print(outputfile)
 
 with open(outputfile) as infile: # Reads in the expectation value and std of E
@@ -22,7 +22,7 @@ with open(outputfile) as infile: # Reads in the expectation value and std of E
         expect = float(words[2])
 
 
-with open(sys.argv[1]) as infile: # Reads in the energy values
+with open("energy/" + sys.argv[1]) as infile: # Reads in the energy values
     infile.readline()
     lines = infile.readlines()
     for line in lines:
@@ -51,7 +51,7 @@ energy = np.array(energylist)
 
 #plt.axhline(y=avg+std*temp*temp, color="r", label="<E>+var")
 #plt.axhline(y=avg-std*temp*temp, color="g", label="<E>-var")
-plt.legend()
+#plt.legend()
 plt.plot(complete_energylist)
 plt.title("Plot of " + sys.argv[1])
 plt.xlabel("iterations")
@@ -64,5 +64,5 @@ plt.hist(energy)
 plt.title("Probability of " + sys.argv[1])
 plt.xlabel("Energy")
 plt.ylabel("P(E)")
-plt.savefig("../img/energyhistogram_" + sys.argv[1][7:-4] + ".png")
+plt.savefig("../img/energyhistogram_" + sys.argv[1][:-4] + ".png")
 plt.show()
