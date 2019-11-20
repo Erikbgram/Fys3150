@@ -1,4 +1,4 @@
-# Sist endret: 20.11.2019 12:00 av Alexandra Jahr Kolstad
+# Sist endret: 20.11.2019 14:17 av Alexandra Jahr Kolstad
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -41,18 +41,18 @@ plt.ylabel("E [dimless]")
 plt.legend()
 plt.grid()
 plt.tight_layout()
-#plt.savefig("../../img/tempvsenergy.png")
+plt.savefig("../../img/tempvsenergy2.png")
 plt.show()
 
 for i in range(len(temperature)):
     plt.plot(temperature[i], heatcapacity[i], label = "$L$ = %d" %(40+i*20))
-plt.title("Heatcapacity as a function of temperature.")
+plt.title("Specific heat as a function of temperature.")
 plt.xlabel("T [energy]")
 plt.ylabel("C$_V$ [energy/temperature]")
 plt.legend()
 plt.grid()
 plt.tight_layout()
-#plt.savefig("../../img/tempvsheatcapacity.png")
+plt.savefig("../../img/tempvsspecificheat2.png")
 plt.show()
 
 for i in range(len(temperature)):
@@ -63,7 +63,7 @@ plt.ylabel("$\chi$ [1/energy]")
 plt.legend()
 plt.grid()
 plt.tight_layout()
-#plt.savefig("../../img/tempvssusceptibility.png")
+plt.savefig("../../img/tempvssusceptibility2.png")
 plt.show()
 
 for i in range(len(temperature)):
@@ -74,5 +74,5 @@ plt.ylabel("|M| [dimless]")
 plt.legend()
 plt.grid()
 plt.tight_layout()
-#plt.savefig("../../img/tempvsmeanmagnetization.png")
+plt.savefig("../../img/tempvsmeanmagnetization2.png")
 plt.show()
