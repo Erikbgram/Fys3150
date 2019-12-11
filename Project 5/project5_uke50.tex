@@ -115,6 +115,11 @@ And then later you can call:
 
 An abstract where you give the main summary of your work
 
+
+The abstract gives the reader a quick overview of what has been done and the most important results. Here is a typical example taken from a scientific article
+
+We study the collective motion of a suspension of rodlike microswimmers in a two-dimensional film of viscoelastic fluids. We find that the fluid elasticity has a small effect on a suspension of pullers, while it significantly affects the pushers. The attraction and orientational ordering of the pushers are enhanced in viscoelastic fluids. The induced polymer stresses break down the large-scale flow structures and suppress velocity fluctuations. In addition, the energy spectra and induced mixing in the suspension of pushers are greatly modified by fluid elasticity.
+
 \newpage
 
 %------------------- Table of contents -----------------------
@@ -132,6 +137,14 @@ An abstract where you give the main summary of your work
 
 An introduction where you explain the aims and rationale for the physics case and what you have done. At the end of the introduction you should give a brief summary of the structure of the report
 
+
+What should I focus on? Introduction.
+You don't need to answer all questions in a chronological order. When you write the introduction you could focus on the following aspects
+
+Motivate the reader, the first part of the introduction gives always a motivation and tries to give the overarching ideas
+What I have done
+The structure of the report, how it is organized etc
+
 %-------------------- Theory ------------------------------------
 \vspace{1cm}
 
@@ -146,12 +159,24 @@ An introduction where you explain the aims and rationale for the physics case an
 
 Theoretical models and technicalities. This is the methods section
 
+
+What should I focus on? Methods sections.
+Describe the methods and algorithms
+You need to explain how you implemented the methods and also say something about the structure of your algorithm and present some parts of your code
+You should plug in some calculations to demonstrate your code, such as selected runs used to validate and verify your results. The latter is extremely important!! A reader needs to understand that your code reproduces selected benchmarks and reproduces previous results, either numerical and/or well-known closed form expressions.
+
 %--------------------- Results ----------------------------------
 \vspace{1cm}
 
 \section{Results} \label{sec:Results}
 
 Results
+
+What should I focus on? Results.
+Present your results
+An eventual reader should be able to reproduce your calculations if she/he wants to do so. All input variables should be properly explained.
+Make sure that figures and tables should contain enough information in their captions, axis labels etc so that an eventual reader can gain a first impression of your work by studying figures and tables only.
+
 \iffalse
   \begin{figure}[H]
       \centering
@@ -190,6 +215,10 @@ Results
 
  and discussion
 
+
+ Give a critical discussion of your work and place it in the correct context.
+ Relate your work to other calculations/studies
+
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
 
@@ -197,11 +226,24 @@ Results
 
 Conclusions and perspectives
 
+
+What should I focus on? Conclusions.
+State your main findings and interpretations
+Try as far as possible to present perspectives for future work
+Try to discuss the pros and cons of the methods and possible improvements
+
 %----------------References----------------------------------------
 
 \vspace{1cm}
 
 \section{References} \label{sec:References}
+
+\iffalse
+What should I focus on? References.
+Give always references to material you base your work on, either scientific articles/reports or books.
+Refer to articles as: name(s) of author(s), journal, volume (boldfaced), page and year in parenthesis.
+Refer to books as: name(s) of author(s), title of book, publisher, place and year, eventual page numbers
+\fi
 
 \begin{thebibliography}{}
 
@@ -226,6 +268,13 @@ Morten H. Jensen (2015), \href{https://github.com/CompPhysics/ComputationalPhysi
 \section{Appendix} \label{sec:Appendix}
 
 Appendix with extra material
+
+
+What should I focus on? additional material.
+Additional calculations used to validate the codes
+Selected calculations, these can be listed with few comments
+Listing of the code if you feel this is necessary
+You can consider moving parts of the material from the methods section to the appendix. You can also place additional material on your webpage.
 
 \iffalse
 \begin{align*}
