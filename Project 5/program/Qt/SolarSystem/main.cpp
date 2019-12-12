@@ -10,19 +10,37 @@
 #include <armadillo>
 #include <cmath>
 #include <body.h>
+#include <vector>
 
 const double GMs = 4*M_PI*M_PI;
 
 using namespace std;
 
-double acceleration(Body body1, Body body2, double acc = 0) {
-    acc += (GMs*body1.get_mass()) / (pow( abs(body1.get_pos()(0) - body2.get_pos()(0)) ,2));
-    return acc;
+
+// Functions
+double mod(arma::rowvec vec) { // Calculates the modulus of a vector
+    double val = 0;
+    for(int i = 0; i < vec.n_elem; i++) {
+        val += vec(i)*vec(i);
+    }
+    return sqrt(val);
 }
 
-void ForwardEuler(Body* BodyList, Body body, int n) {
-    for(int i = 0; i < n-1; i++) {
-        //vel(i+1) = vel(i) + acceleration();
+void acceleration(Body body, Body *BodyList, int i) { // Sums over acceleration from all other bodies
+    arma::rowvec vec;
+    for(int j = 0; j < 2; j++) { // The number here is the amount of bodies in BodyList
+        if(BodyList[j].get_name() != body.get_name()) {
+            vec = BodyList[j].get_pos().row(i)-body.get_pos().row(i);
+            body.new_acc(body.get_acc() - (GMs*BodyList[j].get_mass()) / (pow(mod(vec), 3))*vec);
+        }
+    }
+}
+
+void ForwardEuler(Body body, Body* BodyList, double dt) {
+    for(int i = 0; i < body.get_pos().n_elem-1; i++) {
+        acceleration(body, BodyList, i);
+        body.new_vel(body.get_vel() + body.get_acc()*dt);
+        body.new_pos(body.get_pos()(i) + body.get_vel()*dt, i+1);
     }
 }
 
@@ -36,7 +54,6 @@ int main() {
     string trash;
     if(infile.is_open()) {
         infile >> trash >> trash >> trash;
-        cout << trash;
         infile >> n >> trash >> yr;
     }
     else {
@@ -65,17 +82,12 @@ int main() {
     v_e(0,1) = -2.983511998041463E-03*365.242199;
     v_e(0,2) = 6.558216388187520E-07*365.242199;
     */
-    r_e(0,0) = 1; // AU
-    r_e(0,1) = 0;
-    r_e(0,2) = 0;
-    v_e(0,0) = 0; // AU/day -> AU/year
-    v_e(0,1) = 2*M_PI;
-    v_e(0,2) = 0;
 
     cout << "hey" << endl;
 
     Body Sun("Sun", n);
     Body Earth("Earth", n);
+    /*
     Body Mercury("Mercury", n);
     Body Venus("Venus", n);
     Body Mars("Mars", n);
@@ -84,7 +96,13 @@ int main() {
     Body Uranus("Uranus", n);
     Body Neptune("Neptune", n);
     Body Pluto("Pluto", n);
-
+    Body* BodyList[10]{&Sun, &Mercury, &Venus, &Earth, &Mars, &Jupiter, &Saturn, &Uranus, &Neptune, &Pluto};
+    */
+    //Body** List = new Body*[2];
+    //vector<Body> BodyList{Sun, Earth};
+    Body *BodyList = new Body[2]{Sun, Earth};
+    //Body BodyList[2]{Sun, Earth};
+    cout << BodyList[0].get_name() << endl;
 
     /*
     Body Sun("Sun", 1.0, arma::mat(n,3, arma::fill::zeros), arma::mat(n,3, arma::fill::zeros));
@@ -99,10 +117,8 @@ int main() {
     Body Pluto("Pluto", 1.0/152671755.7, arma::mat(n,3, arma::fill::zeros), arma::mat(n,3, arma::fill::zeros));
     */
 
-    Body* BodyList[10]{&Sun, &Mercury, &Earth, &Mars, &Jupiter, &Saturn, &Uranus, &Neptune, &Pluto};
-    //Earth.init(r_e, v_e);
-
-    cout << acceleration(Sun, Earth) << endl;
+    acceleration(Earth, BodyList, 0);
+    Earth.get_acc().print();
 
     ofstream outfile;
     outfile.open("../../Euleroutput.txt");
@@ -114,6 +130,7 @@ int main() {
 
 
     // Forward Euler
+    /*
     for(int i = 1; i < n; i++) {
         a = -(4*pow(M_PI,2)) / pow(sqrt(pow((r_e(i-1,0)-r_s(0,0)),2) + pow((r_e(i-1,1)-r_s(0,1)),2) + pow((r_e(i-1,2)-r_s(0,2)),2)),3);
         v_e(i) = v_e(i-1) + a*(r_e(i-1)-r_s(0)) *dt;
@@ -121,6 +138,9 @@ int main() {
         //cout << v_e(i,0) << ", " << v_e(i,1) << ", " << v_e(i,2) << endl;
         outfile << setprecision(8) << t[i] << ", " << r_e(i,0) << ", " << r_e(i,1) << ", " << r_e(i,2) << endl;
     }
+    */
+    ForwardEuler(Earth, BodyList, dt);
+    Earth.get_pos().print();
     outfile.close();
 
     cout << "Euler done!" << endl;
