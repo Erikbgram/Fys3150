@@ -13,3 +13,6 @@ LIBS += \
     -LC:\armadillo-9.600.6\examples\lib_win64 \
     -llapack_win64_MT \
     -lblas_win64_MT
+
+HEADERS += \
+    body.h

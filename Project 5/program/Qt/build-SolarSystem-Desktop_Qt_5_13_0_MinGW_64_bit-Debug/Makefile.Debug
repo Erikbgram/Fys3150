@@ -50,7 +50,7 @@ OBJECTS_DIR   = debug
 SOURCES       = ..\SolarSystem\main.cpp 
 OBJECTS       = debug/main.o
 
-DIST          =   ..\SolarSystem\main.cpp
+DIST          =  body.h ..\SolarSystem\main.cpp
 QMAKE_TARGET  = SolarSystem
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = SolarSystem.exe
@@ -665,7 +665,8 @@ debug/main.o: ../SolarSystem/main.cpp C:/armadillo-9.600.6/include/armadillo \
 		C:/armadillo-9.600.6/include/armadillo_bits/newarp_TridiagEigen_meat.hpp \
 		C:/armadillo-9.600.6/include/armadillo_bits/newarp_UpperHessenbergEigen_meat.hpp \
 		C:/armadillo-9.600.6/include/armadillo_bits/newarp_UpperHessenbergQR_meat.hpp \
-		C:/armadillo-9.600.6/include/armadillo_bits/compiler_setup_post.hpp
+		C:/armadillo-9.600.6/include/armadillo_bits/compiler_setup_post.hpp \
+		../SolarSystem/body.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\SolarSystem\main.cpp
 
 ####### Install

@@ -12,7 +12,7 @@ x = []
 y = []
 z = []
 
-with open("output.txt") as infile:
+with open("Euleroutput.txt") as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
