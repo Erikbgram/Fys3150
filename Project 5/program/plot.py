@@ -8,7 +8,7 @@ y = []
 z = []
 
 
-with open("output.txt") as infile:
+with open("VVerletoutput.txt") as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
