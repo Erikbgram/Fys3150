@@ -7,6 +7,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 
 using namespace std;
 
@@ -81,21 +82,23 @@ public:
         acc = new_acc;
     }
 
-    void acceleration(arma::Row<Body> bodyList, int i, double GMs=4*M_PI*M_PI) {
+    void acceleration(vector<Body> system, int i, double GMs=4*M_PI*M_PI) {
         arma::rowvec vec;
         acc = arma::rowvec(3,arma::fill::zeros);
-        for(int bodyCount = 0; bodyCount < bodyList.n_elem; bodyCount++) {
-            if(bodyList(bodyCount).get_name() != name) {
-                vec = bodyList(bodyCount).get_pos().row(i) - pos.row(i);
-                acc += (GMs*bodyList(bodyCount).get_mass()) / pow(mod(vec), 3)*vec;
+        for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
+            if(system[bodyCount].get_name() != name) {
+                vec = system[bodyCount].get_pos().row(i) - pos.row(i);
+                acc += (GMs*system[bodyCount].get_mass()) / pow(mod(vec), 3)*vec;
             }
 
         }
     }
 
-    void write_data() {
+    void write_data(int i) {
         ofstream data;
         data.open("../../bodyData/" + name + ".txt", fstream::app);
+        data << pos(i,0) << " , " << pos(i,1) << " , " << pos(i,2) << endl;
+        data.close();
 
 
     }
