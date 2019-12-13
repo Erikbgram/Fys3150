@@ -26,7 +26,7 @@ double mod(arma::rowvec vec) { // Calculates the modulus of a vector
     return sqrt(val);
 }
 
-void acceleration(Body body, Body *BodyList, int i) { // Sums over acceleration from all other bodies
+void deprecated_acceleration(Body body, Body *BodyList, int i) { // Sums over acceleration from all other bodies to specific body
     arma::rowvec vec;
     for(int j = 0; j < 2; j++) { // The number here is the amount of bodies in BodyList
         if(BodyList[j].get_name() != body.get_name()) {
@@ -36,12 +36,11 @@ void acceleration(Body body, Body *BodyList, int i) { // Sums over acceleration 
     }
 }
 
-void ForwardEuler(Body body, Body* BodyList, double dt) {
-    for(int i = 0; i < body.get_pos().n_elem-1; i++) {
-        acceleration(body, BodyList, i);
-        body.new_vel(body.get_vel() + body.get_acc()*dt);
-        body.new_pos(body.get_pos()(i) + body.get_vel()*dt, i+1);
-    }
+void forwardEuler(Body body, arma::Row<Body> bodyList, int i, double dt) { // Performs 1 iteration of Forward Euler
+    body.acceleration(bodyList, i);
+    body.new_vel(body.get_vel() + body.get_acc()*dt);
+    body.new_pos(body.get_pos()(i) + body.get_vel()*dt, i+1);
+    body.write_data();
 }
 
 int main() {
@@ -68,13 +67,8 @@ int main() {
     double dtr = (dt*dt)/2.0;
     arma::vec t(n, arma::fill::zeros);
 
-    arma::mat r_s(n, 3, arma::fill::zeros);
-    arma::mat r_e(n, 3, arma::fill::zeros);
-    arma::mat v_e(n, 3, arma::fill::zeros);
-
-    // Initial data 01.01.2020 00:00
-
     /*
+    // Initial data 01.01.2020 00:00
     r_e(0,0) = -1.701443808233178E-01; // AU
     r_e(0,1) = 9.765603186945023E-01;
     r_e(0,2) = -1.822571331401604E-05;
@@ -87,6 +81,8 @@ int main() {
 
     Body Sun("Sun", n);
     Body Earth("Earth", n);
+    arma::Row<Body> bodyList = {Sun, Earth};
+    cout << bodyList[0].get_name() << endl;
     /*
     Body Mercury("Mercury", n);
     Body Venus("Venus", n);
@@ -100,9 +96,9 @@ int main() {
     */
     //Body** List = new Body*[2];
     //vector<Body> BodyList{Sun, Earth};
-    Body *BodyList = new Body[2]{Sun, Earth};
+
     //Body BodyList[2]{Sun, Earth};
-    cout << BodyList[0].get_name() << endl;
+
 
     /*
     Body Sun("Sun", 1.0, arma::mat(n,3, arma::fill::zeros), arma::mat(n,3, arma::fill::zeros));
@@ -117,9 +113,10 @@ int main() {
     Body Pluto("Pluto", 1.0/152671755.7, arma::mat(n,3, arma::fill::zeros), arma::mat(n,3, arma::fill::zeros));
     */
 
-    acceleration(Earth, BodyList, 0);
+    Earth.acceleration(bodyList, 0);
     Earth.get_acc().print();
 
+    /*
     ofstream outfile;
     outfile.open("../../Euleroutput.txt");
     outfile << "t, rx, ry, rz" << endl;
@@ -130,7 +127,7 @@ int main() {
 
 
     // Forward Euler
-    /*
+
     for(int i = 1; i < n; i++) {
         a = -(4*pow(M_PI,2)) / pow(sqrt(pow((r_e(i-1,0)-r_s(0,0)),2) + pow((r_e(i-1,1)-r_s(0,1)),2) + pow((r_e(i-1,2)-r_s(0,2)),2)),3);
         v_e(i) = v_e(i-1) + a*(r_e(i-1)-r_s(0)) *dt;
@@ -138,13 +135,16 @@ int main() {
         //cout << v_e(i,0) << ", " << v_e(i,1) << ", " << v_e(i,2) << endl;
         outfile << setprecision(8) << t[i] << ", " << r_e(i,0) << ", " << r_e(i,1) << ", " << r_e(i,2) << endl;
     }
-    */
-    ForwardEuler(Earth, BodyList, dt);
+
+    forwardEuler(Earth, bodyList, 0, dt);
     Earth.get_pos().print();
     outfile.close();
 
     cout << "Euler done!" << endl;
 
+    */
+
+    /*
     outfile.open("../../VVerletoutput.txt");
     outfile << "t, rx, ry, rz" << endl;
     outfile << setprecision(8) << t[0] << ", " << r_e(0,0) << ", " << r_e(0,1) << ", " << r_e(0,2) << endl;
@@ -153,6 +153,10 @@ int main() {
     double a_scalar;
     arma::vec a_old(3);
     arma::vec a_new(3);
+
+    arma::mat r_s(n, 3, arma::fill::zeros);
+    arma::mat r_e(n, 3, arma::fill::zeros);
+    arma::mat v_e(n, 3, arma::fill::zeros);
 
     // Velocity Verlet
     for(int i = 1; i < n; i++) {
@@ -179,7 +183,7 @@ int main() {
         outfile << setprecision(8) << t[i] << ", " << r_e(i,0) << ", " << r_e(i,1) << ", " << r_e(i,2) << endl;
     }
     outfile.close();
-
+    */
 
 
     //v_e.print("v");

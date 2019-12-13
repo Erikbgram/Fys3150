@@ -5,8 +5,13 @@
 #include <iostream>
 #include <armadillo>
 #include <string>
+#include <fstream>
+#include <iomanip>
 
 using namespace std;
+
+// "Mention" functions from other files for use here (body.h is now dependent on main.cpp)
+double mod(arma::rowvec vec);
 
 class Body {
     // Attributes
@@ -18,54 +23,80 @@ class Body {
 
 public:
     // Methods
-    Body(string new_name, int n) {
+    Body(string new_name, int n) { // Constructs object
         name = new_name;
         pos = arma::mat(n,3,arma::fill::zeros);
         vel = arma::rowvec(3,arma::fill::zeros);
         acc = arma::rowvec(3,arma::fill::zeros);
-        ifstream infile("../../BodyData/" + name + ".txt");
+        ifstream infile("../../bodyInput/" + name + ".txt");
 
         string trash;
         if(infile.is_open()) {
             infile >> name >> trash >> mass;
             infile >> pos(0,0) >> trash >> pos(0,1) >> trash >> pos(0,2);
             infile >> vel(0) >> trash >> vel(1) >> trash >> vel(2);
+            infile.close();
+
+            ofstream data;
+            data.open("../../bodyOutput/" + name + ".txt");
+            data << "rx , ry , rz" << endl;
+            data << setprecision(8) << pos(0,0) << ", " << pos(0,1) << ", " << pos(0,2) << endl;
+            data.close();
         }
         else {
             cout << "Unable to open file" << endl;
         }
+
     }
 
-    string get_name() {
+    string get_name() { // Fetches body.name
         return name;
     }
 
-    double get_mass() {
+    double get_mass() { // Fetches body.mass
         return mass;
     }
 
-    arma::mat get_pos() {
+    arma::mat get_pos() { // Fetches body.pos
         return pos;
     }
 
-    arma::mat get_vel() {
+    arma::mat get_vel() { // Fetches body.vel
         return vel;
     }
 
-    arma::mat get_acc() {
+    arma::mat get_acc() { // Fetches body.acc
         return acc;
     }
 
-    void new_pos(arma::rowvec new_pos, int i) {
+    void new_pos(arma::rowvec new_pos, int i) { // Assigns new position at iteration i
         pos.row(i) = new_pos;
     }
 
-    void new_vel(arma::rowvec new_vel) {
+    void new_vel(arma::rowvec new_vel) { // Assigns new velocity
         vel = new_vel;
     }
 
-    void new_acc(arma::rowvec new_acc) {
+    void new_acc(arma::rowvec new_acc) { // Assigns new acceleration
         acc = new_acc;
     }
 
+    void acceleration(arma::Row<Body> bodyList, int i, double GMs=4*M_PI*M_PI) {
+        arma::rowvec vec;
+        acc = arma::rowvec(3,arma::fill::zeros);
+        for(int bodyCount = 0; bodyCount < bodyList.n_elem; bodyCount++) {
+            if(bodyList(bodyCount).get_name() != name) {
+                vec = bodyList(bodyCount).get_pos().row(i) - pos.row(i);
+                acc += (GMs*bodyList(bodyCount).get_mass()) / pow(mod(vec), 3)*vec;
+            }
+
+        }
+    }
+
+    void write_data() {
+        ofstream data;
+        data.open("../../bodyData/" + name + ".txt", fstream::app);
+
+
+    }
 };
