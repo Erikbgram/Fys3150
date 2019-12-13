@@ -41,7 +41,7 @@ public:
             ofstream data;
             data.open("../../bodyOutput/" + name + ".txt");
             data << "rx , ry , rz" << endl;
-            data << setprecision(8) << pos(0,0) << ", " << pos(0,1) << ", " << pos(0,2) << endl;
+            data << setprecision(8) << pos(0,0) << " , " << pos(0,1) << " , " << pos(0,2) << endl;
             data.close();
         }
         else {
@@ -90,13 +90,12 @@ public:
                 vec = system[bodyCount].get_pos().row(i) - pos.row(i);
                 acc += (GMs*system[bodyCount].get_mass()) / pow(mod(vec), 3)*vec;
             }
-
         }
     }
 
     void write_data(int i) {
         ofstream data;
-        data.open("../../bodyData/" + name + ".txt", fstream::app);
+        data.open("../../bodyOutput/" + name + ".txt", fstream::app);
         data << pos(i,0) << " , " << pos(i,1) << " , " << pos(i,2) << endl;
         data.close();
 
