@@ -24,15 +24,11 @@ double mod(arma::rowvec vec) { // Calculates the modulus of a vector
 }
 
 
-void forwardEuler(Body body, vector<Body> system, int i, double dt) { // Performs 1 iteration of Forward Euler
+void forwardEuler(Body &body, vector<Body> system, int i, double dt) { // Performs 1 iteration of Forward Euler
     body.acceleration(system, i);
     body.new_vel(body.get_vel() + body.get_acc()*dt);
-    //body.get_acc().print("haha");
     body.new_pos(body.get_pos().row(i) + body.get_vel()*dt, i+1);
     //body.write_data(i);
-    cout << "acc: " << body.get_acc() << endl;
-    cout << "vel: " << body.get_vel() << endl;
-    cout << "pos: " << body.get_pos().row(i+1) << endl;
 }
 
 
@@ -59,19 +55,19 @@ int main() {
     double dtr = (dt*dt)/2.0;
     arma::vec t(n, arma::fill::zeros);
 
-    cout << "hey" << endl;
-
     Body Sun("Sun", n);
     Body Earth("Earth", n);
     vector<Body> system = {Sun, Earth};
 
     ofstream data;
     data.open("../../bodyOutput/" + Earth.get_name() + ".txt", fstream::app);
+    data << Earth.get_pos()(0,0) << " , " << Earth.get_pos()(0,1) << " , " << Earth.get_pos()(0,2) << endl;
 
-    for(int i = 0; i < 3-1; i++) { /// CHANGE THIS BACK TO n-1
+    for(int i = 0; i < n-1; i++) { /// CHANGE THIS BACK TO n-1
         forwardEuler(Earth, system, i, dt);
         cout << "Iteration: " << i << " complete!" << endl;
         data << Earth.get_pos()(i+1,0) << " , " << Earth.get_pos()(i+1,1) << " , " << Earth.get_pos()(i+1,2) << endl;
+
     }
     data.close();
 

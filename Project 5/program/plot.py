@@ -2,23 +2,20 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-t = []
 x = []
 y = []
 z = []
 
 
-with open("VVerletoutput.txt") as infile:
+with open("BodyOutput/Earth.txt") as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
         words = line.split(", ")
-        t.append(float(words[0]))
-        x.append(float(words[1]))
-        y.append(float(words[2]))
-        z.append(float(words[3]))
+        x.append(float(words[0]))
+        y.append(float(words[1]))
+        z.append(float(words[2]))
 
-t = np.array(t)
 x = np.array(x)
 y = np.array(y)
 z = np.array(z)
