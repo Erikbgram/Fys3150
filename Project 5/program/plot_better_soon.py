@@ -7,7 +7,7 @@ y = []
 z = []
 
 
-with open("forwardEulerbodyOutput/Earth.txt") as infile:
+with open("velocityVerletbodyOutput/Earth.txt") as infile:
     infile.readline()
     lines = infile.readlines()
     for line in lines:
