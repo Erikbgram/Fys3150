@@ -124,6 +124,13 @@ And then later you can call:
     \item skrive conclusion \\
     \item skrive noe på abstract? \\
     \item fikse kildene \\
+\end{itemize} \\
+
+Oppgaver til Alexandra:
+
+\begin{itemize}
+    \item fikse 3d-animasjon \\
+    \item lese fra en fil hvilke planeter som skal evalueres, åpne alle outputfilene og plotte dem i samme vindu \\
 \end{itemize}
 
 
@@ -280,6 +287,9 @@ Erik B. Grammeltvedt, Alexandra Jahr Kolstad, Erlend T. North (2019), \href{http
 \bibitem{lecture_slides}
 Morten H. Jensen (2015), \href{https://github.com/CompPhysics/ComputationalPhysics/blob/master/doc/Lectures/lectures2015.pdf}{Lecture slides for FYS3150}, Department of Physics, University of Oslo, Norway
 
+\bibitem{solarsystemdata}
+Jon. D. Giorgini (2019), \href{https://ssd.jpl.nasa.gov/horizons.cgi#top}{Physical data of the planets and the sun.}, Solar System Dynamics Group, Horizons On-Line Ephemeris System, Jet Propulsion Laboratory, Pasadena, California, USA
+
 
 \end{thebibliography}
 
@@ -305,23 +315,23 @@ You can consider moving parts of the material from the methods section to the ap
 
 \begin{table}[H]
   \centering
-  \caption{Astronomical data}
+  \caption{Astronomical data retrieved from \cite{solarsystemdata}. }
   \vspace{2mm}
   \label{tab:mass}
   \begin{tabular}{|c|c|c|c|}
       \hline
-       Celestial Body & Mass [kg] & Mass [$M_{\odot}$] & Distance to sun [AU]\\
+      Celestial Body & Mass [kg] & Mass [$M_{\odot}$] & Distance to sun [AU]\\
       \hline \hline
-      Sun     & $ 2    \cdot10^{30} $ & 1           & 0 \\
-      Mercury & $ 3.3  \cdot10^{23} $ & 6060606.06  & 0.39 \\
-      Venus   & $ 4.9  \cdot10^{24} $ & 408163.27   & 0.72 \\
-      Earth   & $ 6    \cdot10^{24} $ & 333333.33   & 1 \\
-      Mars    & $ 6.6  \cdot10^{23} $ & 3030303.03  & 1.52 \\
-      Jupiter & $ 1.9  \cdot10^{27} $ & 1052.63     & 5.20 \\
-      Saturn  & $ 5.5  \cdot10^{26} $ & 3636.36     & 9.54 \\
-      Uranus  & $ 8.8  \cdot10^{25} $ & 22727.27    & 19.19 \\
-      Neptune & $ 1.03 \cdot10^{26} $ & 19417.48    & 30.06 \\
-      Pluto   & $ 1.31 \cdot10^{22} $ & 152671755.7 & 39.53 \\
+      Sun     & $ 2    \cdot10^{30} $ & 1                    & 0 \\
+      Mercury & $ 3.3  \cdot10^{23} $ & $1.65 \cdot 10^{-7}$ & 0.39 \\
+      Venus   & $ 4.9  \cdot10^{24} $ & $2.45 \cdot 10^{-6}$ & 0.72 \\
+      Earth   & $ 6    \cdot10^{24} $ & $3.0 \cdot 10^{-6}$  & 1 \\
+      Mars    & $ 6.6  \cdot10^{23} $ & $3.3 \cdot 10^{-7}$  & 1.52 \\
+      Jupiter & $ 1.9  \cdot10^{27} $ & $9.5 \cdot 10^{-4}$  & 5.20 \\
+      Saturn  & $ 5.5  \cdot10^{26} $ & $2.75 \cdot 10^{-4}$ & 9.54 \\
+      Uranus  & $ 8.8  \cdot10^{25} $ & $4.4 \cdot 10^{-5}$  & 19.19 \\
+      Neptune & $ 1.03 \cdot10^{26} $ & $5.15 \cdot 10^{-5}$ & 30.06 \\
+      Pluto   & $ 1.31 \cdot10^{22} $ & $6.55 \cdot 10^{-9}$ & 39.53 \\
       \hline
   \end{tabular} \\
   \hspace{0pt}\\
