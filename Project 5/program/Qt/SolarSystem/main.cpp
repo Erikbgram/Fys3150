@@ -29,12 +29,6 @@ void forwardEuler(Body &body, vector<Body> system, int i, double dt) { // Perfor
     body.new_vel(body.get_vel() + body.get_acc()*dt);
     body.new_pos(body.get_pos().row(i) + body.get_vel()*dt, i+1);
     //body.write_data(i);
-    if(i<3) {
-        body.get_pos().row(i).print("pos_old");
-        body.get_acc().print("acc");
-        body.get_vel().print("vel");
-        body.get_pos().row(i+1).print("pos");
-    }
 
 }
 
@@ -46,15 +40,6 @@ void velocityVerlet(Body &body, vector<Body> system, int i, double dt, double dt
     body.acceleration(system, i+1);
     body.new_vel(body.get_vel() + (acc_old+body.get_acc())*dt_vel);
     //body.new_vel(body.get_vel() + )
-    if(i<3) {
-        body.get_pos().row(i).print("pos");
-        acc_old.print("acc_old");
-        body.get_pos().row(i+1).print("pos");
-        body.get_acc().print("acc_new");
-        arma::rowvec thing = (acc_old+body.get_acc());
-        thing.print("acc_sum");
-        body.get_vel().print("vel");
-    }
 
 }
 

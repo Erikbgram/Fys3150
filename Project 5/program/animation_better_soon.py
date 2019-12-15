@@ -48,5 +48,5 @@ plt.tight_layout()
 
 ani = FuncAnimation(fig, update, frames=len(x),
                     fargs=(x,y,z), init_func=init, blit=True, interval=1)
-#ani.save("../img/ani.mp4", fps=60)
+#ani.save("../img/ani.gif", writer="pillow", fps=250)
 plt.show()
