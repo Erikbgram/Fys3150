@@ -48,29 +48,69 @@ int main() {
     ifstream infile("../../input.txt");
 
     int n, yr;
-    double dt;
+    double dt, dt_pos, dt_vel;
 
-    string trash;
+    string trash, planet;
+    vector<string> planetList;
     if(infile.is_open()) {
-        infile >> trash >> trash >> trash;
-        infile >> n >> trash >> yr;
+        infile >> trash >> trash >> trash; // "n" >> " , " >> "yr"
+        infile >> n >> trash >> yr; // 100 >> " , " >> 100
+        infile >> trash; // "planets"
+        while(getline(infile, planet))  {
+            planetList.push_back(planet);
+        }
+        planetList.erase(planetList.begin());
+
     }
     else {
         cout << "Unable to open file" << endl;
-        n = 100;
-        yr = 100;
+        cout << "Quitting program..." << endl;
+        return 1;
     }
 
     dt = (1.0*(double)yr)/(double)n;
+    dt_pos = (dt*dt)/2.0;
+    dt_vel = dt/2.0;
 
     arma::vec t(n, arma::fill::zeros);
 
-    Body Sun("Sun", n);
-    Body Earth("Earth", n);
-    vector<Body> system = {Sun, Earth};
+    vector<Body> system;
+    for(int i = 0; i < planetList.size(); i++) {
+        system.push_back(Body(planetList[i], n));
+    }
+    cout << system[0].get_name() << endl;
+
+
+    //Body Sun("Sun", n);
+    //Body Earth("Earth", n);
+    //vector<Body> system = {Sun, Earth};
 
 
     ofstream data;
+
+    // Main loop
+    for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
+        Body body = system[bodyCount];
+        data.open("../../forwardEulerbodyOutput/" + body.get_name() + ".txt");
+        data << "x , y , z" << endl;
+        data << body.get_pos()(0,0) << " , " << body.get_pos()(0,1) << " , " << body.get_pos()(0,2) << endl;
+        if(bodyCount==0) {
+            for(int i = 0; i < n-1; i++) { // Makes the sun static.. for now
+                body.new_pos(body.get_pos().row(i), i+1);
+                data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
+            }
+        }
+        else {
+            for(int i = 0; i < n-1; i++) {
+                forwardEuler(body, system, i, dt);
+                data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
+
+            }
+        }
+
+    }
+
+    /*
     data.open("../../forwardEulerbodyOutput/" + Earth.get_name() + ".txt");
     data << "x , y , z" << endl;
     data << Earth.get_pos()(0,0) << " , " << Earth.get_pos()(0,1) << " , " << Earth.get_pos()(0,2) << endl;
@@ -92,8 +132,6 @@ int main() {
 
 
     // Velocity Verlet
-    double dt_pos = (dt*dt)/2.0;
-    double dt_vel = dt/2.0;
 
     for(int i = 0; i < n-1; i++) {
         velocityVerlet(Earth, system, i, dt, dt_pos, dt_vel);
@@ -104,7 +142,7 @@ int main() {
     }
     data.close();
     cout << "Velocity Verlet complete!" << endl;
-
+    */
 
     //system("cd ..");
     //system("cd ..");
