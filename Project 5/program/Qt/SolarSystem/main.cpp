@@ -78,7 +78,6 @@ int main() {
     for(int i = 0; i < planetList.size(); i++) {
         system.push_back(Body(planetList[i], n));
     }
-    cout << system[0].get_name() << endl;
 
 
     //Body Sun("Sun", n);

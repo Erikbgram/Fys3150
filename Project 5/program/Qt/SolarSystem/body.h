@@ -29,7 +29,7 @@ public:
         pos = arma::mat(n,3,arma::fill::zeros);
         vel = arma::rowvec(3,arma::fill::zeros);
         acc = arma::rowvec(3,arma::fill::zeros);
-        ifstream infile("../../bodyInput/" + name + ".txt");
+        ifstream infile("../../bodyRealInput/" + name + ".txt");
 
         string trash;
         if(infile.is_open()) {
