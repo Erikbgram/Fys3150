@@ -11,8 +11,10 @@
 #include <cmath>
 #include <body.h>
 #include <vector>
+#include <chrono>
 
 using namespace std;
+namespace ch = chrono;
 
 // Functions
 double mod(arma::rowvec vec) { // Calculates the modulus of a vector
@@ -22,7 +24,6 @@ double mod(arma::rowvec vec) { // Calculates the modulus of a vector
     }
     return sqrt(val);
 }
-
 
 void forwardEuler(Body &body, vector<Body> system, int i, double dt) { // Performs 1 iteration of Forward Euler
     body.acceleration(system, i);
@@ -43,7 +44,6 @@ void velocityVerlet(Body &body, vector<Body> system, int i, double dt, double dt
 
 }
 
-
 int main() {
     ifstream infile("../../input.txt");
 
@@ -62,7 +62,7 @@ int main() {
         planetList.erase(planetList.begin()); // 1st line is white-space
 
     }
-    else {
+    else { // File not readable
         cout << "Unable to open file" << endl;
         cout << "Quitting program..." << endl;
         return 1;
@@ -72,71 +72,60 @@ int main() {
     dt_pos = (dt*dt)/2.0;
     dt_vel = dt/2.0;
 
-    arma::vec t(n, arma::fill::zeros);
-
+    // Forward Euler
     vector<Body> system;
     vector<ofstream> systemdata;
-    for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) {
+    for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct bodies and output-files
         system.push_back(Body(planetList[bodyCount], n));
         systemdata.push_back(ofstream("../../forwardEulerbodyOutput/" + system[bodyCount].get_name() + ".txt"));
         systemdata[bodyCount] << "x , y , z" << endl;
         systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
 
-
-    //Body Sun("Sun", n);
-    //Body Earth("Earth", n);
-    //vector<Body> system = {Sun, Earth};
+    ch::steady_clock::time_point start = ch::steady_clock::now();
 
     // Main loop
-    for(int i = 0; i < n-1; i++) {
+    for(int i = 0; i < n-1; i++) { // Perform Forward Euler
         for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
-            if(i<3) {
-                cout << system[bodyCount].get_name() << " PREeULER pos_old " << system[bodyCount].get_pos().row(i) << endl;
-            }
-
             forwardEuler(system[bodyCount], system, i, dt);
-
-            if(i<3) {
-                cout << system[bodyCount].get_name() << " POSTeULER pos_new " << system[bodyCount].get_pos().row(i+1) << endl;
-            }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
-
-        /* FOR A STATIC SUN
-         * if(bodyCount==0) {
-            for(int i = 0; i < n-1; i++) { // Makes the sun static.. for now
-                body.new_pos(body.get_pos().row(i), i+1);
-                data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
-            }
         }
-        else {
-            for(int i = 0; i < n-1; i++) {
-                forwardEuler(body, system, i, dt);
-                data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
-
-            }
-        */
-        }
-        cout << "Iteration " << i << " complete!" << endl;
     }
+
+    ch::steady_clock::time_point stop = ch::steady_clock::now();
+    ch::duration<double> time_span_forwardEuler = ch::duration_cast<ch::nanoseconds>(stop - start);
+    cout << "Forward Euler complete!" << endl;
+
+
+    for(int bodyCount = 0; bodyCount < systemdata.size(); bodyCount++) { // Close output-files
+        systemdata[bodyCount].close();
+    }
+    systemdata.clear();
+
+
+    // Velocity Verlet
+    for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct output-files
+        systemdata.push_back(ofstream("../../velocityVerletbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata[bodyCount] << "x , y , z" << endl;
+        systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
+    }
+
+    start = ch::steady_clock::now();
+
+    // Main loop
+    for(int i = 0; i < n-1; i++) { // Perform Velocity Verlet
+        for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
+            velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+            systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
+        }
+    }
+
+    stop = ch::steady_clock::now();
+    ch::duration<double> time_span_velocityVerlet = ch::duration_cast<ch::nanoseconds>(stop - start);
+    cout << "Velocity Verlet complete!" << endl;
 
 
     /*
-    data.open("../../forwardEulerbodyOutput/" + Earth.get_name() + ".txt");
-    data << "x , y , z" << endl;
-    data << Earth.get_pos()(0,0) << " , " << Earth.get_pos()(0,1) << " , " << Earth.get_pos()(0,2) << endl;
-
-    // Forward Euler
-
-    for(int i = 0; i < n-1; i++) {
-        forwardEuler(Earth, system, i, dt);
-        //cout << "Iteration: " << i << " complete!" << endl;
-        data << Earth.get_pos()(i+1,0) << " , " << Earth.get_pos()(i+1,1) << " , " << Earth.get_pos()(i+1,2) << endl;
-
-    }
-    data.close();
-    cout << "Forward Euler complete!" << endl;
-
     data.open("../../velocityVerletbodyOutput/" + Earth.get_name() + ".txt");
     data << "x , y , z" << endl;
     data << Earth.get_pos()(0,0) << " , " << Earth.get_pos()(0,1) << " , " << Earth.get_pos()(0,2) << endl;
@@ -154,6 +143,15 @@ int main() {
     data.close();
     cout << "Velocity Verlet complete!" << endl;
     */
+
+    for(int bodyCount = 0; bodyCount < systemdata.size(); bodyCount++) { // Close output-files
+        systemdata[bodyCount].close();
+    }
+    systemdata.clear();
+    system.clear();
+
+    cout << "Time used by Forward  Euler  = " << time_span_forwardEuler.count()  << "s" << std::endl;
+    cout << "Time used by Velocity Verlet = " << time_span_velocityVerlet.count()  << "s" << std::endl;
 
     //system("cd ..");
     //system("cd ..");
