@@ -1,3 +1,5 @@
+#Sist endret: 16.12.2019 14:19 by Alexandra Jahr Kolstad
+
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,36 +30,24 @@ def eval_planets2(filename1, filename2):
     y = np.array(y)
     z = np.array(z)
 
-    """
-    plt.figure(figsize=(10,6))
-    ax = plt.axes()
-    """
 
-    mpl.rcParams['legend.fontsize'] = 10        #3D
-
+    mpl.rcParams['legend.fontsize'] = 10        #3D, bestemmer størrelsen på legendgreia
     fig = plt.figure()      #3D
-    ax = fig.gca(projection='3d')
-
-    # Setting the background color
-    ax.set_facecolor("white")
-    #plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    #plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
-
-    #plt.legend()
-    plt.title("Two-body solar system")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    #plt.zlabel("z")
-    plt.grid()
-    plt.axis("equal")
-    #plt.tight_layout()
-    #plt.savefig("../img/earth.png")
-    #plt.show()
+    ax = fig.gca(projection='3d')       #3D
 
     ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
-    ax.scatter(x[1], y[1], z[1], color = dict["Earth"], label='Earth')
+    ax.plot(x[1], y[1], z[1], color = dict["Earth"], label='Earth')
     ax.legend()
 
+    ax.set_facecolor("white")           # Setting the background color
+    plt.title("Two-body solar system with " + filename1[:-22])
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+    plt.grid()
+    plt.axis("equal")
+    plt.tight_layout()
+    #plt.savefig("../img/earth.png")
     plt.show()
 
 def eval_planets3(filename1, filename2, filename3):
@@ -82,21 +72,23 @@ def eval_planets3(filename1, filename2, filename3):
     y = np.array(y)
     z = np.array(z)
 
-    plt.figure(figsize=(10,6))
-    ax = plt.axes()
-    # Setting the background color
-    ax.set_facecolor("grey")
-    plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[2],y[2], color = dict["Jupiter"], label = "Jupiter")
+    mpl.rcParams['legend.fontsize'] = 7        #3D, bestemme størrelsen på legendgreia
+    fig = plt.figure()      #3D
+    ax = fig.gca(projection='3d')       #3D
 
-    plt.legend()
-    plt.title("Three-body solar system")
-    plt.xlabel("x")
-    plt.ylabel("y")
+    ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
+    ax.plot(x[1], y[1], z[1], color = dict["Earth"], label = "Earth")
+    ax.plot(x[2], y[2], z[2], color = dict["Jupiter"],   label = "Jupiter")
+    ax.legend()
+
+    ax.set_facecolor("white")           # Setting the background color
+    plt.title("Three-body solar system with " + filename1[:-24])
+    ax.set_xlabel('x')      #få navn på aksene i 3D
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
     plt.grid()
     plt.axis("equal")
-    #plt.tight_layout()
+    plt.tight_layout()
     #plt.savefig("../img/earth.png")
     plt.show()
 
@@ -122,73 +114,50 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     y = np.array(y)
     z = np.array(z)
 
-
-    """
-    plt.figure(figsize=(10,6))
-    ax = plt.axes()
-    # Setting the background color
-    ax.set_facecolor("grey")
-    plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Mercury"], label = "Mercury")
-    plt.scatter(x[2],y[2], color = dict["Venus"], label = "Venus")
-    plt.scatter(x[3],y[3], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[4],y[4], color = dict["Mars"], label = "Mars")
-    plt.scatter(x[5],y[5], color = dict["Jupiter"], label = "Jupiter")
-    plt.scatter(x[6],y[6], color = dict["Saturn"], label = "Saturn")
-    plt.scatter(x[7],y[7], color = dict["Uranus"], label = "Uranus")
-    plt.scatter(x[8],y[8], color = dict["Neptune"], label = "Neptune")
-    plt.scatter(x[9],y[9], color = dict["Pluto"], label = "Pluto")
-    plt.legend()
-    plt.title("Ten-body solar system")
-    plt.xlabel("x")
-    plt.ylabel("y")
-    plt.grid()
-    plt.axis("equal")
-    #plt.tight_layout()
-    #plt.savefig("../img/earth.png")
-    plt.show()
-    """
-
-    mpl.rcParams['legend.fontsize'] = 7        #3D
-
+    mpl.rcParams['legend.fontsize'] = 7        #3D, bestemme hvor stor størrelse legendgreia skal være
     fig = plt.figure()      #3D
-    ax = fig.gca(projection='3d')
+    ax = fig.gca(projection='3d')       #3D
 
-    # Setting the background color
-    ax.set_facecolor("white")
-    #plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    #plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
+    ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
+    ax.plot(x[1], y[1], z[1], color = dict["Mercury"], label = "Mercury")
+    ax.plot(x[2], y[2], z[2], color = dict["Venus"],   label = "Venus")
+    ax.plot(x[3], y[3], z[3], color = dict["Earth"],   label = "Earth")
+    ax.plot(x[4], y[4], z[4], color = dict["Mars"],    label = "Mars")
+    ax.plot(x[5], y[5], z[5], color = dict["Jupiter"], label = "Jupiter")
+    ax.plot(x[6], y[6], z[6], color = dict["Saturn"],  label = "Saturn")
+    ax.plot(x[7], y[7], z[7], color = dict["Uranus"],  label = "Uranus")
+    ax.plot(x[8], y[8], z[8], color = dict["Neptune"], label = "Neptune")
+    ax.plot(x[9], y[9], z[9], color = dict["Pluto"],   label = "Pluto")
+    ax.legend(loc = "best")
 
-    #plt.legend()
-    plt.title("Ten-body solar system")
-    ax.set_xlabel('x')
+    ax.set_facecolor("white")       # Setting the background color
+    plt.title("Ten-body solar system with " + filename1[:-18])
+    ax.set_xlabel('x')          #hvordan få labels for x-, y- og z-aksen i 3D
     ax.set_ylabel('y')
     ax.set_zlabel('z')
     plt.grid()
     plt.axis("equal")
-    #plt.tight_layout()
+    plt.tight_layout()
     #plt.savefig("../img/earth.png")
-    #plt.show()
-
-    ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
-    ax.plot(x[1], y[1], z[1], color = dict["Mercury"], label = "Mercury")
-    ax.plot(x[2], y[2], z[2], color = dict["Venus"], label = "Venus")
-    ax.plot(x[3], y[3], z[3], color = dict["Earth"], label = "Earth")
-    ax.plot(x[4], y[4], z[4], color = dict["Mars"], label = "Mars")
-    ax.plot(x[5], y[5], z[5], color = dict["Jupiter"], label = "Jupiter")
-    ax.plot(x[6], y[6], z[6], color = dict["Saturn"], label = "Saturn")
-    ax.plot(x[7], y[7], z[7], color = dict["Uranus"], label = "Uranus")
-    ax.plot(x[8], y[8], z[8], color = dict["Neptune"], label = "Neptune")
-    ax.plot(x[9], y[9], z[9], color = dict["Pluto"], label = "Pluto")
-    ax.legend()
-
     plt.show()
 
 def main():
 
-    #eval_planets2("forwardEulerbodyOutput_S_E/Sun.txt", "forwardEulerbodyOutput_S_E/Earth.txt")
+    #Forward Euler output
 
-    eval_planets10("forwardEulerbodyOutput/Sun.txt", "forwardEulerbodyOutput/Mercury.txt", "forwardEulerbodyOutput/Venus.txt", "forwardEulerbodyOutput/Earth.txt", "forwardEulerbodyOutput/Mars.txt", "forwardEulerbodyOutput/Jupiter.txt", "forwardEulerbodyOutput/Saturn.txt", "forwardEulerbodyOutput/Uranus.txt", "forwardEulerbodyOutput/Neptune.txt", "forwardEulerbodyOutput/Pluto.txt")
+    eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
+
+    #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
+
+    eval_planets10("ForwardEulerbodyOutput/Sun.txt", "ForwardEulerbodyOutput/Mercury.txt", "ForwardEulerbodyOutput/Venus.txt", "ForwardEulerbodyOutput/Earth.txt", "ForwardEulerbodyOutput/Mars.txt", "ForwardEulerbodyOutput/Jupiter.txt", "ForwardEulerbodyOutput/Saturn.txt", "ForwardEulerbodyOutput/Uranus.txt", "ForwardEulerbodyOutput/Neptune.txt", "ForwardEulerbodyOutput/Pluto.txt")
+
+    #Velocity verlet output
+
+    #eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+
+    #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
+
+    eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")
 
 if __name__ == "__main__":
     main()

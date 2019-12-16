@@ -1,3 +1,5 @@
+#Sist endret: 16.12.2019 14:20 by Alexandra Jahr Kolstad
+
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,18 +30,17 @@ def eval_planets2(filename1, filename2):
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
-    # Setting the background color
-    ax.set_facecolor("black")
+    ax.set_facecolor("grey")           # Setting the background color
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
+    plt.plot(x[1],y[1], color = dict["Earth"], label = "Earth")
 
     plt.legend()
-    plt.title("Two-body solar system")
+    plt.title("Two-body solar system with " + filename1[:-22])
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid()
     plt.axis("equal")
-    #plt.tight_layout()
+    plt.tight_layout()
     #plt.savefig("../img/earth.png")
     plt.show()
 
@@ -67,19 +68,18 @@ def eval_planets3(filename1, filename2, filename3):
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
-    # Setting the background color
-    ax.set_facecolor("grey")
+    ax.set_facecolor("grey")            # Setting the background color
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[2],y[2], color = dict["Jupiter"], label = "Jupiter")
+    plt.plot(x[1],y[1], color = dict["Earth"], label = "Earth")
+    plt.plot(x[2],y[2], color = dict["Jupiter"], label = "Jupiter")
 
     plt.legend()
-    plt.title("Three-body solar system")
+    plt.title("Three-body solar system with " + filename1[:-24])
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid()
     plt.axis("equal")
-    #plt.tight_layout()
+    plt.tight_layout()
     #plt.savefig("../img/earth.png")
     plt.show()
 
@@ -107,31 +107,45 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
-    # Setting the background color
-    ax.set_facecolor("grey")
+    ax.set_facecolor("grey")    # Setting the background color
+
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Mercury"], label = "Mercury")
-    plt.scatter(x[2],y[2], color = dict["Venus"], label = "Venus")
-    plt.scatter(x[3],y[3], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[4],y[4], color = dict["Mars"], label = "Mars")
-    plt.scatter(x[5],y[5], color = dict["Jupiter"], label = "Jupiter")
-    plt.scatter(x[6],y[6], color = dict["Saturn"], label = "Saturn")
-    plt.scatter(x[7],y[7], color = dict["Uranus"], label = "Uranus")
-    plt.scatter(x[8],y[8], color = dict["Neptune"], label = "Neptune")
-    plt.scatter(x[9],y[9], color = dict["Pluto"], label = "Pluto")
+    plt.plot(x[1],y[1], color = dict["Mercury"], label = "Mercury")
+    plt.plot(x[2],y[2], color = dict["Venus"], label = "Venus")
+    plt.plot(x[3],y[3], color = dict["Earth"], label = "Earth")
+    plt.plot(x[4],y[4], color = dict["Mars"], label = "Mars")
+    plt.plot(x[5],y[5], color = dict["Jupiter"], label = "Jupiter")
+    plt.plot(x[6],y[6], color = dict["Saturn"], label = "Saturn")
+    plt.plot(x[7],y[7], color = dict["Uranus"], label = "Uranus")
+    plt.plot(x[8],y[8], color = dict["Neptune"], label = "Neptune")
+    plt.plot(x[9],y[9], color = dict["Pluto"], label = "Pluto")
     plt.legend()
-    plt.title("Ten-body solar system")
+    plt.title("Ten-body solar system with " + filename1[:-18])
     plt.xlabel("x")
     plt.ylabel("y")
     plt.grid()
     plt.axis("equal")
-    #plt.tight_layout()
+    plt.tight_layout()
     #plt.savefig("../img/earth.png")
     plt.show()
 
 def main():
 
-    eval_planets2("forwardEulerbodyOutput_S_E/Sun.txt", "forwardEulerbodyOutput_S_E/Earth.txt")
+    #Forward Euler output
+
+    eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
+
+    #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
+
+    eval_planets10("ForwardEulerbodyOutput/Sun.txt", "ForwardEulerbodyOutput/Mercury.txt", "ForwardEulerbodyOutput/Venus.txt", "ForwardEulerbodyOutput/Earth.txt", "ForwardEulerbodyOutput/Mars.txt", "ForwardEulerbodyOutput/Jupiter.txt", "ForwardEulerbodyOutput/Saturn.txt", "ForwardEulerbodyOutput/Uranus.txt", "ForwardEulerbodyOutput/Neptune.txt", "ForwardEulerbodyOutput/Pluto.txt")
+
+    #Velocity verlet output
+
+    #eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+
+    #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
+
+    eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")
 
 if __name__ == "__main__":
     main()
