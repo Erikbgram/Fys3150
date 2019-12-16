@@ -38,11 +38,15 @@ public:
             infile >> vel(0) >> trash >> vel(1) >> trash >> vel(2);
             infile.close();
 
+            vel = vel*365.242199; // Converts from AU/day to AU/yr
+
+            /*
             ofstream data;
             data.open("../../bodyOutput/" + name + ".txt");
             data << "rx , ry , rz" << endl;
             data << setprecision(8) << pos(0,0) << " , " << pos(0,1) << " , " << pos(0,2) << endl;
             data.close();
+            */
         }
         else {
             cout << "Unable to open file" << endl;

@@ -52,14 +52,14 @@ int main() {
 
     string trash, planet;
     vector<string> planetList;
-    if(infile.is_open()) {
+    if(infile.is_open()) { // Read input-file
         infile >> trash >> trash >> trash; // "n" >> " , " >> "yr"
         infile >> n >> trash >> yr; // 100 >> " , " >> 100
         infile >> trash; // "planets"
         while(getline(infile, planet))  {
             planetList.push_back(planet);
         }
-        planetList.erase(planetList.begin());
+        planetList.erase(planetList.begin()); // 1st line is white-space
 
     }
     else {
@@ -75,8 +75,12 @@ int main() {
     arma::vec t(n, arma::fill::zeros);
 
     vector<Body> system;
-    for(int i = 0; i < planetList.size(); i++) {
-        system.push_back(Body(planetList[i], n));
+    vector<ofstream> systemdata;
+    for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) {
+        system.push_back(Body(planetList[bodyCount], n));
+        systemdata.push_back(ofstream("../../forwardEulerbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata[bodyCount] << "x , y , z" << endl;
+        systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
 
 
@@ -84,16 +88,22 @@ int main() {
     //Body Earth("Earth", n);
     //vector<Body> system = {Sun, Earth};
 
-
-    ofstream data;
-
     // Main loop
-    for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
-        Body body = system[bodyCount];
-        data.open("../../forwardEulerbodyOutput/" + body.get_name() + ".txt");
-        data << "x , y , z" << endl;
-        data << body.get_pos()(0,0) << " , " << body.get_pos()(0,1) << " , " << body.get_pos()(0,2) << endl;
-        if(bodyCount==0) {
+    for(int i = 0; i < n-1; i++) {
+        for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
+            if(i<3) {
+                cout << system[bodyCount].get_name() << " PREeULER pos_old " << system[bodyCount].get_pos().row(i) << endl;
+            }
+
+            forwardEuler(system[bodyCount], system, i, dt);
+
+            if(i<3) {
+                cout << system[bodyCount].get_name() << " POSTeULER pos_new " << system[bodyCount].get_pos().row(i+1) << endl;
+            }
+            systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
+
+        /* FOR A STATIC SUN
+         * if(bodyCount==0) {
             for(int i = 0; i < n-1; i++) { // Makes the sun static.. for now
                 body.new_pos(body.get_pos().row(i), i+1);
                 data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
@@ -105,9 +115,11 @@ int main() {
                 data << body.get_pos()(i+1,0) << " , " << body.get_pos()(i+1,1) << " , " << body.get_pos()(i+1,2) << endl;
 
             }
+        */
         }
-
+        cout << "Iteration " << i << " complete!" << endl;
     }
+
 
     /*
     data.open("../../forwardEulerbodyOutput/" + Earth.get_name() + ".txt");

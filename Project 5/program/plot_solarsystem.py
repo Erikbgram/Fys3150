@@ -31,7 +31,7 @@ def eval_planets2(filename1, filename2):
     # Setting the background color
     ax.set_facecolor("black")
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
+    plt.plot(x[1],y[1], color = dict["Earth"], label = "Earth")
 
     plt.legend()
     plt.title("Two-body solar system")
@@ -68,10 +68,10 @@ def eval_planets3(filename1, filename2, filename3):
     plt.figure(figsize=(10,6))
     ax = plt.axes()
     # Setting the background color
-    ax.set_facecolor("grey")
+    ax.set_facecolor("black")
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[2],y[2], color = dict["Jupiter"], label = "Jupiter")
+    plt.plot(x[1],y[1], color = dict["Earth"], label = "Earth")
+    plt.plot(x[2],y[2], color = dict["Jupiter"], label = "Jupiter")
 
     plt.legend()
     plt.title("Three-body solar system")
@@ -108,17 +108,17 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     plt.figure(figsize=(10,6))
     ax = plt.axes()
     # Setting the background color
-    ax.set_facecolor("grey")
+    ax.set_facecolor("black")
     plt.scatter(x[0], y[0], color = dict["Sun"], label = "Sun")
-    plt.scatter(x[1],y[1], color = dict["Mercury"], label = "Mercury")
-    plt.scatter(x[2],y[2], color = dict["Venus"], label = "Venus")
-    plt.scatter(x[3],y[3], color = dict["Earth"], label = "Earth")
-    plt.scatter(x[4],y[4], color = dict["Mars"], label = "Mars")
-    plt.scatter(x[5],y[5], color = dict["Jupiter"], label = "Jupiter")
-    plt.scatter(x[6],y[6], color = dict["Saturn"], label = "Saturn")
-    plt.scatter(x[7],y[7], color = dict["Uranus"], label = "Uranus")
-    plt.scatter(x[8],y[8], color = dict["Neptune"], label = "Neptune")
-    plt.scatter(x[9],y[9], color = dict["Pluto"], label = "Pluto")
+    plt.plot(x[1],y[1], color = dict["Mercury"], label = "Mercury")
+    plt.plot(x[2],y[2], color = dict["Venus"], label = "Venus")
+    plt.plot(x[3],y[3], color = dict["Earth"], label = "Earth")
+    plt.plot(x[4],y[4], color = dict["Mars"], label = "Mars")
+    plt.plot(x[5],y[5], color = dict["Jupiter"], label = "Jupiter")
+    plt.plot(x[6],y[6], color = dict["Saturn"], label = "Saturn")
+    plt.plot(x[7],y[7], color = dict["Uranus"], label = "Uranus")
+    plt.plot(x[8],y[8], color = dict["Neptune"], label = "Neptune")
+    plt.plot(x[9],y[9], color = dict["Pluto"], label = "Pluto")
     plt.legend()
     plt.title("Ten-body solar system")
     plt.xlabel("x")
@@ -131,7 +131,7 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
 def main():
 
-    eval_planets2("forwardEulerbodyOutput/Sun.txt", "forwardEulerbodyOutput/Earth.txt")
+    eval_planets10("forwardEulerbodyOutput/Sun.txt", "forwardEulerbodyOutput/Mercury.txt", "forwardEulerbodyOutput/Venus.txt", "forwardEulerbodyOutput/Earth.txt", "forwardEulerbodyOutput/Mars.txt", "forwardEulerbodyOutput/Jupiter.txt", "forwardEulerbodyOutput/Saturn.txt", "forwardEulerbodyOutput/Uranus.txt", "forwardEulerbodyOutput/Neptune.txt", "forwardEulerbodyOutput/Pluto.txt")
 
 if __name__ == "__main__":
     main()
