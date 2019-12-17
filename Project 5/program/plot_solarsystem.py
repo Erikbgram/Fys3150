@@ -1,4 +1,4 @@
-#Sist endret: 16.12.2019 14:20 by Alexandra Jahr Kolstad
+#Sist endret: 17.12.2019 21:46 by Alexandra Jahr Kolstad
 
 import sys
 import numpy as np

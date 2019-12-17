@@ -1,4 +1,4 @@
-#Sist endret: 16.12.2019 21:00 by Alexandra Jahr Kolstad
+#Sist endret: 17.12.2019 21:46 by Alexandra Jahr Kolstad
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ def eval_planets2(filename1, filename2):
     line1, = plt.plot(x[0], y[0], color = dict["Sun"], label = "Sun")
     line2, = plt.plot(x[1], y[1], color = dict["Earth"], label = "Earth")
 
-    ani = animation.FuncAnimation(fig, update_planets2, frames = 500, fargs=[x, y, line1, line2],
+    ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, line1, line2],
                       interval=10, blit=True)
 
     ax.set_facecolor("black")           # Setting the background color
@@ -70,7 +70,7 @@ def eval_planets3(filename1, filename2, filename3):
     line2, = plt.plot(x[1], y[1], color = dict["Earth"], label = "Earth")
     line3, = plt.plot(x[2], y[2], color = dict["Jupiter"], label = "Jupiter")
 
-    ani = animation.FuncAnimation(fig, update_planets3, frames = 500, fargs=[x, y, line1, line2, line3],
+    ani = animation.FuncAnimation(fig, update_planets3, frames = len(x[0]), fargs=[x, y, line1, line2, line3],
                       interval=10, blit=True)
 
 
@@ -119,7 +119,7 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     line9, = plt.plot(x[8], y[8], color = dict["Neptune"], label = "Neptune")
     line10, = plt.plot(x[9], y[9], color = dict["Pluto"], label = "Pluto")
 
-    ani = animation.FuncAnimation(fig, update_planets10, frames = 500, fargs=[x, y, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10],
+    ani = animation.FuncAnimation(fig, update_planets10, frames = len(x[0]), fargs=[x, y, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10],
                       interval=10, blit=True)
 
     ax.set_facecolor("black")            # Setting the background color

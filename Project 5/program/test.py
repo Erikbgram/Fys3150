@@ -538,12 +538,15 @@ def update_lines(num, dataLines, lines):
         line.set_3d_properties(data[2, :num])
     return lines
 
+
 # Attaching 3D axis to the figure
 fig = plt.figure()
 ax = p3.Axes3D(fig)
 
 # Fifty lines of random 3-D lines
 data = [Gen_RandLine(25, 3) for index in range(50)]
+
+#print(data[0:2])
 
 # Creating fifty line objects.
 # NOTE: Can't pass empty arrays into 3d version of plot()
@@ -559,7 +562,7 @@ ax.set_ylabel('Y')
 ax.set_zlim3d([0.0, 1.0])
 ax.set_zlabel('Z')
 
-ax.set_title('3D Test')
+ax.set_title('3D Test - animasjon 3D 1')
 
 # Creating the Animation object
 line_ani = animation.FuncAnimation(fig, update_lines, 25, fargs=(data, lines),
@@ -591,7 +594,7 @@ N = 100
 data = np.array(list(gen(N))).T
 line, = ax.plot(data[0, 0:1], data[1, 0:1], data[2, 0:1])
 
-print(data)
+print(data[:2])
 
 # Setting the axes properties
 ax.set_xlim3d([-1.0, 1.0])
@@ -602,6 +605,8 @@ ax.set_ylabel('Y')
 
 ax.set_zlim3d([0.0, 10.0])
 ax.set_zlabel('Z')
+
+ax.set_title("Animasjon 3D 2")
 
 ani = animation.FuncAnimation(fig, update, N, fargs=(data, line), interval=10000/N, blit=False)
 #ani.save('matplot003.gif', writer='imagemagick')
