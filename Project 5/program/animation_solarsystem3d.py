@@ -9,6 +9,8 @@ import matplotlib.animation as animation
 
 dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#c04e01" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
 
+"""
+
 def eval_planets2(filename1, filename2):
 
     filenames = [filename1, filename2]
@@ -148,6 +150,70 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     #plt.savefig("../img/earth.png")
     plt.show()
 
+"""
+
+
+#------------------ Forsøk 2 -----------------------
+
+
+from matplotlib import pyplot as plt
+import numpy as np
+import mpl_toolkits.mplot3d.axes3d as p3
+from matplotlib import animation
+
+
+def eval_planets2(filename1, filename2):
+
+    filenames = [filename1, filename2]
+
+    x = [[],[]]
+    y = [[],[]]
+    z = [[],[]]
+    data = [[],[]]
+    data1 = []
+
+    for i in range(len(x)):
+        with open(filenames[i]) as infile:
+            infile.readline()
+            lines = infile.readlines()
+            for line in lines:
+                words = line.split(" , ")
+                x[i].append(float(words[0]))
+                y[i].append(float(words[1]))
+                z[i].append(float(words[2]))
+                data[i] = [x[i], y[i], z[i]]
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')       #3D
+
+    line, = ax.plot(data[0][1], data[0][1], data[0][2])
+
+    print(line)
+
+    #line1, = ax.plot(x[0], y[0], z[0], color = dict["Sun"], label = "Sun")
+    #line2, = ax.plot(x[1], y[1], z[1], color = dict["Earth"], label = "Earth")
+
+    ani = animation.FuncAnimation(fig, update, frames = 500, fargs=(data, line), interval=10, blit=False)
+    #ani.save('matplot003.gif', writer='imagemagick')
+
+    ax.set_facecolor("white")           # Setting the background color
+    plt.title("Two-body solar system with " + filename1[:-22])
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    ax.set_zlabel("z")
+    plt.grid()
+    plt.axis("equal")
+    #plt.tight_layout()
+    #plt.savefig("../img/earth.png")
+    plt.show()
+
+def update(num, data, line):
+    line.set_data(data[0][:2][:num])
+    line.set_3d_properties(data[0][2][:num])
+
+
+
+#-----------------------------------------------------------------------------------------------
 
 #Forward Euler output
 
@@ -155,7 +221,7 @@ eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
-#eval_planets10("ForwardEulerbodyOutput/Sun.txt", "ForwardEulerbodyOutput/Mercury.txt", "ForwardEulerbodyOutput/Venus.txt", "ForwardEulerbodyOutput/Earth.txt", "ForwardEulerbodyOutput/Mars.txt", "ForwardEulerbodyOutput/Jupiter.txt", "ForwardEulerbodyOutput/Saturn.txt", "ForwardEulerbodyOutput/Uranus.txt", "ForwardEulerbodyOutput/Neptune.txt", "ForwardEulerbodyOutput/Pluto.txt")
+#eval_planets10("ForwardEulerbodyOutput_10body/Sun.txt", "ForwardEulerbodyOutput_10body/Mercury.txt", "ForwardEulerbodyOutput_10body/Venus.txt", "ForwardEulerbodyOutput_10body/Earth.txt", "ForwardEulerbodyOutput_10body/Mars.txt", "ForwardEulerbodyOutput_10body/Jupiter.txt", "ForwardEulerbodyOutput_10body/Saturn.txt", "ForwardEulerbodyOutput_10body/Uranus.txt", "ForwardEulerbodyOutput_10body/Neptune.txt", "ForwardEulerbodyOutput_10body/Pluto.txt")
 
 #Velocity verlet output
 
@@ -163,4 +229,4 @@ eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/
 
 #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 
-#eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")
+#eval_planets10("VelocityVerletbodyOutput_10body/Sun.txt", "VelocityVerletbodyOutput_10body/Mercury.txt", "VelocityVerletbodyOutput_10body/Venus.txt", "VelocityVerletbodyOutput_10body/Earth.txt", "VelocityVerletbodyOutput_10body/Mars.txt", "VelocityVerletbodyOutput_10body/Jupiter.txt", "VelocityVerletbodyOutput_10body/Saturn.txt", "VelocityVerletbodyOutput_10body/Uranus.txt", "VelocityVerletbodyOutput_10body/Neptune.txt", "VelocityVerletbodyOutput_10body/Pluto.txt")
