@@ -102,7 +102,6 @@ int main() {
     }
     systemdata.clear();
 
-
     // Velocity Verlet
     for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct output-files
         systemdata.push_back(ofstream("../../velocityVerletbodyOutput/" + system[bodyCount].get_name() + ".txt"));

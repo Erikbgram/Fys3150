@@ -1,0 +1,6 @@
+n , yr
+3660 , 10
+planets
+Sun
+Earth
+Jupiter

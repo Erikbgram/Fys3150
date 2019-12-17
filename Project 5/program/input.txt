@@ -1,5 +1,13 @@
 n , yr
-3660 , 10
+7320 , 10
 planets
 Sun
+Mercury
+Venus
 Earth
+Mars
+Jupiter
+Saturn
+Uranus
+Neptune
+Pluto
