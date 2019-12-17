@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D     #3D
 import matplotlib as mpl    #3D
+import matplotlib.animation as animation
 
 dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#c04e01" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
 
@@ -26,18 +27,16 @@ def eval_planets2(filename1, filename2):
                 y[i].append(float(words[1]))
                 z[i].append(float(words[2]))
 
-    x = np.array(x)
-    y = np.array(y)
-    z = np.array(z)
-
 
     mpl.rcParams['legend.fontsize'] = 10        #3D, bestemmer størrelsen på legendgreia
     fig = plt.figure(figsize = (10,7))      #3D
     ax = fig.gca(projection='3d')       #3D
 
-    ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
-    ax.plot(x[1], y[1], z[1], color = dict["Earth"], label='Earth')
-    ax.legend()
+    line1, = ax.plot(x[0], y[0], z[0], color = dict["Sun"], label = "Sun")
+    line2, = ax.plot(x[1], y[1], z[1], color = dict["Earth"], label = "Earth")
+
+    ani = animation.FuncAnimation(fig, update_planets2, frames = 500, fargs=[x, y, z, line1, line2],
+                      interval=10, blit=True)
 
     ax.set_facecolor("white")           # Setting the background color
     plt.title("Two-body solar system with " + filename1[:-22])
@@ -49,6 +48,11 @@ def eval_planets2(filename1, filename2):
     plt.tight_layout()
     #plt.savefig("../img/earth.png")
     plt.show()
+
+def update_planets2(num, x, y, z, line1, line2):
+    line1.set_data(x[0][:num], y[0][:num], z[0][:num])
+    line2.set_data(x[1][:num], y[1][:num], z[1][:num])
+    return [line1,line2]
 
 def eval_planets3(filename1, filename2, filename3):
 
@@ -144,23 +148,19 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     #plt.savefig("../img/earth.png")
     plt.show()
 
-def main():
 
-    #Forward Euler output
+#Forward Euler output
 
-    #eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
+eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
 
-    #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
+#eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
-    eval_planets10("ForwardEulerbodyOutput/Sun.txt", "ForwardEulerbodyOutput/Mercury.txt", "ForwardEulerbodyOutput/Venus.txt", "ForwardEulerbodyOutput/Earth.txt", "ForwardEulerbodyOutput/Mars.txt", "ForwardEulerbodyOutput/Jupiter.txt", "ForwardEulerbodyOutput/Saturn.txt", "ForwardEulerbodyOutput/Uranus.txt", "ForwardEulerbodyOutput/Neptune.txt", "ForwardEulerbodyOutput/Pluto.txt")
+#eval_planets10("ForwardEulerbodyOutput/Sun.txt", "ForwardEulerbodyOutput/Mercury.txt", "ForwardEulerbodyOutput/Venus.txt", "ForwardEulerbodyOutput/Earth.txt", "ForwardEulerbodyOutput/Mars.txt", "ForwardEulerbodyOutput/Jupiter.txt", "ForwardEulerbodyOutput/Saturn.txt", "ForwardEulerbodyOutput/Uranus.txt", "ForwardEulerbodyOutput/Neptune.txt", "ForwardEulerbodyOutput/Pluto.txt")
 
-    #Velocity verlet output
+#Velocity verlet output
 
-    #eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+#eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
 
-    #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
+#eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 
-    eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")
-
-if __name__ == "__main__":
-    main()
+#eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")

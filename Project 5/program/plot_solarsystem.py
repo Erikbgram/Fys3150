@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#cde7ff" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
+dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#c04e01" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
 
 def eval_planets2(filename1, filename2):
 
@@ -12,7 +12,6 @@ def eval_planets2(filename1, filename2):
 
     x = [[],[]]
     y = [[],[]]
-    z = [[],[]]
 
     for i in range(len(x)):
         with open(filenames[i]) as infile:
@@ -22,11 +21,9 @@ def eval_planets2(filename1, filename2):
                 words = line.split(" , ")
                 x[i].append(float(words[0]))
                 y[i].append(float(words[1]))
-                z[i].append(float(words[2]))
 
     x = np.array(x)
     y = np.array(y)
-    z = np.array(z)
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
@@ -50,7 +47,6 @@ def eval_planets3(filename1, filename2, filename3):
 
     x = [[],[],[]]
     y = [[],[],[]]
-    z = [[],[],[]]
 
     for i in range(len(x)):
         with open(filenames[i]) as infile:
@@ -60,11 +56,9 @@ def eval_planets3(filename1, filename2, filename3):
                 words = line.split(" , ")
                 x[i].append(float(words[0]))
                 y[i].append(float(words[1]))
-                z[i].append(float(words[2]))
 
     x = np.array(x)
     y = np.array(y)
-    z = np.array(z)
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
@@ -89,7 +83,6 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
     x = [[],[],[],[],[],[],[],[],[],[]]
     y = [[],[],[],[],[],[],[],[],[],[]]
-    z = [[],[],[],[],[],[],[],[],[],[]]
 
     for i in range(len(x)):
         with open(filenames[i]) as infile:
@@ -99,11 +92,9 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
                 words = line.split(" , ")
                 x[i].append(float(words[0]))
                 y[i].append(float(words[1]))
-                z[i].append(float(words[2]))
 
     x = np.array(x)
     y = np.array(y)
-    z = np.array(z)
 
     plt.figure(figsize=(10,6))
     ax = plt.axes()
