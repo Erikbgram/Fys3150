@@ -109,7 +109,7 @@ int main() {
             if(system[bodyCount].get_name() == "Sun") { // Static Sun
             }
             else {
-                rel_forwardEuler(system[bodyCount], system, i, dt);
+                forwardEuler(system[bodyCount], system, i, dt);
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
@@ -146,7 +146,7 @@ int main() {
             if(system[bodyCount].get_name() == "Sun") { // Static Sun
             }
             else {
-                rel_velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+                velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
