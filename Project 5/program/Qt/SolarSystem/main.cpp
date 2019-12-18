@@ -80,7 +80,7 @@ int main() {
     // Forward Euler
     for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct bodies and output-files
         system.push_back(Body(planetList[bodyCount], n));
-        systemdata.push_back(ofstream("../../../data/ForwardEulerbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata.push_back(ofstream("../../../data/ForwardEuler/" + system[bodyCount].get_name() + ".txt"));
         systemdata[bodyCount] << "x , y , z" << endl;
         systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
@@ -90,7 +90,11 @@ int main() {
     // Main loop
     for(int i = 0; i < n-1; i++) { // Perform Forward Euler
         for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
-            forwardEuler(system[bodyCount], system, i, dt);
+            if(system[bodyCount].get_name() == "Sun") { // Static Sun
+            }
+            else {
+                forwardEuler(system[bodyCount], system, i, dt);
+            }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
     }
@@ -113,7 +117,7 @@ int main() {
     // Velocity Verlet
     for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct output-files
         system.push_back(Body(planetList[bodyCount], n));
-        systemdata.push_back(ofstream("../../../data/VelocityVerletbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata.push_back(ofstream("../../../data/VelocityVerlet/" + system[bodyCount].get_name() + ".txt"));
         systemdata[bodyCount] << "x , y , z" << endl;
         systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
@@ -123,7 +127,11 @@ int main() {
     // Main loop
     for(int i = 0; i < n-1; i++) { // Perform Velocity Verlet
         for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
-            velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+            if(system[bodyCount].get_name() == "Sun") { // Static Sun
+            }
+            else {
+                velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+            }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
     }

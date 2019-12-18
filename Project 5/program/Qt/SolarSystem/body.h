@@ -103,7 +103,6 @@ public:
         data.open("../../bodyOutput/" + name + ".txt", fstream::app);
         data << pos(i,0) << " , " << pos(i,1) << " , " << pos(i,2) << endl;
         data.close();
-
-
     }
+
 };
