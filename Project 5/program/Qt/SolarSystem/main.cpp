@@ -41,6 +41,22 @@ void velocityVerlet(Body &body, vector<Body> system, int i, double dt, double dt
     body.new_vel(body.get_vel() + (acc_old+body.get_acc())*dt_vel);
 }
 
+void rel_forwardEuler(Body &body, vector<Body> system, int i, double dt) { // Performs 1 iteration of Forward Euler
+    body.rel_acceleration(system, i);
+    body.new_vel(body.get_vel() + body.get_acc()*dt);
+    body.new_pos(body.get_pos().row(i) + body.get_vel()*dt, i+1); // This is actually Euler-Cromer ;)
+    //body.write_data(i);
+
+}
+
+void rel_velocityVerlet(Body &body, vector<Body> system, int i, double dt, double dt_pos, double dt_vel) {
+    body.rel_acceleration(system, i); // Cannot re-use new_acc as other bodies have moved
+    arma::rowvec acc_old = body.get_acc();
+    body.new_pos(body.get_pos().row(i) + body.get_vel()*dt + acc_old*dt_pos, i+1);
+    body.acceleration(system, i+1);
+    body.new_vel(body.get_vel() + (acc_old+body.get_acc())*dt_vel);
+}
+
 int main() {
     ifstream infile("../../input.txt");
 
@@ -93,7 +109,7 @@ int main() {
             if(system[bodyCount].get_name() == "Sun") { // Static Sun
             }
             else {
-                forwardEuler(system[bodyCount], system, i, dt);
+                rel_forwardEuler(system[bodyCount], system, i, dt);
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
@@ -130,7 +146,7 @@ int main() {
             if(system[bodyCount].get_name() == "Sun") { // Static Sun
             }
             else {
-                velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+                rel_velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }

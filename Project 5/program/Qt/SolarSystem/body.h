@@ -98,6 +98,20 @@ public:
         }
     }
 
+    void rel_acceleration(vector<Body> system, int i, double GMs=4*M_PI*M_PI, double c=63239.7263) {
+        arma::rowvec vec, l;
+        double r;
+        acc = arma::rowvec(3,arma::fill::zeros);
+        for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
+            if(system[bodyCount].get_name() != name) {
+                vec = system[bodyCount].get_pos().row(i) - pos.row(i);
+                r = mod(vec);
+                l = mod(cross(pos.row(i),vec));
+                acc += ((GMs*system[bodyCount].get_mass()) / pow(r, 3) * (1 + ((3*l*l)/(r*r*c*c))))*vec;
+            }
+        }
+    }
+
     void write_data(int i) {
         ofstream data;
         data.open("../../bodyOutput/" + name + ".txt", fstream::app);

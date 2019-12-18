@@ -1,5 +1,5 @@
 n , yr
-3660 , 10
+36600 , 100
 planets
 Sun
-Earth
+Mercury
