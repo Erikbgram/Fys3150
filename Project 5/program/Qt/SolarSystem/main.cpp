@@ -80,7 +80,7 @@ int main() {
     // Forward Euler
     for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct bodies and output-files
         system.push_back(Body(planetList[bodyCount], n));
-        systemdata.push_back(ofstream("../../ForwardEulerbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata.push_back(ofstream("../../../data/ForwardEulerbodyOutput/" + system[bodyCount].get_name() + ".txt"));
         systemdata[bodyCount] << "x , y , z" << endl;
         systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
@@ -113,7 +113,7 @@ int main() {
     // Velocity Verlet
     for(int bodyCount = 0; bodyCount < planetList.size(); bodyCount++) { // Construct output-files
         system.push_back(Body(planetList[bodyCount], n));
-        systemdata.push_back(ofstream("../../VelocityVerletbodyOutput/" + system[bodyCount].get_name() + ".txt"));
+        systemdata.push_back(ofstream("../../../data/VelocityVerletbodyOutput/" + system[bodyCount].get_name() + ".txt"));
         systemdata[bodyCount] << "x , y , z" << endl;
         systemdata[bodyCount] << system[bodyCount].get_pos()(0,0) << " , " << system[bodyCount].get_pos()(0,1) << " , " << system[bodyCount].get_pos()(0,2) << endl;
     }
