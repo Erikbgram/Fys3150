@@ -9,6 +9,7 @@ import matplotlib.animation as animation
 
 dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#c04e01" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
 
+
 def eval_planets2(filename1, filename2):
 
     filenames = [filename1, filename2]
@@ -57,25 +58,31 @@ def eval_planets2(filename1, filename2):
     plt.axis("equal")
     plt.tight_layout()
 
-    #ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, z, line1, line2],
-                      #interval=1, blit=True)
-
-    ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0])/2, fargs=[x, y, z, line1, line2],
+    ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, z, line1, line2],
                       interval=1, blit=True)
+
+    #ani = animation.FuncAnimation(fig, update_planets2, frames = int(len(x[0])/2), fargs=[x, y, z, line1, line2],
+                      #interval=1, blit=True)
 
     #mywriter = animation.FFMpegWriter()
 
     #ani.save("ani3D_2body_" + filename1[:-22] + ".png", writer=writer)
     #ani.save("ani3D_2body_" + filename1[:-22] + ".gif", writer = "imagemagick")
 
-    if filename1[0] == "F":
-        plt.title("Two-body solar system with " + filename1[:12] + " and " + filename1[18:-10] + " iterations.")
-        ani.save("../img/ani3D_2body_" + filename1[:12] + "_" + filename1[18:-10] + ".gif", writer = "imagemagick", fps = 60)
-    elif filename1[0] == "V":
-        plt.title("Two-body solar system with " + filename1[:13] + " and " + filename1[18:5] + " iterations.")
+    title1 = filename1[8] + "_120"
+
+    plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
+    ani.save("../img/ani3D_2body_" + title1 + ".gif", writer = "imagemagick", fps = 60)
+
+    #if filename1[8] == "F":
+        #plt.title("Two-body solar system with " + filename1[:12] + " and " + filename1[18:-10] + " iterations.")
+        #ani.save("../img/ani3D_2body_" + filename1[:12] + "_" + filename1[18:-10] + ".gif", writer = "imagemagick", fps = 60)
+    #elif filename1[8] == "V":
+        #plt.title("Two-body solar system with " + filename1[:13] + " and " + filename1[18:5] + " iterations.")
         #ani.save("ani3D_2body.gif", writer = "imagemagick")
 
     plt.show()
+
 
 def update_planets2(num, x, y, z, line1, line2):
     line1.set_data(x[0][:num*2], y[0][:num*2])
@@ -212,15 +219,15 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 
 #Forward Euler output
 
-eval_planets2("../data/ForwardEulerbodyOutput_S_E/Sun.txt", "../data/ForwardEulerbodyOutput_S_E/Earth.txt")
+eval_planets2("../data/ForwardEuler_S_E_n120_yr10/Sun.txt", "../data/ForwardEuler_S_E_n120_yr10/Earth.txt")
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
 #eval_planets10("ForwardEulerbodyOutput_10body/Sun.txt", "ForwardEulerbodyOutput_10body/Mercury.txt", "ForwardEulerbodyOutput_10body/Venus.txt", "ForwardEulerbodyOutput_10body/Earth.txt", "ForwardEulerbodyOutput_10body/Mars.txt", "ForwardEulerbodyOutput_10body/Jupiter.txt", "ForwardEulerbodyOutput_10body/Saturn.txt", "ForwardEulerbodyOutput_10body/Uranus.txt", "ForwardEulerbodyOutput_10body/Neptune.txt", "ForwardEulerbodyOutput_10body/Pluto.txt")
 
-#Velocity verlet output
+#Velocity Verlet output
 
-#eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+eval_planets2("../data/VelocityVerlet_S_E_n120_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n120_yr10/Earth.txt")
 
 #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 
