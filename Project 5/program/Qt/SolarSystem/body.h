@@ -93,7 +93,7 @@ public:
         for(int bodyCount = 0; bodyCount < system.size(); bodyCount++) {
             if(system[bodyCount].get_name() != name) {
                 vec = system[bodyCount].get_pos().row(i) - pos.row(i);
-                acc += (GMs*system[bodyCount].get_mass()) / pow(mod(vec), 3.2)*vec;
+                acc += (GMs*system[bodyCount].get_mass()) / pow(mod(vec), 3)*vec;
             }
         }
     }
