@@ -181,7 +181,6 @@ The structure of the report, how it is organized etc
 
 \section{Theory} \label{sec:Theory}
 
-
 \subsection{Important calculations for this project}
 
     Using the section \ref{sec:escapevelocity} in the appendix one can calculate the escape velocity of the Earth from the Suns gravity field. The distance from the Earth to the Sun is 1 AU (astronomical unit). $G$ is given as $4 \pi^{2}$. $M$ and $m$ is the mass of the Sun and the planet, which in this case is the Earth. $M$ is given as 1 $M_{\odot}$ and $m$ is equal to $\frac{1}{333333} M\odot$. Using the theoretical expression (\ref{eq:escapevelocity}) one can calculate the earths escape velocity. For this two-body system the escape velocity is
@@ -190,21 +189,23 @@ The structure of the report, how it is organized etc
         v_p = 8.886 \; \textrm{m/s}
     \end{equation}
 
+\subsection{Velocity Verlet method}
 
+    The Velocity Verlet method is a differential equation solver, which was used in this project to solve Newtons second law, given by equation (\ref{eq:n2l}). Equation (\ref{eq:n2l}) will be used to calculate the next position of the planet as a Taylor expansion. The advantage of using the Velocity Verlet method is that it conserves energy. \\
 
-\subsection{Verlet method}
+    Deriving the equations used in this method from Newtons second law of motion is done in section \ref{sec:n2l}. The method starts by using the old acceleration, velocity and position to calculate the new position. Using equation (\ref{eq:Vpositiondiscretized}), which is the discretized version of equation (\ref{eq:positionfinal}). \\
 
-    The Verlet method is a differential equation solver, with was used in this project to solve newtons second law. Witch is force, F, is equal to mass, m, times acceleration,a. Equation (1) will be used to calculate the next position of the planet as a Taylor expansion. The advantage of using Verlet method is that it conserves energy. \\
+    \begin{equation}    \label{eq:Vpositiondiscretized}
+        x_{i+1} = x(i) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4} (8)\\
+    \end{equation}
 
-    Deriving the equations from newtons second law of motion is done in appedix under, Re writing newtons second law of motion. The method starts by using the old acceleration, velocity and position to calculate the new position. Using equation (8), which is the discretized version of equation (6). \\
-
-    $x(i+1) = x(i) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4}$ (8)\\
-
-    The thing that separates this method from the Euler method is that in order to calculate the new velocity the Verlet method first calculates a new acceleration using the newly gained position, giving $a_{i+1} = a_i (x_i+1)$. \\
+    The thing that separates this method from the Euler method is that in order to calculate the new velocity the Velocity Verlet method first calculates a new acceleration using the newly gained position, giving $a_{i+1} = a_i (x_i+1)$. \\
 
     The newly calculated acceleration is now put into the expression for of the new velocity. \\
 
-    $v_{i+1} = v_i + \frac{h}{2} (a_i+a_{i+1})  $ \\
+    \begin{equation}    \label{eq:Vvelocitydiscretized}
+        v_{i+1} = v_i + \frac{h}{2} (a_i+a_{i+1})  \\
+    \end{equation}
 
     Using this sequence allows for conservation of energy, which is important when working with tho solar system. \\
 
@@ -407,32 +408,47 @@ You can consider moving parts of the material from the methods section to the ap
 
     Newtons second law of motion is stated in equation (1).
 
-    $ F = ma $ (1)\\
+    \begin{equation} \label{eq:n2l}
+        F = ma  (1)\\
+    \end{equation}
+
 
     Equation (1) can be written as a differential equation that will give the force as a function of position (2).\\
 
-    $F(x,t) = m\frac{d^{2}x}{dt^{2}}$ (2)\\
+    \begin{equation}    \label{eq:diffn2l}
+        F(x,t) = m\frac{d^{2}x}{dt^{2}} (2)\\
+    \end{equation}
 
     Since we know that the velocity,v, is given as a function of change in position over change in time. This gies us equation (3).\\
 
-    $v(x,t) = \frac{dx}{dt}$ (3) \\
+    \begin{equation}    \label{eq:diffvelocity}
+        v(x,t) = \frac{dx}{dt} (3) \\
+    \end{equation}
 
     Using equation (1),(2) and (3), one can now created two coupled differential equations. The first one is (3) and the second one is (4). (4) is a combination of (1) , (2) and (3). \\
 
-    $\frac{dv}{dt} = F(x,t)/m = a(x,t) $ (4) \\
+    \begin{equation}    \label{eq:acceleration}
+        \frac{dv}{dt} = F(x,t)/m = a(x,t) (4) \\
+    \end{equation}
 
     Solving this system fro x with a tailor expantion one gets (5).\\
 
-    $x(t+h) = x(t) + hx^{1}(t) + \frac{h^{2}}{2} x^{2}(t) + Oh^{4}$ (5)\\
+    \begin{equation}    \label{eq:positiontaylor}
+        x(t+h) = x(t) + hx^{1}(t) + \frac{h^{2}}{2} x^{2}(t) + Oh^{4} (5)\\
+    \end{equation}
 
     From equation (3) and (4) we have that $a(x,t) = x^{2}(t)$. Using equation (3), $x^{1}(t) = v(x,t)$ This can now be substituted in too equation (5). And gives equation (6).  \\
 
-    $x(t+h) = x(t) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4}$ (6) \\
+    \begin{equation}    \label{eq:positionfinal}
+        x(t+h) = x(t) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4} (6) \\
+    \end{equation}
 
     As one can see from the equation the system has a troncation error of $(O)h^{4}$.
     Using a Tayler expansion for the velocity as well as for the position. \\
 
-    $v(t+h) = v(t) + h v^{1}(x,t) + \frac{h^{2}}{2}v(t) $ (7) \\
+    \begin{equation}    \label{eq:velocityfinal}
+        v(t+h) = v(t) + h v^{1}(x,t) + \frac{h^{2}}{2}v(t) (7) \\
+    \end{equation}
 
     It is important to discretize the expressions as they are the ones that will be used in the program. This changes x(t+h) too x(i+1). \\
 

@@ -9,7 +9,6 @@ import matplotlib.animation as animation
 
 dict = {"Sun":"#ffdf22" , "Mercury":"#d3d3d3" , "Venus":"#c04e01" , "Earth":"#197619" , "Mars":"#cf6e28" , "Jupiter":"#e69500" , "Saturn":"#b9a17e" , "Uranus":"#78d6fb" , "Neptune":"#1414fb" , "Pluto":"#ddb28d"}
 
-
 def eval_planets2(filename1, filename2):
 
     filenames = [filename1, filename2]
@@ -82,7 +81,6 @@ def eval_planets2(filename1, filename2):
         #ani.save("ani3D_2body.gif", writer = "imagemagick")
 
     plt.show()
-
 
 def update_planets2(num, x, y, z, line1, line2):
     line1.set_data(x[0][:num*2], y[0][:num*2])
@@ -175,43 +173,47 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
     line9, = plt.plot(x[8], y[8], z[8], color = dict["Neptune"], label = "Neptune")
     line10, = plt.plot(x[9], y[9], z[9], color = dict["Pluto"], label = "Pluto")
 
-    ani = animation.FuncAnimation(fig, update_planets10, frames = len(x[0]), fargs=[x, y, z, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10],
-                      interval=1, blit=True)
 
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.04),
          ncol=5)
     ax.set_facecolor("white")       # Setting the background color
-    plt.title("Ten-body solar system with " + filename1[:-25])
+    #plt.title("Ten-body solar system with " + filename1[:-25])
     ax.set_xlabel('x')          #hvordan få labels for x-, y- og z-aksen i 3D
     ax.set_ylabel('y')
     ax.set_zlabel('z')
     plt.grid()
     plt.axis("equal")
     plt.tight_layout()
-    #plt.savefig("../img/plot3D_10body_" + filename1[:-25] + ".png")
+
+    ani = animation.FuncAnimation(fig, update_planets10, frames = int(len(x[0])/2), fargs=[x, y, z, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10],
+                      interval=1, blit=True)
+
+    plt.title("Ten-body solar system with " + filename1[8:-8] + " and 3660 iterations.")
+    ani.save("../img/ani3D_10body_3660" + filename1[8:-8] + ".gif", writer = "imagemagick", fps = 60)
+
     plt.show()
 
 def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10):
-    line1.set_data(x[0][:num], y[0][:num])
-    line2.set_data(x[1][:num], y[1][:num])
-    line3.set_data(x[2][:num], y[2][:num])
-    line4.set_data(x[3][:num], y[3][:num])
-    line5.set_data(x[4][:num], y[4][:num])
-    line6.set_data(x[5][:num], y[5][:num])
-    line7.set_data(x[6][:num], y[6][:num])
-    line8.set_data(x[7][:num], y[7][:num])
-    line9.set_data(x[8][:num], y[8][:num])
-    line10.set_data(x[9][:num], y[9][:num])
-    line1.set_3d_properties(z[0][:num])
-    line2.set_3d_properties(z[1][:num])
-    line3.set_3d_properties(z[2][:num])
-    line4.set_3d_properties(z[3][:num])
-    line5.set_3d_properties(z[4][:num])
-    line6.set_3d_properties(z[5][:num])
-    line7.set_3d_properties(z[6][:num])
-    line8.set_3d_properties(z[7][:num])
-    line9.set_3d_properties(z[8][:num])
-    line10.set_3d_properties(z[9][:num])
+    line1.set_data(x[0][:num*2], y[0][:num*2])
+    line2.set_data(x[1][:num*2], y[1][:num*2])
+    line3.set_data(x[2][:num*2], y[2][:num*2])
+    line4.set_data(x[3][:num*2], y[3][:num*2])
+    line5.set_data(x[4][:num*2], y[4][:num*2])
+    line6.set_data(x[5][:num*2], y[5][:num*2])
+    line7.set_data(x[6][:num*2], y[6][:num*2])
+    line8.set_data(x[7][:num*2], y[7][:num*2])
+    line9.set_data(x[8][:num*2], y[8][:num*2])
+    line10.set_data(x[9][:num*2], y[9][:num*2])
+    line1.set_3d_properties(z[0][:num*2])
+    line2.set_3d_properties(z[1][:num*2])
+    line3.set_3d_properties(z[2][:num*2])
+    line4.set_3d_properties(z[3][:num*2])
+    line5.set_3d_properties(z[4][:num*2])
+    line6.set_3d_properties(z[5][:num*2])
+    line7.set_3d_properties(z[6][:num*2])
+    line8.set_3d_properties(z[7][:num*2])
+    line9.set_3d_properties(z[8][:num*2])
+    line10.set_3d_properties(z[9][:num*2])
     return [line1,line2,line3,line4,line5,line6,line7,line8,line9,line10]
 
 
@@ -219,16 +221,16 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 
 #Forward Euler output
 
-eval_planets2("../data/ForwardEuler_S_E_n120_yr10/Sun.txt", "../data/ForwardEuler_S_E_n120_yr10/Earth.txt")
+#eval_planets2("../data/ForwardEuler_S_E_n120_yr10/Sun.txt", "../data/ForwardEuler_S_E_n120_yr10/Earth.txt")
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
-#eval_planets10("ForwardEulerbodyOutput_10body/Sun.txt", "ForwardEulerbodyOutput_10body/Mercury.txt", "ForwardEulerbodyOutput_10body/Venus.txt", "ForwardEulerbodyOutput_10body/Earth.txt", "ForwardEulerbodyOutput_10body/Mars.txt", "ForwardEulerbodyOutput_10body/Jupiter.txt", "ForwardEulerbodyOutput_10body/Saturn.txt", "ForwardEulerbodyOutput_10body/Uranus.txt", "ForwardEulerbodyOutput_10body/Neptune.txt", "ForwardEulerbodyOutput_10body/Pluto.txt")
+eval_planets10("../data/ForwardEuler/Sun.txt", "../data/ForwardEuler/Mercury.txt", "../data/ForwardEuler/Venus.txt", "../data/ForwardEuler/Earth.txt", "../data/ForwardEuler/Mars.txt", "../data/ForwardEuler/Jupiter.txt", "../data/ForwardEuler/Saturn.txt", "../data/ForwardEuler/Uranus.txt", "../data/ForwardEuler/Neptune.txt", "../data/ForwardEuler/Pluto.txt")
 
 #Velocity Verlet output
 
-eval_planets2("../data/VelocityVerlet_S_E_n120_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n120_yr10/Earth.txt")
+#eval_planets2("../data/VelocityVerlet_S_E_n120_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n120_yr10/Earth.txt")
 
 #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 
-#eval_planets10("VelocityVerletbodyOutput_10body/Sun.txt", "VelocityVerletbodyOutput_10body/Mercury.txt", "VelocityVerletbodyOutput_10body/Venus.txt", "VelocityVerletbodyOutput_10body/Earth.txt", "VelocityVerletbodyOutput_10body/Mars.txt", "VelocityVerletbodyOutput_10body/Jupiter.txt", "VelocityVerletbodyOutput_10body/Saturn.txt", "VelocityVerletbodyOutput_10body/Uranus.txt", "VelocityVerletbodyOutput_10body/Neptune.txt", "VelocityVerletbodyOutput_10body/Pluto.txt")
+#eval_planets10("../data/VelocityVerlet/Sun.txt", "../data/VelocityVerlet/Mercury.txt", "../data/VelocityVerlet/Venus.txt", "../data/VelocityVerlet/Earth.txt", "../data/VelocityVerlet/Mars.txt", "../data/VelocityVerlet/Jupiter.txt", "../data/VelocityVerlet/Saturn.txt", "../data/VelocityVerlet/Uranus.txt", "../data/VelocityVerlet/Neptune.txt", "../data/VelocityVerlet/Pluto.txt")
