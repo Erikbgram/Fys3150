@@ -124,7 +124,7 @@ And then later you can call:
     \item skrive conclusion \\
     \item skrive noe på abstract? \\
     \item fikse kildene \\
-\end{itemize} \\
+\end{itemize}
 
 Oppgaver til Alexandra:
 
@@ -181,6 +181,47 @@ The structure of the report, how it is organized etc
 
 \section{Theory} \label{sec:Theory}
 
+
+\subsection{Important calculations for this project}
+
+    Using the section \ref{sec:escapevelocity} in the appendix one can calculate the escape velocity of the Earth from the Suns gravity field. The distance from the Earth to the Sun is 1 AU (astronomical unit). $G$ is given as $4 \pi^{2}$. $M$ and $m$ is the mass of the Sun and the planet, which in this case is the Earth. $M$ is given as 1 $M_{\odot}$ and $m$ is equal to $\frac{1}{333333} M\odot$. Using the theoretical expression (\ref{eq:escapevelocity}) one can calculate the earths escape velocity. For this two-body system the escape velocity is
+
+    \begin{equation}    \label{eq:theoretical escapevelocity}
+        v_p = 8.886 ?? \; \textrm{m/s}
+    \end{equation}
+
+
+
+\subsection{Verlet method}
+
+    The Verlet method is a differential equation solver, with was used in this project to solve newtons second law. Witch is force, F, is equal to mass, m, times acceleration,a. Equation (1) will be used to calculate the next position of the planet as a Taylor expansion. The advantage of using Verlet method is that it conserves energy. \\
+
+    Deriving the equations from newtons second law of motion is done in appedix under, Re writing newtons second law of motion. The method starts by using the old acceleration, velocity and position to calculate the new position. Using equation (8), which is the discretized version of equation (6). \\
+
+    $x(i+1) = x(i) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4}$ (8)\\
+
+    The thing that separates this method from the Euler method is that in order to calculate the new velocity the Verlet method first calculates a new acceleration using the newly gained position, giving $a_{i+1} = a_i (x_i+1)$. \\
+
+    The newly calculated acceleration is now put into the expression for of the new velocity. \\
+
+    $v_{i+1} = v_i + \frac{h}{2} (a_i+a_{i+1})  $ \\
+
+    Using this sequence allows for conservation of energy, which is important when working with tho solar system. \\
+
+\subsection{Euler method}
+
+    The Euler method is in many ways similar to the Verlet method. However instead of calculating a new acceleration and using that to find the velocity, the method uses the old position to calculate the acceleration and uses that acceleration to find the new velocity. The old velocity is also used to fined the new position. Another important difference is that the position is not calculated using the acceleration. Other then that the methods are quite identical. \\
+
+    The equations used are derived from newtons second law of motion. This was doen in the appendix under, Re writing newtons second law of motion.
+    First one calculates the velocity using the old position. \\
+
+    $v_{i+1} = v_i +  a(x_i)h$ \\
+
+    Using the newly gained velocity one can now find the new position. \\
+
+    $x_{i+1} = x_i +  h*v_{i}(x_i) $ \\
+
+    This method is less precise compered to the Verlet method and it does not conserve energy. \\
 
 
 %--------------------- Method ------------------------------------
@@ -313,39 +354,95 @@ You can consider moving parts of the material from the methods section to the ap
 \subsection{Mass-conversion} \label{app:mass}
 
 
-\begin{table}[H]
-  \centering
-  \caption{Astronomical data retrieved from \cite{solarsystemdata}. }
-  \vspace{2mm}
-  \label{tab:mass}
-  \begin{tabular}{|c|c|c|c|}
-      \hline
-      Celestial Body & Mass [kg] & Mass [$M_{\odot}$] & Distance to sun [AU]\\
-      \hline \hline
-      Sun     & $ 2    \cdot10^{30} $ & 1                    & 0 \\
-      Mercury & $ 3.3  \cdot10^{23} $ & $1.65 \cdot 10^{-7}$ & 0.39 \\
-      Venus   & $ 4.9  \cdot10^{24} $ & $2.45 \cdot 10^{-6}$ & 0.72 \\
-      Earth   & $ 6    \cdot10^{24} $ & $3.0 \cdot 10^{-6}$  & 1 \\
-      Mars    & $ 6.6  \cdot10^{23} $ & $3.3 \cdot 10^{-7}$  & 1.52 \\
-      Jupiter & $ 1.9  \cdot10^{27} $ & $9.5 \cdot 10^{-4}$  & 5.20 \\
-      Saturn  & $ 5.5  \cdot10^{26} $ & $2.75 \cdot 10^{-4}$ & 9.54 \\
-      Uranus  & $ 8.8  \cdot10^{25} $ & $4.4 \cdot 10^{-5}$  & 19.19 \\
-      Neptune & $ 1.03 \cdot10^{26} $ & $5.15 \cdot 10^{-5}$ & 30.06 \\
-      Pluto   & $ 1.31 \cdot10^{22} $ & $6.55 \cdot 10^{-9}$ & 39.53 \\
-      \hline
-  \end{tabular} \\
-  \hspace{0pt}\\
-\end{table}
+    \begin{table}[H]
+        \centering
+        \caption{Astronomical data retrieved from \cite{solarsystemdata}. }
+        \vspace{2mm}
+        \label{tab:mass}
+        \begin{tabular}{|c|c|c|c|}
+            \hline
+            Celestial Body & Mass [kg] & Mass [$M_{\odot}$] & Distance to sun [AU]\\
+            \hline \hline
+            Sun     & $ 2    \cdot10^{30} $ & 1                    & 0 \\
+            Mercury & $ 3.3  \cdot10^{23} $ & $1.65 \cdot 10^{-7}$ & 0.39 \\
+            Venus   & $ 4.9  \cdot10^{24} $ & $2.45 \cdot 10^{-6}$ & 0.72 \\
+            Earth   & $ 6    \cdot10^{24} $ & $3.0 \cdot 10^{-6}$  & 1 \\
+            Mars    & $ 6.6  \cdot10^{23} $ & $3.3 \cdot 10^{-7}$  & 1.52 \\
+            Jupiter & $ 1.9  \cdot10^{27} $ & $9.5 \cdot 10^{-4}$  & 5.20 \\
+            Saturn  & $ 5.5  \cdot10^{26} $ & $2.75 \cdot 10^{-4}$ & 9.54 \\
+            Uranus  & $ 8.8  \cdot10^{25} $ & $4.4 \cdot 10^{-5}$  & 19.19 \\
+            Neptune & $ 1.03 \cdot10^{26} $ & $5.15 \cdot 10^{-5}$ & 30.06 \\
+            Pluto   & $ 1.31 \cdot10^{22} $ & $6.55 \cdot 10^{-9}$ & 39.53 \\
+            \hline
+        \end{tabular} \\
+        \hspace{0pt}\\
+    \end{table}
+
+\subsection{Explaining the calculation of a planets escape velocity (??) } \label{sec:escapevelocity}
+
+    As some of these problems are soluble by hand there are some calculations that can be done prior to the simulations in order to have something to compere results with. For instance one can quite easily calculate a planets escape velocity from the sun. One can use that that the escape velocity would be the lowest energy required to move the planet out of the gravitational pool from the sun. In that case the planet would be left with zero kinetic energy. Because the planet is moved out of the gravitational field the potential energy would also bee 0. Therefore the expression for the system will be given as. This is with the condition that there is no other forces acting on the system except for the gravitational force.   \\
+
+    $U_i + K_i = U_f + K_f$ \\
+
+    Due too the criteria we have sett for the model and the need for conservation of energy the expretion becomes: \\
+
+    $U_i + K_i = 0 + 0$ \\
+
+    The potential energy is given by, the gravitational potential which is:\\
+
+    $P = - \frac{GMm}{r}$ \\
+
+    The kinetic energy is given by the planets kinetic energy: \\
+
+    $k = \frac{1}{2} mv_p$ \\
+
+    Therefore the escape velocity can be calculated as the kinetic energy being equal to the potential energy. \\
+
+    \begin{equation} \label{eq:escapevelocity}
+        v_p =  \sqrt{\frac{2GM}{r}}
+    \end{equation}
 
 
-\iffalse
-\begin{align*}
-    2 \cosh (x) &= e^x + e^{-x} \\
-    2 \sinh (x) &= e^x - e^{-x}
-\end{align*} \\
-\fi
+\subsection{Rewriting Newtons second law of motion} \label{sec:n2l}
 
-%\clearpage
+    Newtons second law of motion is stated in equation (1).
+
+    $ F = ma $ (1)\\
+
+    Equation (1) can be written as a differential equation that will give the force as a function of position (2).\\
+
+    $F(x,t) = m\frac{d^{2}x}{dt^{2}}$ (2)\\
+
+    Since we know that the velocity,v, is given as a function of change in position over change in time. This gies us equation (3).\\
+
+    $v(x,t) = \frac{dx}{dt}$ (3) \\
+
+    Using equation (1),(2) and (3), one can now created two coupled differential equations. The first one is (3) and the second one is (4). (4) is a combination of (1) , (2) and (3). \\
+
+    $\frac{dv}{dt} = F(x,t)/m = a(x,t) $ (4) \\
+
+    Solving this system fro x with a tailor expantion one gets (5).\\
+
+    $x(t+h) = x(t) + hx^{1}(t) + \frac{h^{2}}{2} x^{2}(t) + Oh^{4}$ (5)\\
+
+    From equation (3) and (4) we have that $a(x,t) = x^{2}(t)$. Using equation (3), $x^{1}(t) = v(x,t)$ This can now be substituted in too equation (5). And gives equation (6).  \\
+
+    $x(t+h) = x(t) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4}$ (6) \\
+
+    As one can see from the equation the system has a troncation error of $(O)h^{4}$.
+    Using a Tayler expansion for the velocity as well as for the position. \\
+
+    $v(t+h) = v(t) + h v^{1}(x,t) + \frac{h^{2}}{2}v(t) $ (7) \\
+
+    It is important to discretize the expressions as they are the ones that will be used in the program. This changes x(t+h) too x(i+1). \\
+
+
+
+\subsection{Adjusting Newtons method for relativity}
+
+
+
+
 
 
 %----------------Slutten av dokumentet---------------------------------------
