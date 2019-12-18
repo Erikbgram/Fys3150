@@ -40,14 +40,26 @@ def eval_planets2(filename1, filename2):
     ax.legend()
 
     ax.set_facecolor("white")           # Setting the background color
-    plt.title("Two-body solar system with " + filename1[:-22])
+    #plt.title("Two-body solar system with " + filename1[:-22])
     ax.set_xlabel("x")
     ax.set_ylabel("y")
     ax.set_zlabel("z")
     plt.grid()
     plt.axis("equal")
     plt.tight_layout()
-    plt.savefig("../img/plot3D_2body_" + filename1[:-22] + ".png")
+
+    title1 = filename1[8] + "_vel3.00pi"
+
+    if filename1[8] == "F":
+        #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
+        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[25:-8])
+        plt.savefig("../img/plot3D_2body_" + title1 + ".png")
+
+    elif filename1[8] == "V":
+        #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
+        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-8] )
+        plt.savefig("../img/plot3D_2body_" + title1 + ".png")
+
     plt.show()
 
 def eval_planets3(filename1, filename2, filename3):
@@ -146,42 +158,25 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
 #--------------------------------------------
 
-"""
-#ny
+n = "3.00"
+navn = "vel" + n + "pi"
 
 #Forward Euler output
 
-eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
+#eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/ForwardEuler_S_E_n" + n + "_yr10/Earth.txt")
+
+eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
-eval_planets10("ForwardEulerbodyOutput_10body/Sun.txt", "ForwardEulerbodyOutput_10body/Mercury.txt", "ForwardEulerbodyOutput_10body/Venus.txt", "ForwardEulerbodyOutput_10body/Earth.txt", "ForwardEulerbodyOutput_10body/Mars.txt", "ForwardEulerbodyOutput_10body/Jupiter.txt", "ForwardEulerbodyOutput_10body/Saturn.txt", "ForwardEulerbodyOutput_10body/Uranus.txt", "ForwardEulerbodyOutput_10body/Neptune.txt", "ForwardEulerbodyOutput_10body/Pluto.txt")
+#eval_planets10("../data/ForwardEuler_10body_n3660_yr10/Sun.txt", "../data/ForwardEuler_10body_n3660_yr10/Mercury.txt", "../data/ForwardEuler_10body_n3660_yr10/Venus.txt", "../data/ForwardEuler_10body_n3660_yr10/Earth.txt", "../data/ForwardEuler_10body_n3660_yr10/Mars.txt", "../data/ForwardEuler_10body_n3660_yr10/Jupiter.txt", "../data/ForwardEuler_10body_n3660_yr10/Saturn.txt", "../data/ForwardEuler_10body_n3660_yr10/Uranus.txt", "../data/ForwardEuler_10body_n3660_yr10/Neptune.txt", "../data/ForwardEuler_10body_n3660_yr10/Pluto.txt")
 
-#Velocity verlet output
+#Velocity Verlet output
 
-#eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+#eval_planets2("../data/VelocityVerlet_S_E_n" + n + "_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n" + n + "_yr10/Earth.txt")
 
-#eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
-
-eval_planets10("VelocityVerletbodyOutput_10body/Sun.txt", "VelocityVerletbodyOutput_10body/Mercury.txt", "VelocityVerletbodyOutput_10body/Venus.txt", "VelocityVerletbodyOutput_10body/Earth.txt", "VelocityVerletbodyOutput_10body/Mars.txt", "VelocityVerletbodyOutput_10body/Jupiter.txt", "VelocityVerletbodyOutput_10body/Saturn.txt", "VelocityVerletbodyOutput_10body/Uranus.txt", "VelocityVerletbodyOutput_10body/Neptune.txt", "VelocityVerletbodyOutput_10body/Pluto.txt")
-"""
-
-#gammel
-
-#Forward Euler output
-
-eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
-
-#eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
-
-eval_planets10("ForwardEulerbodyOutput_10body/Sun.txt", "ForwardEulerbodyOutput_10body/Mercury.txt", "ForwardEulerbodyOutput_10body/Venus.txt", "ForwardEulerbodyOutput_10body/Earth.txt", "ForwardEulerbodyOutput_10body/Mars.txt", "ForwardEulerbodyOutput_10body/Jupiter.txt", "ForwardEulerbodyOutput_10body/Saturn.txt", "ForwardEulerbodyOutput_10body/Uranus.txt", "ForwardEulerbodyOutput_10body/Neptune.txt", "ForwardEulerbodyOutput_10body/Pluto.txt")
-
-#Velocity verlet output
-
-#eval_planets2("VelocityVerletbodyOutput_S_E/Sun.txt", "VelocityVerletbodyOutput_S_E/Earth.txt")
+eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
 
 #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 
-#eval_planets10("VelocityVerletbodyOutput/Sun.txt", "VelocityVerletbodyOutput/Mercury.txt", "VelocityVerletbodyOutput/Venus.txt", "VelocityVerletbodyOutput/Earth.txt", "VelocityVerletbodyOutput/Mars.txt", "VelocityVerletbodyOutput/Jupiter.txt", "VelocityVerletbodyOutput/Saturn.txt", "VelocityVerletbodyOutput/Uranus.txt", "VelocityVerletbodyOutput/Neptune.txt", "VelocityVerletbodyOutput/Pluto.txt")
-
-eval_planets10("VelocityVerletbodyOutput_10body/Sun.txt", "VelocityVerletbodyOutput_10body/Mercury.txt", "VelocityVerletbodyOutput_10body/Venus.txt", "VelocityVerletbodyOutput_10body/Earth.txt", "VelocityVerletbodyOutput_10body/Mars.txt", "VelocityVerletbodyOutput_10body/Jupiter.txt", "VelocityVerletbodyOutput_10body/Saturn.txt", "VelocityVerletbodyOutput_10body/Uranus.txt", "VelocityVerletbodyOutput_10body/Neptune.txt", "VelocityVerletbodyOutput_10body/Pluto.txt")
+#eval_planets10("../data/VelocityVerlet/Sun.txt", "../data/VelocityVerlet/Mercury.txt", "../data/VelocityVerlet/Venus.txt", "../data/VelocityVerlet/Earth.txt", "../data/VelocityVerlet/Mars.txt", "../data/VelocityVerlet/Jupiter.txt", "../data/VelocityVerlet/Saturn.txt", "../data/VelocityVerlet/Uranus.txt", "../data/VelocityVerlet/Neptune.txt", "../data/VelocityVerlet/Pluto.txt")

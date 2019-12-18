@@ -55,7 +55,10 @@ def eval_planets2(filename1, filename2):
 
 
 
-    title1 = filename1[8] + "_520"
+    title1 = filename1[8] + "_vel1.00pi"
+
+    #print(filename1[8:22])
+    #print(filename2[27:-10])
 
     #Forward Euler
     #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
@@ -66,17 +69,13 @@ def eval_planets2(filename1, filename2):
     #ani.save("../img/ani3D_2body_" + title1 + ".gif", writer = "imagemagick", fps = 60)
 
     if filename1[8] == "F":
-        #plt.title("Two-body solar system with " + filename1[:12] + " and " + filename1[18:-10] + " iterations.")
-        #ani.save("../img/ani3D_2body_" + filename1[:12] + "_" + filename1[18:-10] + ".gif", writer = "imagemagick", fps = 60)
-
-        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
+        #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
+        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[25:-10] + " iterations.")
         ani.save("../img/ani3D_2body_" + title1 + ".gif", writer = "imagemagick", fps = 60)
 
     elif filename1[8] == "V":
-        #plt.title("Two-body solar system with " + filename1[:13] + " and " + filename1[18:5] + " iterations.")
-        #ani.save("ani3D_2body.gif", writer = "imagemagick")
-
-        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
+        #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
+        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-10] + " iterations.")
         ani.save("../img/ani3D_2body_" + title1 + ".gif", writer = "imagemagick", fps = 60)
 
 
@@ -225,11 +224,14 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 
 #-----------------------------------------------------------------------------------------------
 
-n = "520"
+n = "1.00"
+navn = "vel" + n + "pi"
 
 #Forward Euler output
 
-eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/ForwardEuler_S_E_n" + n + "_yr10/Earth.txt")
+#eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/ForwardEuler_S_E_n" + n + "_yr10/Earth.txt")
+
+eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
@@ -237,7 +239,9 @@ eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/Forwa
 
 #Velocity Verlet output
 
-eval_planets2("../data/VelocityVerlet_S_E_n" + n + "_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n" + n + "_yr10/Earth.txt")
+#eval_planets2("../data/VelocityVerlet_S_E_n" + n + "_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n" + n + "_yr10/Earth.txt")
+
+eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
 
 #eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
 

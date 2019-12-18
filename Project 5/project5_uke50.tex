@@ -238,10 +238,17 @@ Describe the methods and algorithms
 You need to explain how you implemented the methods and also say something about the structure of your algorithm and present some parts of your code
 You should plug in some calculations to demonstrate your code, such as selected runs used to validate and verify your results. The latter is extremely important!! A reader needs to understand that your code reproduces selected benchmarks and reproduces previous results, either numerical and/or well-known closed form expressions.
 
-        We use the Euler-Cromer method instead of the Euler method in this project. This is because Euler-Cromer
+        We use the Euler-Cromer method instead of the Euler method in this project. This is because Euler-Cromer is a better approximation than Euler, and is also easily implemented. Euler-Cromer is a better approximation because it uses the next step in velocity in the current step in position. Because of these advantages we decided to use the Euler-Cromer method instead of the plain Euler method. The Euler-Cromer method is given by the equations (\ref{eq:ECposition}) and (\ref{eq:ECvelocity}) below.
 
-        neste fartssteg i nåværende posisjonssteg. this is a better approximation than euler, and is also easily implemented. therefore we decided to use this method instead of the plain Euler method. 
+        \begin{equation}    \label{eq:ECposition}
+            x_{i+1} = x_i + v_{i+1} \; h
+        \end{equation} \\
 
+        \begin{equation}    \label{eq:ECvelocity}
+            v_{i+1} = v_i + a_i \; h
+        \end{equation} \\
+
+        Here we can see that the main difference between the two methods are the next velocity step in the equation for the position, (\ref{eq:ECposition}). However, the Euler-Cromer method does not conserve energy as well. 
 
 
 
