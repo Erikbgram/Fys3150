@@ -110,7 +110,7 @@ int main() {
     systemdata.clear();
     system.clear();
 
-    cout << "Time used by Forward  Euler  = " << time_span_forwardEuler.count()  << "s" << std::endl;
+    cout << "Time used by Forward Euler = " << time_span_forwardEuler.count()  << "s" << std::endl;
 
     //---------------------------------------------------------------------------------------------
 

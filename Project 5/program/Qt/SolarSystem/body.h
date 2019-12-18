@@ -29,7 +29,7 @@ public:
         pos = arma::mat(n,3,arma::fill::zeros);
         vel = arma::rowvec(3,arma::fill::zeros);
         acc = arma::rowvec(3,arma::fill::zeros);
-        ifstream infile("../../BodyRealInput/" + name + ".txt");
+        ifstream infile("../../BodyInput/" + name + ".txt");
 
         string trash;
         if(infile.is_open()) {
@@ -39,7 +39,7 @@ public:
             infile.close();
 
 
-            vel = vel*365.242199; // Converts from AU/day to AU/yr
+            //vel = vel*365.242199; // Converts from AU/day to AU/yr
 
             /*
             ofstream data;
