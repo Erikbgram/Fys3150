@@ -1,5 +1,5 @@
 n , yr
-120 , 10
+7360 , 10
 planets
 Sun
 Earth
