@@ -1,5 +1,5 @@
 n , yr
-3660 , 10
+3660 , 12
 planets
 Sun
 Earth
