@@ -60,7 +60,7 @@ def eval_planets2(filename1, filename2):
     #ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, z, line1, line2],
                       #interval=1, blit=True)
 
-    ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, z, line1, line2],
+    ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0])/2, fargs=[x, y, z, line1, line2],
                       interval=1, blit=True)
 
     #mywriter = animation.FFMpegWriter()
@@ -78,10 +78,10 @@ def eval_planets2(filename1, filename2):
     plt.show()
 
 def update_planets2(num, x, y, z, line1, line2):
-    line1.set_data(x[0][:num], y[0][:num])
-    line2.set_data(x[1][:num], y[1][:num])
-    line1.set_3d_properties(z[0][:num])
-    line2.set_3d_properties(z[1][:num])
+    line1.set_data(x[0][:num*2], y[0][:num*2])
+    line2.set_data(x[1][:num*2], y[1][:num*2])
+    line1.set_3d_properties(z[0][:num*2])
+    line2.set_3d_properties(z[1][:num*2])
     return [line1,line2]
 
 def eval_planets3(filename1, filename2, filename3):
@@ -212,7 +212,7 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 
 #Forward Euler output
 
-eval_planets2("ForwardEulerbodyOutput_S_E/Sun.txt", "ForwardEulerbodyOutput_S_E/Earth.txt")
+eval_planets2("../data/ForwardEulerbodyOutput_S_E/Sun.txt", "../data/ForwardEulerbodyOutput_S_E/Earth.txt")
 
 #eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
 
