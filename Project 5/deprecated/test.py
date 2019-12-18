@@ -611,3 +611,31 @@ ax.set_title("Animasjon 3D 2")
 ani = animation.FuncAnimation(fig, update, N, fargs=(data, line), interval=10000/N, blit=False)
 ani.save('matplot003.gif', writer='imagemagick')
 plt.show()
+
+
+#------------------- Fra ten-body med 3D animasjon ---------------------
+
+    #if filename1[8] == "F":
+        #plt.title("Two-body solar system with " + filename1[:12] + " and " + filename1[18:-10] + " iterations.")
+        #ani.save("../img/ani3D_2body_" + filename1[:12] + "_" + filename1[18:-10] + ".gif", writer = "imagemagick", fps = 60)
+    #elif filename1[8] == "V":
+        #plt.title("Two-body solar system with " + filename1[:13] + " and " + filename1[18:5] + " iterations.")
+        #ani.save("ani3D_2body.gif", writer = "imagemagick")
+
+    #ani.save("ani3D_2body_" + filename1[:-22] + ".png", writer=writer)
+    #ani.save("ani3D_2body_" + filename1[:-22] + ".gif", writer = "imagemagick")
+
+    #mywriter = animation.FFMpegWriter()
+
+
+    #ani = animation.FuncAnimation(fig, update_planets2, frames = len(x[0]), fargs=[x, y, z, line1, line2],
+    #                  interval=10, blit=True)
+
+    # Set up formatting for the movie files
+    #Writer = animation.writers['ffmpeg']
+    #writer = Writer(fps=15, metadata=dict(artist='Me'), bitrate=1800)
+    #writer = Writer(fps=15, bitrate=1800)
+
+
+    #mpl.rcParams['animation.convert_path'] = r'C:\Program Files\ImageMagick\convert'
+    #mpl.rcParams['animation.ffmpeg_path'] = r'C:\Program Files\ffmpeg\bin\ffmpeg.exe'

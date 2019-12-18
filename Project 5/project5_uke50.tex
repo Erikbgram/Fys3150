@@ -199,19 +199,19 @@ The structure of the report, how it is organized etc
         x_{i+1} = x(i) + h v(x,t) + \frac{h^{2}}{2} a(x,t) + (O)h^{4} (8)\\
     \end{equation}
 
-    The thing that separates this method from the Euler method is that in order to calculate the new velocity the Velocity Verlet method first calculates a new acceleration using the newly gained position, giving $a_{i+1} = a_i (x_i+1)$. \\
+    The thing that separates this method from the Euler method is that in order to calculate the new velocity the Velocity Verlet method first calculates a new acceleration using the newly gained position, giving $a_{i+1} = a_i (x_{i+1})$. \\
 
-    The newly calculated acceleration is now put into the expression for of the new velocity. \\
+    The newly calculated acceleration is now put into the expression for the new velocity. \\
 
     \begin{equation}    \label{eq:Vvelocitydiscretized}
         v_{i+1} = v_i + \frac{h}{2} (a_i+a_{i+1})  \\
     \end{equation}
 
-    Using this sequence allows for conservation of energy, which is important when working with tho solar system. \\
+    The equations (\ref{eq:Vpositiondiscretized}) and (\ref{eq:Vvelocitydiscretized}) makes up the Velocity Verlet method, and allows for conservation of energy, which is important when working with the solar system. \\
 
 \subsection{Euler method}
 
-    The Euler method is in many ways similar to the Verlet method. However instead of calculating a new acceleration and using that to find the velocity, the method uses the old position to calculate the acceleration and uses that acceleration to find the new velocity. The old velocity is also used to fined the new position. Another important difference is that the position is not calculated using the acceleration. Other then that the methods are quite identical. \\
+    The Euler method is in many ways similar to the Velocity Verlet method. However instead of calculating a new acceleration and using that to find the velocity, the method uses the old position to calculate the acceleration and uses that acceleration to find the new velocity. The old velocity is also used to fined the new position. Another important difference is that the position is not calculated using the acceleration. Other then that the methods are quite identical. \\
 
     The equations used are derived from newtons second law of motion. This was doen in the appendix under, Re writing newtons second law of motion.
     First one calculates the velocity using the old position. \\
@@ -237,6 +237,13 @@ What should I focus on? Methods sections.
 Describe the methods and algorithms
 You need to explain how you implemented the methods and also say something about the structure of your algorithm and present some parts of your code
 You should plug in some calculations to demonstrate your code, such as selected runs used to validate and verify your results. The latter is extremely important!! A reader needs to understand that your code reproduces selected benchmarks and reproduces previous results, either numerical and/or well-known closed form expressions.
+
+        We use the Euler-Cromer method instead of the Euler method in this project. This is because Euler-Cromer
+
+        neste fartssteg i nåværende posisjonssteg. this is a better approximation than euler, and is also easily implemented. therefore we decided to use this method instead of the plain Euler method. 
+
+
+
 
 %--------------------- Results ----------------------------------
 \vspace{1cm}
