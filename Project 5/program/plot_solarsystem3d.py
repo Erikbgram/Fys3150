@@ -36,9 +36,12 @@ def eval_planets2(filename1, filename2):
     ax = fig.gca(projection='3d')       #3D
 
     ax.scatter(x[0], y[0], z[0], color = dict["Sun"], label='Sun')
-    ax.plot(x[1], y[1], z[1], color = dict["Earth"], label='Earth')
-    #ax.plot(x[1], y[1], z[1], color = dict["Mercury"], label='Mercury')
-    ax.legend()
+    #ax.plot(x[1], y[1], z[1], color = dict["Earth"], label='Earth')
+
+    ax.plot(x[1], y[1], z[1], color = dict["Mercury"], label='Mercury')
+
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.04),
+         ncol=5)
 
     ax.set_facecolor("white")           # Setting the background color
     #plt.title("Two-body solar system with " + filename1[:-22])
@@ -60,19 +63,21 @@ def eval_planets2(filename1, filename2):
     title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
 
 
-    #print(filename1[28:-14])
+    print(filename1[28:-21])
 
     if filename1[8] == "F":
         #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
         #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[25:-8])
-        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-14] + " iterations and 100 years")
-        #plt.savefig("../img/plot3D_" + title1 + ".png")
+        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-14] + " iterations and 100 years without relativistic correction")
+        #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-21] + " iterations and 100 years with relativistic correction")
+        plt.savefig("../img/plot3D_" + title1 + ".png")
 
     elif filename1[8] == "V":
         #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
         #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-8])
-        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-14] + " iterations and 100 years")
-        #plt.savefig("../img/plot3D_" + title2 + ".png")
+        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-14] + " iterations and 100 years without relativistic correction")
+        #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-21] + " iterations and 100 years with relativistic correction")
+        plt.savefig("../img/plot3D_" + title2 + ".png")
 
     plt.show()
 
@@ -227,7 +232,7 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 #n = "3660"
 #navn = "_n" + n + "_yr10_dynamic_sun"
 
-navn = "n36600_yr100_newton"
+navn = "n36600_yr100"
 
 
 #Forward Euler output
