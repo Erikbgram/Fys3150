@@ -110,6 +110,7 @@ int main() {
             }
             else {
                 forwardEuler(system[bodyCount], system, i, dt);
+                //rel_forwardEuler(system[bodyCount], system, i, dt); // Sun-Mercury
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
@@ -147,6 +148,7 @@ int main() {
             }
             else {
                 velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel);
+                //rel_velocityVerlet(system[bodyCount], system, i, dt, dt_pos, dt_vel); // Sun-Mercury
             }
             systemdata[bodyCount] << system[bodyCount].get_pos()(i+1,0) << " , " << system[bodyCount].get_pos()(i+1,1) << " , " << system[bodyCount].get_pos()(i+1,2) << endl;
         }
