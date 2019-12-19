@@ -1,3 +1,5 @@
+# Last edited by Erlend T. North 19.12.2019 23:46
+
 import numpy as np
 
 
@@ -21,7 +23,7 @@ for i in range(len(vec[0])):
     dist[i] = np.sqrt(abs(vec[0][i]**2 + vec[1][i]**2))
     #print(dist[i])
     if(dist[i] < 0.307581): # Crude method, but Mercury's orbital period is 87.969 days. 36600/87.969 is approx. 416 (416.055656), so is hopefully OK
-        print(np.arctan(vec[0][i]/vec[1][i]) * 206264.806)
+        print(np.arctan(vec[0][i]/vec[1][i]) * 206264.806) # Remove " * 206264.806" for radians. As of now, it converts from rad to arcsecond
         times += 1
 
 print("Times: " + str(times))
