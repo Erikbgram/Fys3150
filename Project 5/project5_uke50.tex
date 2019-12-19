@@ -117,21 +117,12 @@ And then later you can call:
 \begin{itemize}
     \item skrive abstract \\
     \item skrive introduction \\
-    \item skrive theory \\
     \item skrive method \\
-    \item skrive results \\
     \item skrive discussion \\
     \item skrive conclusion \\
-    \item skrive noe på abstract? \\
+    \item skrive appendix \\
     \item fikse kildene \\
-    \item sørge for at jeg har png av de som har animasjon - klarer ikke få animasjon i latex til å fungere
-\end{itemize}
 
-Oppgaver til Alexandra:
-
-\begin{itemize}
-    \item fikse 3d-animasjon \\
-    \item lese fra en fil hvilke planeter som skal evalueres, åpne alle outputfilene og plotte dem i samme vindu \\
 \end{itemize}
 
 
@@ -270,299 +261,320 @@ You should plug in some calculations to demonstrate your code, such as selected 
     What should I focus on? Results.
     Present your results
     An eventual reader should be able to reproduce your calculations if she/he wants to do so. All input variables should be properly explained.
-    Make sure that figures and tables should contain enough information in their captions, axis labels etc so that an eventual reader can gain a first impression of your work by studying  figures and tables only.
+    Make sure that figures and tables should contain enough information in their captions, axis labels etc so that an eventual reader can gain a first impression of your work by studying  figures and tables only. \\
+
+
+    All plots which do not have the number of iterations specified have 3660 iterations. All plots which do not have the number of years specified have 10 years. \\
+
+    By reading the PDF for the project a little more thoroughly we discovered that in the latter parts from testing the algorithms, it says to only implement the Velocity Verlet method. However, considering how time consuming the making of the data, plots and figures in \LaTeX we will leave the plots in this PDF, but choose not to comment them further than if the results are interesting. \\
 
 
 \subsection{Sun-Earth solar system}
 
-\subsubsection{Differing number of iterations with 10 years - testing the stability}
+\subsubsection{Testing the methods and their stability}
 
     \textbf{HUSK Å LINKE TIL ANIMASJONENE!!!!}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_n120_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 120 iterations over 10 years, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_n120_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_n260_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 260 iterations over 10 years, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_n260_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_n520_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 520 iterations over 10 years, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_n520_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_n120_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 120 iterations over 10 years, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_n120_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_n260_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 260 iterations over 10 years, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_n260_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_n520_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with 520 iterations over 10 years, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_n520_yr10}
     \end{figure}
 
-\subsubsection{beta}
-
-    \begin{figure}[H]
+    \begin{table}[H]
         \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b20.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b20}
-    \end{figure}
+        \caption{Timings for the two methods for the ten-body solar system with 3660 iterations over 10 years.}
+        \vspace{2mm}
+        \label{tab:timings}
+        \begin{tabular}{|c|c|}
+            \hline
+            Euler-Cromer time [s] & Velocity Verlet time [s] \\
+            \hline \hline
+            25.8553 & 34.0578 \\
+            30.0186 & 30.5725 \\
+            \hline
+        \end{tabular} \\
+        \hspace{0pt}\\
+    \end{table}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b21.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b21}
-    \end{figure}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b22.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b22}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b23.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b23}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b24.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b24}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b25.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b25}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b26.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b26}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b27.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b27}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b28.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b28}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b29.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b29}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b30.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_F_b30}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b20.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b20}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b21.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b21}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b22.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b22}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b23.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b23}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b24.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b24}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b25.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b25}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b26.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b26}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b27.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b27}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b28.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b28}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b29.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b29}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b30.png}
-        \caption{CAPTIONHERE}
-        \label{fig:plot3D_S_E_V_b30}
-    \end{figure}
-
-\subsubsection{escape velocity}
+\subsubsection{Testing the escape velocity}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel100pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 1.00 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel100pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel200pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.00 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel200pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel250pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.50 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel250pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel275pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.75 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel275pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel280pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.80 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel280pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel300pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 3.00 \; \pi$ m/s, made with Euler-Cromer. }
         \label{fig:plot3D_S_E_F_vel300pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel100pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 1.00 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel100pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel200pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.00 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel200pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel250pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.50 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel250pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel275pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.75 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel275pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel280pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 2.80 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel280pi}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel300pi.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth solar system with an escape velocity of $v_p = 3.00 \; \pi$ m/s, made with Velocity Verlet. }
         \label{fig:plot3D_S_E_V_vel300pi}
     \end{figure}
 
+\subsubsection{Testing different values of \texorpdfstring{$\beta$}{TEXT}}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b20.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.0$, made with Euler-Cromer. }
+        \label{fig:plot3D_S_E_F_b20}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b21.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.1$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b21}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b22.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.2$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b22}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b23.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.3$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b23}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b24.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.4$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b24}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b25.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.5$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b25}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b26.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.6$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b26}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b27.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.7$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b27}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b28.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.8$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b28}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b29.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.9$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b29}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b30.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 3.0$, made with Euler-Cromer.}
+        \label{fig:plot3D_S_E_F_b30}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b20.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.0$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b20}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b21.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.1$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b21}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b22.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.2$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b22}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b23.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.3$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b23}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b24.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.4$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b24}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b25.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.5$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b25}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b26.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.6$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b26}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b27.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.7$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b27}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b28.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.8$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b28}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b29.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 2.9$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b29}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b30.png}
+        \caption{Plot of the Sun-Earth solar system with $\beta = 3.0$, made with Velocity Verlet.}
+        \label{fig:plot3D_S_E_V_b30}
+    \end{figure}
 
 
 \subsection{Sun-Mercury solar system}
@@ -570,31 +582,30 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_M_F_n36600_yr100_newton.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Mercury solar system with 36600 iterations over 100 years without the relativistic correction, made with Euler-Cromer.}
         \label{fig:plot3D_S_M_F_n36600_yr100_newton}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_M_V_n36600_yr100_newton.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Mercury solar system with 36600 iterations over 100 years without the relativistic correction, made with Velocity Verlet.}
         \label{fig:plot3D_S_M_V_n36600_yr100_newton}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_M_F_n36600_yr100.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Mercury solar system with 36600 iterations over 100 years with the relativistic correction, made with Euler-Cromer.}
         \label{fig:plot3D_S_M_F_n36600_yr100}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_M_V_n36600_yr100.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Mercury solar system with 36600 iterations over 100 years with the relativistic correction, made with Velocity Verlet}
         \label{fig:plot3D_S_M_V_n36600_yr100}
     \end{figure}
-
 
 
 \subsection{Sun-Earth-Jupiter solar system}
@@ -604,98 +615,98 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n144_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n144_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n2196_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n2196_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n4392_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n4392_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 1 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_n8784_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n144_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n144_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n2196_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n2196_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n4392_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n4392_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 1 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_n8784_yr12}
     \end{figure}
 
@@ -704,98 +715,98 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n144_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 10 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n144_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n2196_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 10 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n2196_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n4392_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 10 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n4392_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m10_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 10 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m10_n8784_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n144_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 10 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n144_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n2196_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 10 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n2196_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n4392_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 10 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n4392_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m10_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 10 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m10_n8784_yr12}
     \end{figure}
 
@@ -804,98 +815,98 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n144_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n144_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n2196_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n2196_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n4392_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n4392_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_m1000_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_m1000_n8784_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n144_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 144 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n144_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n312_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 312 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n312_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n624_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 624 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n624_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n1248_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 1248 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n1248_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n2196_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 2196 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n2196_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n4392_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 4392 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n4392_yr12}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_m1000_n8784_yr12.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with 8784 iterations over 12 years and a massfactor of 1000 for Jupiter, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_m1000_n8784_yr12}
     \end{figure}
 
@@ -904,17 +915,16 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_F_dynamic_sun.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with a dynamic sun, made with Euler-Cromer.}
         \label{fig:plot3D_S_E_J_F_dynamic_sun}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_S_E_J_V_dynamic_sun.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the Sun-Earth-Jupiter solar system with a dynamic sun, made with Velocity Verlet.}
         \label{fig:plot3D_S_E_J_V_dynamic_sun}
     \end{figure}
-
 
 
 \subsection{Ten-body solar system}
@@ -924,14 +934,14 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_10body_F_n3660_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the ten-body solar system with 3660 iterations over 10 years with a static sun, made with Euler-Cromer.}
         \label{fig:plot3D_10body_F_n3660_yr10}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_10body_V_n3660_yr10.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the ten-body solar system with 3660 iterations over 10 years with a static sun, made with Velocity Verlet.}
         \label{fig:plot3D_10body_V_n3660_yr10}
     \end{figure}
 
@@ -940,39 +950,17 @@ You should plug in some calculations to demonstrate your code, such as selected 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_10body_F_n3660_yr10_dynamic_sun.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the ten-body solar system with 3660 iterations over 10 years with a dynamic sun, made with Euler-Cromer.}
         \label{fig:plot3D_10body_F_n3660_yr10_dynamic_sun}
     \end{figure}
 
     \begin{figure}[H]
         \centering
         \includegraphics[width = 11cm]{img/plot3D_10body_V_n3660_yr10_dynamic_sun.png}
-        \caption{CAPTIONHERE}
+        \caption{Plot of the ten-body solar system with 3660 iterations over 10 years with a dynamic sun, made with Velocity Verlet.}
         \label{fig:plot3D_10body_V_n3660_yr10_dynamic_sun}
     \end{figure}
 
-
-
-\iffalse
-    \begin{table}[H]
-      \centering
-      \caption{CAPTION HERE}
-      \vspace{2mm}
-      \label{tab:LABELHERE}
-      \begin{tabular}{|c|c|}
-          \hline
-           x & y\\
-          \hline \hline
-          x1 & y1 \\
-          x2 & y2 \\
-          x3 & y3 \\
-          x4 & y4 \\
-          x5 & y5 \\
-          \hline
-      \end{tabular} \\
-      \hspace{0pt}\\
-    \end{table}
-\fi
 
 %--------------- Discussion ---------------------------------------
 \vspace{1cm}
@@ -987,6 +975,36 @@ You should plug in some calculations to demonstrate your code, such as selected 
 
  Give a critical discussion of your work and place it in the correct context.
  Relate your work to other calculations/studies
+
+\subsection{Stability of the Sun-Earth solar system giving by the Euler-Cromer method and the Velocity Verlet method}    \label{sec:stabilitySE}
+
+    Figures (\ref{fig:plot3D_S_E_F_n120_yr10}) through (\ref{fig:plot3D_S_E_V_n520_yr10}) plots the Sun-Earth solar system for different iterations. Here it is possible to see that an increasing number of iterations will improve the stability of Earth's orbit around the Sun.
+    For figure (\ref{fig:plot3D_S_E_F_n120_yr10}) and (\ref{fig:plot3D_S_E_V_n120_yr10}) the Earth's orbit is not stable, given by that the orbit changes position drastically. The Velocity Verlet method demonstrates how it is a better approximation than Euler-Cromer given by that the orbit changes less and is therefore more stable. By increasing the number of iterations to $n = 260$ the orbit has stabilized by a lot for both methods, though mostly for Velocity Verlet which is almost indistinguishable from the next iteration step with $n = 520$. With further increase to $n = 520$ both methods have stabilized compared to a higher number of iterations.
+    Figures (\ref{fig:plot3D_S_E_F_n520_yr10}) and (\ref{fig:plot3D_S_E_V_n520_yr10}) illustrates this. The plot given by the Euler-Cromer method may have a small increase in stability by a higher number of iterations, but given by the figures for the Velocity Verlet method this should be very small. Originally this test of the two methods have data for other larger numbers of iterations, but seeing as the orbits have seemingly stabilized we deemed the plotting of these datas as unnecessary.
+    The stability should increase by an increasing number of iterations because a larger number of iterations means that more changes in the bodies in the solar system can be accounted for, giving a more accurate representation of the solar system. The stabilizing of the Earth's orbit therefore implies the stability of the Euler-Cromer method and the Velocity Verlet method. \\
+
+    The number of FLOPs for one iterations is for Euler-Cromer $(2n + 8)_\vargamma + 4$ and for Velocity Verlet $(2n + 8)_\vargamma + 6$, where $n$ is the number of iterations and $\vargamma$ is the number of planets. Therefore, the Velocity Verlet should use longer time to compute, because it has more operations to compute. The timings is listed in the table (\ref{tab:timings}) and supports the theory of FLOPs. The table shows that Euler-Cromer used 26 s whereas Velocity Verlet used 34 s. Euler-Cromer used fewer seconds because it had fewer FLOPs. However, the approximation of Velocity Verlet is better than Euler-Cromer, hence the time difference is easy to overlook to instead have better accuracy of the solar system. When looking at all iterations performed, the FLOPs above should be multiplied with $n$ for the number of iterations. \\
+
+    When looking at the conservation of energy for the two different methods, it is possible to see that Euler-Cromer does not conserve energy, whereas Velocity Verlet does. This is because plots of the Sun-Earth system with Euler-Cromer has an orbit of the Earth which moves around the Sun, while the orbit for the Earth with Velocity Verlet just rotates around the Sun. Figures (\ref{fig:plot3D_S_E_F_n120_yr10}) and (\ref{fig:plot3D_S_E_V_n120_yr10}) illustrates this the best. The conservation of energy is important in simulations of the solar system because energy has an important effect on the orbit of the planets. This is shown by the plots with the Velocity Verlet method, which conserves energy, and how the orbits are rounder and more consistent. \\
+
+
+\subsection{The escape velocity of the Earth in the Sun-Earth solar system} \label{sec:escapevelocitySE}
+
+    The plots of the escape velocity is given in figures (\ref{fig:plot3D_S_E_V_vel100pi}) through (\ref{fig:plot3D_S_E_V_vel300pi}).
+    From the theory and appendix, equation (\ref{eq:theoretical escapevelocity}) and section \ref{sec:escapevelocity}, the theoretical escape velocity of the Earth is $v_p = 8.886$ m/s, which is a little smaller than $2.8 \pi$. Therefore, it is expected that the Earth will not escape its orbit around the Sun until the initial velocity of the planet is around $2.8 \pi$.
+    In figure (\ref{fig:plot3D_S_E_V_vel100pi}) the Earth keeps its orbit, which is expected as the velocity is $1.0 \pi$.
+    The same applies for figures (\ref{fig:plot3D_S_E_V_vel200pi}) and (\ref{fig:plot3D_S_E_V_vel250pi}), with respectively an initial velocity of $2.0 \pi$ and $2.5 \pi$.
+    For figure (\ref{fig:plot3D_S_E_V_vel275pi}) it is possible to see that Earth escapes. This is not in agreement with the theoretical escape velocity.
+    However, around $x = -15$ Earth starts to move back to the Sun. The Earth does not escape successfully, and with more iterations, which gives more positions, the Earth should return to its orbit around the Sun. For figure (\ref{fig:plot3D_S_E_V_vel280pi}), with an initial velocity of $2.8 \pi$, the Earth has successfully escaped, as expected from the theoretical escape velocity. Figure (\ref{fig:plot3D_S_E_V_vel300pi}) further illustrates the escape with initial velocity over the theoretical escape velocity, where the initial velocity is $3.0 \pi$. \\
+
+\subsection{Varying \texorpdfstring{$\beta$}{TEXT}}
+
+    The plots of the varying of $\beta$ is given in figures (\ref{fig:plot3D_S_E_V_b20}) through (\ref{fig:plot3D_S_E_V_b30}). $\beta$ is the number which denotes the
+
+
+
+
+
 
 %---------------Conclusion and perspective---------------------------
 \vspace{1cm}
