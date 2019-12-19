@@ -52,27 +52,27 @@ def eval_planets2(filename1, filename2):
     #title1 = filename1[8] + "_" + filename1[25:-8]
     #title2 = filename1[8] + "_" + filename1[27:-8]
 
-    slutten = "b21"
-    title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
-    title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
+    #slutten = "b21"
+    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
+    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
 
-    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + filename1[25:-8]
-    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
+    title1 = filename1[21:24] + "_" + filename1[8] + "_" + filename1[25:-8]
+    title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
 
 
     #print(filename1[28:-14])
 
     if filename1[8] == "F":
         #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
-        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[25:-8])
-        #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-14] + " iterations and 100 years")
-        plt.savefig("../img/plot3D_" + title1 + ".png")
+        #plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[25:-8])
+        plt.title("Two-body solar system with " + filename1[8:20] + " and " + filename1[26:-14] + " iterations and 100 years")
+        #plt.savefig("../img/plot3D_" + title1 + ".png")
 
     elif filename1[8] == "V":
         #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
-        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-8])
-        #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-14] + " iterations and 100 years")
-        plt.savefig("../img/plot3D_" + title2 + ".png")
+        #plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-8])
+        plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[28:-14] + " iterations and 100 years")
+        #plt.savefig("../img/plot3D_" + title2 + ".png")
 
     plt.show()
 
@@ -179,53 +179,75 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
 
     ax.set_facecolor("white")       # Setting the background color
-    plt.title("Ten-body solar system with " + filename1[:-25])
     ax.set_xlabel('x')          #hvordan få labels for x-, y- og z-aksen i 3D
     ax.set_ylabel('y')
     ax.set_zlabel('z')
     plt.grid()
     plt.axis("equal")
     plt.tight_layout()
-    plt.savefig("../img/plot3D_10body_" + filename1[:-25] + ".png")
+
+
+    #title1 = filename1[8] + "_" + filename1[25:-8]
+    #title2 = filename1[8] + "_" + filename1[27:-8]
+
+    #slutten = "b21"
+    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
+    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
+
+    title1 = filename1[21:27] + "_" + filename1[8] + "_" + filename1[28:-8]
+    title2 = filename1[23:29] + "_" + filename1[8] + "_" + filename1[30:-8]
+
+    #print(filename1[30:-20])
+
+    if filename1[8] == "F":
+        #plt.title("Ten-body solar system with " + filename1[8:20] + " and " + filename1[28:-8])
+        plt.title("Ten-body solar system with " + filename1[8:20] + " and " + filename1[28:-20] + " and a dynamic sun")
+        plt.savefig("../img/plot3D_" + title1 + ".png")
+
+    elif filename1[8] == "V":
+        #plt.title("Ten-body solar system with " + filename1[8:22] + " and " + filename1[30:-8])
+        plt.title("Ten-body solar system with " + filename1[8:22] + " and " + filename1[30:-20] + " and a dynamic sun")
+        plt.savefig("../img/plot3D_" + title2 + ".png")
+
     plt.show()
+
 
 #--------------------------------------------
 
 #n = "3.00"
 #navn = "vel" + n + "pi"
 
-navn = "b2.1"
+#navn = "b2.1"
 
 #m = "1000"
 #n = "8784"
 #yr = "12"
 #navn = "m" + m + "_n" + n + "_yr" + yr
 
-#n = "520"
-#navn = "n" + n + "_yr10"
+#n = "3660"
+#navn = "_n" + n + "_yr10_dynamic_sun"
 
-#navn = "dynamic_sun"
+navn = "n36600_yr100_newton"
+
 
 #Forward Euler output
 
+#eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
 
-eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
-
-#eval_planets2("../data/ForwardEuler_S_M_" + navn + "/Sun.txt", "../data/ForwardEuler_S_M_" + navn + "/Mercury.txt")
+eval_planets2("../data/ForwardEuler_S_M_" + navn + "/Sun.txt", "../data/ForwardEuler_S_M_" + navn + "/Mercury.txt")
 
 #eval_planets3("../data/ForwardEuler_S_E_J_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Earth.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Jupiter.txt")
 
-#eval_planets10("../data/ForwardEuler_10body_n3660_yr10/Sun.txt", "../data/ForwardEuler_10body_n3660_yr10/Mercury.txt", "../data/ForwardEuler_10body_n3660_yr10/Venus.txt", "../data/ForwardEuler_10body_n3660_yr10/Earth.txt", "../data/ForwardEuler_10body_n3660_yr10/Mars.txt", "../data/ForwardEuler_10body_n3660_yr10/Jupiter.txt", "../data/ForwardEuler_10body_n3660_yr10/Saturn.txt", "../data/ForwardEuler_10body_n3660_yr10/Uranus.txt", "../data/ForwardEuler_10body_n3660_yr10/Neptune.txt", "../data/ForwardEuler_10body_n3660_yr10/Pluto.txt")
-
+#eval_planets10("../data/ForwardEuler_10body" + navn + "/Sun.txt", "../data/ForwardEuler_10body" + navn + "/Mercury.txt", "../data/ForwardEuler_10body" + navn + "/Venus.txt", "../data/ForwardEuler_10body" + navn + "/Earth.txt", "../data/ForwardEuler_10body" + navn + "/Mars.txt", "../data/ForwardEuler_10body" + navn + "/Jupiter.txt", "../data/ForwardEuler_10body" + navn + "/Saturn.txt", "../data/ForwardEuler_10body" + navn + "/Uranus.txt", "../data/ForwardEuler_10body" + navn + "/Neptune.txt", "../data/ForwardEuler_10body" + navn + "/Pluto.txt")
 
 
 
 #Velocity Verlet output
 
-eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
+#eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
 
-#eval_planets2("../data/VelocityVerlet_S_M_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_M_" + navn + "/Mercury.txt")
+eval_planets2("../data/VelocityVerlet_S_M_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_M_" + navn + "/Mercury.txt")
 
 #eval_planets3("../data/VelocityVerlet_S_E_J_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Earth.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Jupiter.txt")
 
-#eval_planets10("../data/VelocityVerlet/Sun.txt", "../data/VelocityVerlet/Mercury.txt", "../data/VelocityVerlet/Venus.txt", "../data/VelocityVerlet/Earth.txt", "../data/VelocityVerlet/Mars.txt", "../data/VelocityVerlet/Jupiter.txt", "../data/VelocityVerlet/Saturn.txt", "../data/VelocityVerlet/Uranus.txt", "../data/VelocityVerlet/Neptune.txt", "../data/VelocityVerlet/Pluto.txt")
+#eval_planets10("../data/VelocityVerlet_10body" + navn + "/Sun.txt", "../data/VelocityVerlet_10body" + navn + "/Mercury.txt", "../data/VelocityVerlet_10body" + navn + "/Venus.txt", "../data/VelocityVerlet_10body" + navn + "/Earth.txt", "../data/VelocityVerlet_10body" + navn + "/Mars.txt", "../data/VelocityVerlet_10body" + navn + "/Jupiter.txt", "../data/VelocityVerlet_10body" + navn + "/Saturn.txt", "../data/VelocityVerlet_10body" + navn + "/Uranus.txt", "../data/VelocityVerlet_10body" + navn + "/Neptune.txt", "../data/VelocityVerlet_10body" + navn + "/Pluto.txt")

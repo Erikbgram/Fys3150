@@ -247,10 +247,10 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 #n = "1.00"
 #navn = "vel" + n + "pi"
 
-m = "1000"
-n = "144"
-yr = "12"
-navn = "m" + m + "_n" + n + "_yr" + yr
+#m = "1000"
+#n = "144"
+#yr = "12"
+#navn = "m" + m + "_n" + n + "_yr" + yr
 
 
 #Forward Euler output
