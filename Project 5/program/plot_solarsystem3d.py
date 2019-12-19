@@ -52,12 +52,12 @@ def eval_planets2(filename1, filename2):
     #title1 = filename1[8] + "_" + filename1[25:-8]
     #title2 = filename1[8] + "_" + filename1[27:-8]
 
-    #slutten = "b21"
-    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
-    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
+    slutten = "b21"
+    title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
+    title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
 
-    title1 = filename1[21:24] + "_" + filename1[8] + "_" + filename1[25:-8]
-    title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
+    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + filename1[25:-8]
+    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
 
 
     #print(filename1[28:-14])
@@ -194,15 +194,15 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 #n = "3.00"
 #navn = "vel" + n + "pi"
 
-#navn = "b3.0"
+navn = "b2.1"
 
 #m = "1000"
 #n = "8784"
 #yr = "12"
 #navn = "m" + m + "_n" + n + "_yr" + yr
 
-n = "260"
-navn = "n" + n + "_yr10"
+#n = "520"
+#navn = "n" + n + "_yr10"
 
 #navn = "dynamic_sun"
 
