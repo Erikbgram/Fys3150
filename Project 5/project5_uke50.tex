@@ -124,6 +124,7 @@ And then later you can call:
     \item skrive conclusion \\
     \item skrive noe på abstract? \\
     \item fikse kildene \\
+    \item sørge for at jeg har png av de som har animasjon - klarer ikke få animasjon i latex til å fungere
 \end{itemize}
 
 Oppgaver til Alexandra:
@@ -211,18 +212,23 @@ The structure of the report, how it is organized etc
 
 \subsection{Euler method}
 
-    The Euler method is in many ways similar to the Velocity Verlet method. However instead of calculating a new acceleration and using that to find the velocity, the method uses the old position to calculate the acceleration and uses that acceleration to find the new velocity. The old velocity is also used to fined the new position. Another important difference is that the position is not calculated using the acceleration. Other then that the methods are quite identical. \\
+    The Euler method is in many ways similar to the Velocity Verlet method. However, instead of calculating a new acceleration and using that to find the velocity, the method uses the old position to calculate the acceleration and uses that acceleration to find the new velocity. The old velocity is also used to find the new position. Another important difference is that the position is not calculated using the acceleration. Other than that the methods are quite identical. \\
 
-    The equations used are derived from newtons second law of motion. This was doen in the appendix under, Re writing newtons second law of motion.
+    The equations used are derived from Newtons second law of motion. This was done in the appendix under, see section \ref{sec:n2l}. \\
+
     First one calculates the velocity using the old position. \\
 
-    $v_{i+1} = v_i +  a(x_i)h$ \\
+    \begin{equation}    \label{eq:Evelocity}
+        v_{i+1} = v_i +  a(x_i) \; h \\
+    \end{equation}
 
     Using the newly gained velocity one can now find the new position. \\
 
-    $x_{i+1} = x_i +  h*v_{i}(x_i) $ \\
+    \begin{equation}    \label{eq:Eposition}
+        x_{i+1} = x_i +  v_{i}(x_i) \; h \\
+    \end{equation}
 
-    This method is less precise compered to the Verlet method and it does not conserve energy. \\
+    This method is less precise compared to the Velocity Verlet method and it does not conserve energy. \\
 
 
 %--------------------- Method ------------------------------------
@@ -238,17 +244,19 @@ Describe the methods and algorithms
 You need to explain how you implemented the methods and also say something about the structure of your algorithm and present some parts of your code
 You should plug in some calculations to demonstrate your code, such as selected runs used to validate and verify your results. The latter is extremely important!! A reader needs to understand that your code reproduces selected benchmarks and reproduces previous results, either numerical and/or well-known closed form expressions.
 
-        We use the Euler-Cromer method instead of the Euler method in this project. This is because Euler-Cromer is a better approximation than Euler, and is also easily implemented. Euler-Cromer is a better approximation because it uses the next step in velocity in the current step in position. Because of these advantages we decided to use the Euler-Cromer method instead of the plain Euler method. The Euler-Cromer method is given by the equations (\ref{eq:ECposition}) and (\ref{eq:ECvelocity}) below.
+\subsection{Euler-Cromer implementation}    \label{sec:eulercromer}
 
-        \begin{equation}    \label{eq:ECposition}
-            x_{i+1} = x_i + v_{i+1} \; h
-        \end{equation} \\
+    We use the Euler-Cromer method instead of the Euler method in this project. This is because Euler-Cromer is a better approximation than Euler, and is also easily implemented. Euler-Cromer is a better approximation because it uses the next step in velocity in the current step in position. Because of these advantages we decided to use the Euler-Cromer method instead of the plain Euler method. The Euler-Cromer method is given by the equations (\ref{eq:ECposition}) and (\ref{eq:ECvelocity}) below.
 
-        \begin{equation}    \label{eq:ECvelocity}
-            v_{i+1} = v_i + a_i \; h
-        \end{equation} \\
+    \begin{equation}    \label{eq:ECposition}
+        x_{i+1} = x_i + v_{i+1} \; h
+    \end{equation} \\
 
-        Here we can see that the main difference between the two methods are the next velocity step in the equation for the position, (\ref{eq:ECposition}). However, the Euler-Cromer method does not conserve energy as well. 
+    \begin{equation}    \label{eq:ECvelocity}
+        v_{i+1} = v_i + a_i \; h
+    \end{equation} \\
+
+    Here we can see that the main difference between the two methods are the next velocity step in the equation for the position, (\ref{eq:ECposition}). However, the Euler-Cromer method does not conserve energy as well.
 
 
 
@@ -257,21 +265,225 @@ You should plug in some calculations to demonstrate your code, such as selected 
 
 \section{Results} \label{sec:Results}
 
-Results
+    Results
 
-What should I focus on? Results.
-Present your results
-An eventual reader should be able to reproduce your calculations if she/he wants to do so. All input variables should be properly explained.
-Make sure that figures and tables should contain enough information in their captions, axis labels etc so that an eventual reader can gain a first impression of your work by studying figures and tables only.
+    What should I focus on? Results.
+    Present your results
+    An eventual reader should be able to reproduce your calculations if she/he wants to do so. All input variables should be properly explained.
+    Make sure that figures and tables should contain enough information in their captions, axis labels etc so that an eventual reader can gain a first impression of your work by studying  figures and tables only.
 
-\iffalse
-  \begin{figure}[H]
-      \centering
-      \includegraphics[width = 11cm]{img/FILENAME}
-      \caption{CAPTIONHERE}
-      \label{fig:LABELHERE}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b20.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b20}
     \end{figure}
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b21.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b21}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b22.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b22}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b23.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b23}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b24.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b24}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b25.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b25}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b26.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b26}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b27.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b27}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b28.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b28}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b29.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b29}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_b30.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_b30}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b20.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b20}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b21.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b21}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b22.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b22}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b23.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b23}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b24.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b24}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b25.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b25}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_b20.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_b26}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel100pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel100pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel200pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel200pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel250pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel250pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel275pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel275pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel280pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel280pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_F_vel300pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_F_vel300pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel100pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel100pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel200pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel200pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel250pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel250pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel275pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel275pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel280pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel280pi}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width = 11cm]{img/plot3D_S_E_V_vel300pi.png}
+        \caption{CAPTIONHERE}
+        \label{fig:plot3D_S_E_V_vel300pi}
+    \end{figure}
+
+
+\iffalse
     \begin{table}[H]
       \centering
       \caption{CAPTION HERE}

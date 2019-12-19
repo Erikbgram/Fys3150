@@ -51,8 +51,14 @@ def eval_planets2(filename1, filename2):
 
     #title1 = filename1[8] + "_" + filename1[25:-8]
     #title2 = filename1[8] + "_" + filename1[27:-8]
+
+    #slutten = "b21"
+    #title1 = filename1[21:24] + "_" + filename1[8] + "_" + slutten
+    #title2 = filename1[23:26] + "_" + filename1[8] + "_" + slutten
+
     title1 = filename1[21:24] + "_" + filename1[8] + "_" + filename1[25:-8]
     title2 = filename1[23:26] + "_" + filename1[8] + "_" + filename1[27:-8]
+
 
     #print(filename1[28:-14])
 
@@ -190,36 +196,36 @@ def eval_planets10(filename1, filename2, filename3, filename4, filename5, filena
 
 #navn = "b3.0"
 
-m = "10"
-n = "8784"
-yr = "12"
-navn = "m" + m + "_n" + n + "_yr" + yr
+#m = "1000"
+#n = "8784"
+#yr = "12"
+#navn = "m" + m + "_n" + n + "_yr" + yr
 
+n = "260"
+navn = "n" + n + "_yr10"
+
+#navn = "dynamic_sun"
 
 #Forward Euler output
 
-#eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/ForwardEuler_S_E_n" + n + "_yr10/Earth.txt")
 
-#eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
+eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
 
 #eval_planets2("../data/ForwardEuler_S_M_" + navn + "/Sun.txt", "../data/ForwardEuler_S_M_" + navn + "/Mercury.txt")
 
-eval_planets3("../data/ForwardEuler_S_E_J_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Earth.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Jupiter.txt")
+#eval_planets3("../data/ForwardEuler_S_E_J_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Earth.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Jupiter.txt")
 
 #eval_planets10("../data/ForwardEuler_10body_n3660_yr10/Sun.txt", "../data/ForwardEuler_10body_n3660_yr10/Mercury.txt", "../data/ForwardEuler_10body_n3660_yr10/Venus.txt", "../data/ForwardEuler_10body_n3660_yr10/Earth.txt", "../data/ForwardEuler_10body_n3660_yr10/Mars.txt", "../data/ForwardEuler_10body_n3660_yr10/Jupiter.txt", "../data/ForwardEuler_10body_n3660_yr10/Saturn.txt", "../data/ForwardEuler_10body_n3660_yr10/Uranus.txt", "../data/ForwardEuler_10body_n3660_yr10/Neptune.txt", "../data/ForwardEuler_10body_n3660_yr10/Pluto.txt")
 
 
 
 
-
 #Velocity Verlet output
 
-#eval_planets2("../data/VelocityVerlet_S_E_n" + n + "_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n" + n + "_yr10/Earth.txt")
-
-#eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
+eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
 
 #eval_planets2("../data/VelocityVerlet_S_M_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_M_" + navn + "/Mercury.txt")
 
-eval_planets3("../data/VelocityVerlet_S_E_J_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Earth.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Jupiter.txt")
+#eval_planets3("../data/VelocityVerlet_S_E_J_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Earth.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Jupiter.txt")
 
 #eval_planets10("../data/VelocityVerlet/Sun.txt", "../data/VelocityVerlet/Mercury.txt", "../data/VelocityVerlet/Venus.txt", "../data/VelocityVerlet/Earth.txt", "../data/VelocityVerlet/Mars.txt", "../data/VelocityVerlet/Jupiter.txt", "../data/VelocityVerlet/Saturn.txt", "../data/VelocityVerlet/Uranus.txt", "../data/VelocityVerlet/Neptune.txt", "../data/VelocityVerlet/Pluto.txt")

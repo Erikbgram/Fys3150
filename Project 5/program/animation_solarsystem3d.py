@@ -78,7 +78,6 @@ def eval_planets2(filename1, filename2):
         plt.title("Two-body solar system with " + filename1[8:22] + " and " + filename1[27:-10] + " iterations.")
         ani.save("../img/ani3D_2body_" + title1 + ".gif", writer = "imagemagick", fps = 60)
 
-
     #plt.show()
 
 def update_planets2(num, x, y, z, line2):
@@ -112,38 +111,59 @@ def eval_planets3(filename1, filename2, filename3):
                 y[i].append(float(words[1]))
                 z[i].append(float(words[2]))
 
-
     mpl.rcParams['legend.fontsize'] = 10        #3D, bestemmer størrelsen på legendgreia
     fig = plt.figure(figsize = (10,7))      #3D
     ax = fig.gca(projection='3d')       #3D
 
-    line1, = plt.plot(x[0], y[0], z[0], color = dict["Sun"], label = "Sun")
+    ax.scatter(x[0],y[0],z[0], color = dict["Sun"], label = "Sun" )
+
+    #line1, = plt.plot(x[0], y[0], z[0], color = dict["Sun"], label = "Sun")
     line2, = plt.plot(x[1], y[1], z[1], color = dict["Earth"], label = "Earth")
     line3, = plt.plot(x[2], y[2], z[2], color = dict["Jupiter"], label = "Jupiter")
 
-    ani = animation.FuncAnimation(fig, update_planets3, frames = len(x[0]), fargs=[x, y, z, line1, line2, line3],
+    ani = animation.FuncAnimation(fig, update_planets3, frames = len(x[0]), fargs=[x, y, z, line2, line3],
                       interval=1, blit=True)
 
     ax.legend()
     ax.set_facecolor("white")           # Setting the background color
-    plt.title("Three-body solar system with " + filename1[:-24])
     ax.set_xlabel('x')      #få navn på aksene i 3D
     ax.set_ylabel('y')
     ax.set_zlabel('z')
     plt.grid()
     plt.axis("equal")
     plt.tight_layout()
-    #plt.savefig("../img/plot3D_3body_" + filename1[:-24] + ".png")
+
+
+    #title1 = filename1[8] + "_" + filename1[25:-8]
+    #title2 = filename1[8] + "_" + filename1[27:-8]
+    title1 = filename1[21:26] + "_" + filename1[8] + "_" + filename1[27:-8]
+    title2 = filename1[23:28] + "_" + filename1[8] + "_" + filename1[29:-8]
+
+    #title1 = filename1[8] + "_vel1.00pi"
+
+    #print(filename1[8:22])
+    #print(filename1[29:-8])
+
+    if filename1[8] == "F":
+        #plt.title("Three-body solar system with " + filename1[8:20] + " and " + filename1[26:-13] + " iterations.")
+        plt.title("Three-body solar system with " + filename1[8:20] + " and " + filename1[27:-8])
+        ani.save("../img/ani3D_" + title1 + ".gif", writer = "imagemagick", fps = 60)
+
+    elif filename1[8] == "V":
+        #plt.title("Three-body solar system with " + filename1[8:22] + " and " + filename1[28:-13] + " iterations.")
+        plt.title("Three-body solar system with " + filename1[8:22] + " and " + filename1[29:-8])
+        ani.save("../img/ani3D_" + title2 + ".gif", writer = "imagemagick", fps = 60)
+
     plt.show()
 
-def update_planets3(num, x, y, z, line1, line2, line3):
-    line1.set_data(x[0][:num], y[0][:num])
+def update_planets3(num, x, y, z, line2, line3):
+    #line1.set_data(x[0][:num], y[0][:num])
     line2.set_data(x[1][:num], y[1][:num])
     line3.set_data(x[2][:num], y[2][:num])
-    line1.set_3d_properties(z[0][:num])
+    #line1.set_3d_properties(z[0][:num])
     line2.set_3d_properties(z[1][:num])
     line3.set_3d_properties(z[2][:num])
-    return [line1,line2,line3]
+    return [line2,line3]
 
 def eval_planets10(filename1, filename2, filename3, filename4, filename5, filename6, filename7, filename8, filename9, filename10):
 
@@ -224,16 +244,23 @@ def update_planets10(num, x, y, z, line1, line2, line3, line4, line5, line6, lin
 
 #-----------------------------------------------------------------------------------------------
 
-n = "1.00"
-navn = "vel" + n + "pi"
+#n = "1.00"
+#navn = "vel" + n + "pi"
+
+m = "1000"
+n = "144"
+yr = "12"
+navn = "m" + m + "_n" + n + "_yr" + yr
+
 
 #Forward Euler output
 
 #eval_planets2("../data/ForwardEuler_S_E_n" + n + "_yr10/Sun.txt", "../data/ForwardEuler_S_E_n" + n + "_yr10/Earth.txt")
 
-eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
+#eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_" + navn + "/Earth.txt")
 
-#eval_planets3("ForwardEulerbodyOutput_S_E_J/Sun.txt", "ForwardEulerbodyOutput_S_E_J/Earth.txt", "ForwardEulerbodyOutput_S_E_J/Jupiter.txt")
+eval_planets3("../data/ForwardEuler_S_E_J_" + navn + "/Sun.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Earth.txt", "../data/ForwardEuler_S_E_J_" + navn + "/Jupiter.txt")
+
 
 #eval_planets10("../data/ForwardEuler_10body_n3660_yr10/Sun.txt", "../data/ForwardEuler_10body_n3660_yr10/Mercury.txt", "../data/ForwardEuler_10body_n3660_yr10/Venus.txt", "../data/ForwardEuler_10body_n3660_yr10/Earth.txt", "../data/ForwardEuler_10body_n3660_yr10/Mars.txt", "../data/ForwardEuler_10body_n3660_yr10/Jupiter.txt", "../data/ForwardEuler_10body_n3660_yr10/Saturn.txt", "../data/ForwardEuler_10body_n3660_yr10/Uranus.txt", "../data/ForwardEuler_10body_n3660_yr10/Neptune.txt", "../data/ForwardEuler_10body_n3660_yr10/Pluto.txt")
 
@@ -241,8 +268,9 @@ eval_planets2("../data/ForwardEuler_S_E_" + navn + "/Sun.txt", "../data/ForwardE
 
 #eval_planets2("../data/VelocityVerlet_S_E_n" + n + "_yr10/Sun.txt", "../data/VelocityVerlet_S_E_n" + n + "_yr10/Earth.txt")
 
-eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
+#eval_planets2("../data/VelocityVerlet_S_E_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_" + navn + "/Earth.txt")
 
-#eval_planets3(""VelocityVerletbodyOutput_S_E_J/Sun.txt", "VelocityVerletbodyOutput_S_E_J/Earth.txt", "VelocityVerletbodyOutput_S_E_J/Jupiter.txt")
+eval_planets3("../data/VelocityVerlet_S_E_J_" + navn + "/Sun.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Earth.txt", "../data/VelocityVerlet_S_E_J_" + navn + "/Jupiter.txt")
+
 
 #eval_planets10("../data/VelocityVerlet/Sun.txt", "../data/VelocityVerlet/Mercury.txt", "../data/VelocityVerlet/Venus.txt", "../data/VelocityVerlet/Earth.txt", "../data/VelocityVerlet/Mars.txt", "../data/VelocityVerlet/Jupiter.txt", "../data/VelocityVerlet/Saturn.txt", "../data/VelocityVerlet/Uranus.txt", "../data/VelocityVerlet/Neptune.txt", "../data/VelocityVerlet/Pluto.txt")
